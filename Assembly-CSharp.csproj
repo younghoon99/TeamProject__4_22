@@ -86,6 +86,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStateElement.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Manager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Button.cs" />
+    <Compile Include="Assets\_HW\Player.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumPackage.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationControllerPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewItem.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_Prefabs.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteSyncManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifFrame.cs" />
+    <Compile Include="Assets\_HW\EnvirmentManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SoonsoonData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackagePanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
@@ -112,7 +114,6 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewMatchingList.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageButton.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpritePos.cs" />
-    <Compile Include="Assets\_HY\EnvirmentManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumAnimationClip.cs" />
   </ItemGroup>
   <ItemGroup>
