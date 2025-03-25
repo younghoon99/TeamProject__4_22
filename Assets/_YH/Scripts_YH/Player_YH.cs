@@ -25,7 +25,7 @@ public class Player_YH : MonoBehaviour
     private Camera mainCamera;
     
     // 애니메이션 관련 변수
-    private Animator animator;
+    [SerializeField] Animator animator;
     private float horizontalInput;
 
     // Start is called before the first frame update
