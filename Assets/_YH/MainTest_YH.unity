@@ -1194,6 +1194,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &364961649 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3012572870030998247, guid: fff91de583779534eb41be7de2bfdcd7, type: 3}
+  m_PrefabInstance: {fileID: 906334135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &373264560
 GameObject:
   m_ObjectHideFlags: 0
@@ -3375,7 +3380,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  animator: {fileID: 0}
+  animator: {fileID: 364961649}
 --- !u!1 &947649005
 GameObject:
   m_ObjectHideFlags: 0

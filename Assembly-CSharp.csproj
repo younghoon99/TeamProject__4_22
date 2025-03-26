@@ -82,6 +82,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationPreset.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_Prefabs.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifFrame.cs" />
+    <Compile Include="Assets\_HW\EnvirmentManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackagePanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteSync.cs" />
@@ -98,10 +99,12 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_LoadPrefabPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStatePanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_EyeSet.cs" />
+    <Compile Include="Assets\_HW\TileResourceCollector.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Etc\ColorSelect.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Manager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Button.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumPackage.cs" />
+    <Compile Include="Assets\_HW\TileResourceSpawner.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_AnimationData.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\ShaderControl.cs" />
