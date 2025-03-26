@@ -31,9 +31,12 @@ public class Player_YH : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 마우스 커서를 숨기고 중앙에 고정
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        
         // 컴포넌트 초기화
         rb = GetComponent<Rigidbody2D>();
-        mainCamera = Camera.main;
         animator = GetComponentInChildren<Animator>();
         
         // Rigidbody2D 관성 제거
@@ -56,6 +59,18 @@ public class Player_YH : MonoBehaviour
             check.transform.localPosition = new Vector3(0, -1f, 0);
             groundCheck = check.transform;
             Debug.Log("GroundCheck 자동 생성됨");
+        }
+        
+        // 카메라 참조가 없을 경우 메인 카메라로 설정
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                Debug.LogError("메인 카메라를 찾을 수 없습니다!");
+                enabled = false; // 스크립트 비활성화
+                return;
+            }
         }
     }
 
@@ -135,17 +150,23 @@ public class Player_YH : MonoBehaviour
     // 마우스 위치에 따른 플레이어 방향 전환
     private void FlipBasedOnMousePosition()
     {
-        // 마우스 위치를 월드 좌표로 변환
-        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        
-        // 플레이어 기준 마우스가 오른쪽에 있는지 확인
-        bool mouseOnRight = mousePos.x > transform.position.x;
-        
-        // 마우스가 오른쪽에 있을 때 플레이어도 오른쪽을 바라보도록, 왼쪽일 때는 왼쪽을 바라보도록 처리
-        if ((mouseOnRight && !isFacingRight) || (!mouseOnRight && isFacingRight))
+        // 마우스 위치가 유효한지 확인 (화면 내부에 있는지)
+        if (Input.mousePosition.x >= 0 && Input.mousePosition.x <= Screen.width &&
+            Input.mousePosition.y >= 0 && Input.mousePosition.y <= Screen.height)
         {
-            // 플레이어 방향 전환
-            Flip();
+            // 마우스 위치를 월드 좌표로 변환
+            Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0; // z값을 플레이어와 동일하게 설정
+            
+            // 플레이어 기준 마우스가 오른쪽에 있는지 확인
+            bool mouseOnRight = mousePos.x > transform.position.x;
+            
+            // 마우스가 오른쪽에 있을 때 플레이어도 오른쪽을 바라보도록, 왼쪽일 때는 왼쪽을 바라보도록 처리
+            if ((mouseOnRight && !isFacingRight) || (!mouseOnRight && isFacingRight))
+            {
+                // 플레이어 방향 전환
+                Flip();
+            }
         }
     }
     
