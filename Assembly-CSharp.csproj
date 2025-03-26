@@ -74,6 +74,7 @@
     <Compile Include="Assets\Asset\SPUM\Sprite_SheetExporter(Beta)\Script\SPUM_Exporter.cs" />
     <Compile Include="Assets\Asset\SPUM\Sample\Script\PlayerManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_UIManager.cs" />
+    <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemySelector.cs" />
     <Compile Include="Assets\Asset\SPUM\Basic_Resources\Package\Script\SPUM_PresetData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_HorseSpriteList.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\PreviewMatchingElement.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationController.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_AnimationData.cs" />
+    <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemyTest.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteButtonST.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PaginationManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SPUM_SpriteEditManager.cs" />
@@ -115,6 +117,9 @@
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumAnimationClip.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\_YS\Package\Pixel Monster Pack\notes.txt" />
+    <None Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Read Me.txt" />
+    <None Include="Assets\_YS\Package\War\Slime Enemy - Pixel Art\README.txt" />
     <None Include="Assets\Asset\SPUM\ReadMe - 1.7.7.txt" />
     <None Include="Assets\Asset\TileMap\BigManJD\readme.txt" />
   </ItemGroup>
