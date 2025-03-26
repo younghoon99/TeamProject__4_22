@@ -6658,10 +6658,20 @@ MonoBehaviour:
   timeOfDay: 0
   cycleSpeed: 0.1
   autoUpdateTime: 1
-  dawnTime: 0.25
-  dayTime: 0.4
-  sunsetTime: 0.75
-  nightTime: 0.9
+  morningTime: 0
+  noonTime: 0.33
+  eveningTime: 0.66
+  transitionDuration: 0.167
+  currentTimeOfDay: "\uC544\uCE68"
+  onMorning:
+    m_PersistentCalls:
+      m_Calls: []
+  onNoon:
+    m_PersistentCalls:
+      m_Calls: []
+  onEvening:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &2034310796
 Transform:
   m_ObjectHideFlags: 0
