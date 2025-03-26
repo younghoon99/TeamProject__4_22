@@ -321,8 +321,8 @@
     <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\Views\PendingChanges\Changelists\ChangelistMenu.cs" />
     <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\PlasticNotification.cs" />
     <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\UI\Tree\TreeViewItemExtensions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\Tool\LaunchInstaller.cs" />
     <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\UI\ShowWindow.cs" />
+    <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\Tool\LaunchInstaller.cs" />
     <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\Views\PendingChanges\UnityPendingChangesTree.cs" />
     <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\UI\EditorDispatcher.cs" />
     <Compile Include="Library\PackageCache\com.unity.collab-proxy@2.7.1\Editor\UI\DrawActionHelpBox.cs" />
