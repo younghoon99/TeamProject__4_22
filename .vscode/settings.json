@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "TeamProject_4_22.sln"
+    "TeamProject__4_22.sln=======dotnet.defaultSolution": "TeamProject_4_22.sln>>>>>>>origin/Merge",
+    "dotnet.defaultSolution": "TeamProject__4_22.sln"
 }
