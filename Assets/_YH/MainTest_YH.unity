@@ -3166,6 +3166,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3012572870030998247, guid: fff91de583779534eb41be7de2bfdcd7, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c21f90e6a4f2c82419a7f9a040b62f9c, type: 2}
     - target: {fileID: 6327121517875762957, guid: fff91de583779534eb41be7de2bfdcd7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3371,6 +3375,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  animator: {fileID: 0}
 --- !u!1 &947649005
 GameObject:
   m_ObjectHideFlags: 0

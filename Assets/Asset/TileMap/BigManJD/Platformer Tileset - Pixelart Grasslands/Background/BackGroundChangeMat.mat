@@ -122,7 +122,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TimeOfDay: 0.30298638
+    - _TimeOfDay: 0.7107461
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
