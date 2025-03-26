@@ -207,9 +207,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -242,7 +239,7 @@ SpriteRenderer:
   m_Size: {x: 0.03125, y: 0.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2667144245973470327
@@ -306,13 +303,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -536,9 +530,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -571,7 +562,7 @@ SpriteRenderer:
   m_Size: {x: 0.03125, y: 0.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2452805825746717072
@@ -681,13 +672,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -716,7 +704,7 @@ SpriteRenderer:
   m_Size: {x: 0.21875, y: 0.1875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &616184430539517653
@@ -801,280 +789,336 @@ MonoBehaviour:
   matchingTables:
   - UnitType: Unit
     PartType: Unit
+    PartSubType: 
     Index: -1
     Dir: Left
     Structure: Weapons
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 916984799159557213}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Unit
+    PartSubType: 
     Index: -1
     Dir: Right
     Structure: Weapons
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 5993066578644241199}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Eye
+    PartSubType: 
     Index: 0
     Dir: 
     Structure: Back
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 4671818294429887001}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Eye
+    PartSubType: 
     Index: 0
     Dir: 
     Structure: Front
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 8682761851172304086}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Eye
+    PartSubType: 
     Index: 0
     Dir: 
     Structure: Back
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 3012398231588969060}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Eye
+    PartSubType: 
     Index: 0
     Dir: 
     Structure: Front
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 2647270180436872758}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Head
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 592391106259891759}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Body
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 2647321952832176258}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Arm_L
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 2552218575954743838}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Arm_R
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 1158724708261692545}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Foot_L
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7605748276788276779}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Foot_R
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6142584177663464817}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Hair
+    PartSubType: 
     Index: 2
     Dir: 
     Structure: Hair
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6474005757355391776}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: FaceHair
+    PartSubType: 
     Index: 3
     Dir: 
     Structure: FaceHair
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6970663095488582740}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Cloth
+    PartSubType: 
     Index: 4
     Dir: 
     Structure: Left
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7366146076524682802}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Cloth
+    PartSubType: 
     Index: 4
     Dir: 
     Structure: Right
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 751062615196932213}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Cloth
+    PartSubType: 
     Index: 4
     Dir: 
     Structure: Body
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 1381793599728482496}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Pant
+    PartSubType: 
     Index: 5
     Dir: 
     Structure: Right
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 1649754493034394235}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Pant
+    PartSubType: 
     Index: 5
     Dir: 
     Structure: Left
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7202206667143050131}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Helmet
+    PartSubType: 
     Index: 6
     Dir: Back
     Structure: Helmet
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 8188449888978342763}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Helmet
+    PartSubType: 
     Index: 6
     Dir: Front
     Structure: 'Helmet '
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6523245298445781100}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Armor
+    PartSubType: 
     Index: 7
     Dir: 
     Structure: Body
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 3688244532814473263}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Armor
+    PartSubType: 
     Index: 7
     Dir: 
     Structure: Left
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6129650149476389721}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Armor
+    PartSubType: 
     Index: 7
     Dir: 
     Structure: Right
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 2584986577882573691}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Weapons
+    PartSubType: 
     Index: 8
     Dir: Left
     Structure: Weapons
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6829015093525228135}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Weapons
+    PartSubType: 
     Index: 8
     Dir: Right
     Structure: Weapons
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 8697856655881229063}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Back
+    PartSubType: 
     Index: 9
     Dir: 
     Structure: Back
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 8909955272237390033}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Unit
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: Shadow
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 0}
     Color:
       serializedVersion: 2
@@ -1205,13 +1249,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1240,7 +1281,7 @@ SpriteRenderer:
   m_Size: {x: 0.1875, y: 0.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &790286572516353817
@@ -1292,9 +1333,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1414,13 +1452,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1449,7 +1484,7 @@ SpriteRenderer:
   m_Size: {x: 0.3125, y: 0.40625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &916705835184611863
@@ -1565,9 +1600,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1600,7 +1632,7 @@ SpriteRenderer:
   m_Size: {x: 0.125, y: 0.21875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1144205550041081311
@@ -1652,13 +1684,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1739,13 +1768,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1871,9 +1897,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2135,9 +2158,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2365,9 +2385,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2491,6 +2508,15 @@ MonoBehaviour:
   _anim: {fileID: 8021413386729205589}
   UnitType: 
   spumPackages: []
+  ImageElement: []
+  SpumAnimationData: []
+  IDLE_List: []
+  MOVE_List: []
+  ATTACK_List: []
+  DAMAGED_List: []
+  DEBUFF_List: []
+  DEATH_List: []
+  OTHER_List: []
 --- !u!1 &2289180816833464500
 GameObject:
   m_ObjectHideFlags: 0
@@ -2732,9 +2758,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2767,7 +2790,7 @@ SpriteRenderer:
   m_Size: {x: 0.1875, y: 0.21875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2666891190438071941
@@ -2819,13 +2842,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2854,7 +2874,7 @@ SpriteRenderer:
   m_Size: {x: 0.53125, y: 0.40625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2672614747140178131
@@ -2906,13 +2926,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2941,7 +2958,7 @@ SpriteRenderer:
   m_Size: {x: 0.1875, y: 0.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2674610377272353362
@@ -3199,9 +3216,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3288,9 +3302,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3323,7 +3334,7 @@ SpriteRenderer:
   m_Size: {x: 0.1875, y: 0.21875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3154358226966545964
@@ -3477,7 +3488,7 @@ SortingGroup:
   m_SortAtRoot: 0
 --- !u!95 &4884000608992710814
 Animator:
-  serializedVersion: 7
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3491,7 +3502,6 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -3512,150 +3522,180 @@ MonoBehaviour:
   matchingTables:
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: BodyBack
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 5925235791123765392}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: BodyFront
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 3498828328130363233}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: Neck
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6708346720848350604}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: Head
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 3443198479956697057}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: FootFrontTop
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 8656481930738315860}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: FootFrontBottom
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7346406191619879569}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: FootBackTop
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 8781708072420936814}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: FootBackBottom
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 1216341163786099951}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: FootFrontTop
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 1769985242064629955}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: FootFrontBottom
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 3209937099290142162}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: FootBackTop
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 2698454730933219685}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: FootBackBottom
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 4014688476378242049}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: Tail
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6323022903394157559}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Horse
     PartType: Body
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: Acc
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 4226672307987285635}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: 
     PartType: 
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: Shadow
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 4308898603336566731}
     Color:
       serializedVersion: 2
@@ -3709,13 +3749,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3861,9 +3898,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3948,9 +3982,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4069,9 +4100,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4104,7 +4132,7 @@ SpriteRenderer:
   m_Size: {x: 0.1875, y: 0.21875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3831977881791163745
@@ -4189,9 +4217,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4224,7 +4249,7 @@ SpriteRenderer:
   m_Size: {x: 0.03125, y: 0.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &3981202589691478045
@@ -4290,9 +4315,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4325,7 +4347,7 @@ SpriteRenderer:
   m_Size: {x: 0.375, y: 0.3125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3933322232681516256
@@ -4456,9 +4478,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4491,7 +4510,7 @@ SpriteRenderer:
   m_Size: {x: 0.03125, y: 0.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &131450459992078846
@@ -4683,13 +4702,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4805,9 +4821,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4892,9 +4905,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4979,13 +4989,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5066,13 +5073,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5101,7 +5105,7 @@ SpriteRenderer:
   m_Size: {x: 0.53125, y: 0.46875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4705066781312469703
@@ -5153,9 +5157,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5240,9 +5241,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5327,9 +5325,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5506,13 +5501,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5541,7 +5533,7 @@ SpriteRenderer:
   m_Size: {x: 0.46875, y: 0.4375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5247224643262067730
@@ -5595,9 +5587,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5630,7 +5619,7 @@ SpriteRenderer:
   m_Size: {x: 0.1875, y: 0.21875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5265559241083783173
@@ -5682,9 +5671,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5717,7 +5703,7 @@ SpriteRenderer:
   m_Size: {x: 0.125, y: 0.21875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5280312593757934129
@@ -5801,9 +5787,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5922,9 +5905,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5957,7 +5937,7 @@ SpriteRenderer:
   m_Size: {x: 0.375, y: 0.3125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5412488900641530541
@@ -6010,7 +5990,7 @@ SortingGroup:
   m_SortAtRoot: 0
 --- !u!95 &8021413386729205589
 Animator:
-  serializedVersion: 7
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -6024,7 +6004,6 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -6045,280 +6024,336 @@ MonoBehaviour:
   matchingTables:
   - UnitType: Unit
     PartType: Unit
+    PartSubType: 
     Index: -1
     Dir: Left
     Structure: Weapons
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 3802728832379078265}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Unit
+    PartSubType: 
     Index: -1
     Dir: Right
     Structure: Weapons
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 686915466087377668}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Eye
+    PartSubType: 
     Index: 0
     Dir: 
     Structure: Back
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 4223704417350625777}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Eye
+    PartSubType: 
     Index: 0
     Dir: 
     Structure: Front
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6471685682722606369}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Eye
+    PartSubType: 
     Index: 0
     Dir: 
     Structure: Back
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6656940495667317590}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Eye
+    PartSubType: 
     Index: 0
     Dir: 
     Structure: Front
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 2567914269325859600}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Head
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 473993358952439674}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Body
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7109589100923749349}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Arm_L
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 9150825412563920422}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Arm_R
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7824121197216831897}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Foot_L
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 772565079074515420}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Body
+    PartSubType: 
     Index: 1
     Dir: 
     Structure: Foot_R
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 3586611327411537634}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Hair
+    PartSubType: 
     Index: 2
     Dir: 
     Structure: Hair
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 120918615167164297}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: FaceHair
+    PartSubType: 
     Index: 3
     Dir: 
     Structure: FaceHair
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7031985018671350947}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Cloth
+    PartSubType: 
     Index: 4
     Dir: 
     Structure: Left
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 4526059945367484478}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Cloth
+    PartSubType: 
     Index: 4
     Dir: 
     Structure: Right
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 4315887005073771140}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Cloth
+    PartSubType: 
     Index: 4
     Dir: 
     Structure: Body
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7197380072754684869}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Pant
+    PartSubType: 
     Index: 5
     Dir: 
     Structure: Right
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6663541972417412985}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Pant
+    PartSubType: 
     Index: 5
     Dir: 
     Structure: Left
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 4579158939274751475}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Helmet
+    PartSubType: 
     Index: 6
     Dir: Back
     Structure: Helmet
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 7063878627548646491}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Helmet
+    PartSubType: 
     Index: 6
     Dir: Front
     Structure: 'Helmet '
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 3365394189302174479}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Armor
+    PartSubType: 
     Index: 7
     Dir: 
     Structure: Body
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 8162886233864190733}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Armor
+    PartSubType: 
     Index: 7
     Dir: 
     Structure: Left
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 238741462578194416}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Armor
+    PartSubType: 
     Index: 7
     Dir: 
     Structure: Right
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 5671047802324186267}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Weapons
+    PartSubType: 
     Index: 8
     Dir: Left
     Structure: Weapons
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 927648362484347662}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Weapons
+    PartSubType: 
     Index: 8
     Dir: Right
     Structure: Weapons
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 1339473415916546820}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Back
+    PartSubType: 
     Index: 9
     Dir: 
     Structure: Back
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6032770911158253361}
     Color:
       serializedVersion: 2
       rgba: 4294967295
   - UnitType: Unit
     PartType: Unit
+    PartSubType: 
     Index: 11
     Dir: 
     Structure: Shadow
     ItemPath: 
+    MaskIndex: 0
     renderer: {fileID: 6104025627310514188}
     Color:
       serializedVersion: 2
@@ -6372,9 +6407,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6524,13 +6556,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6559,7 +6588,7 @@ SpriteRenderer:
   m_Size: {x: 0.3125, y: 0.3125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5545842643828001587
@@ -6656,9 +6685,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6691,7 +6717,7 @@ SpriteRenderer:
   m_Size: {x: 0.53125, y: 0.46875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5609904667206986182
@@ -6743,9 +6769,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6944,13 +6967,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6979,7 +6999,7 @@ SpriteRenderer:
   m_Size: {x: 0.1875, y: 0.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5879476973118822778
@@ -7076,13 +7096,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7111,7 +7128,7 @@ SpriteRenderer:
   m_Size: {x: 0.1875, y: 0.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5973506574406631512
@@ -7228,9 +7245,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7263,7 +7277,7 @@ SpriteRenderer:
   m_Size: {x: 0.03125, y: 0.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8289871911011377616
@@ -7473,9 +7487,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7508,7 +7519,7 @@ SpriteRenderer:
   m_Size: {x: 0.03125, y: 0.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8562996548219553658
@@ -7604,13 +7615,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7691,9 +7699,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7810,9 +7815,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7931,9 +7933,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8018,13 +8017,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8053,7 +8049,7 @@ SpriteRenderer:
   m_Size: {x: 0.21875, y: 0.1875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6628571063045766212
@@ -8105,9 +8101,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8140,7 +8133,7 @@ SpriteRenderer:
   m_Size: {x: 0.125, y: 0.21875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6748400690559008088
@@ -8237,9 +8230,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8324,9 +8314,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8457,13 +8444,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8492,7 +8476,7 @@ SpriteRenderer:
   m_Size: {x: 0.25, y: 0.1875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6865641499165815913
@@ -8576,9 +8560,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8664,9 +8645,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -8699,7 +8677,7 @@ SpriteRenderer:
   m_Size: {x: 0.03125, y: 0.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &9086219097211405863
@@ -8763,13 +8741,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8882,13 +8857,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8917,7 +8889,7 @@ SpriteRenderer:
   m_Size: {x: 0.25, y: 0.1875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7684753140389000853
@@ -9112,9 +9084,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9264,9 +9233,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9299,7 +9265,7 @@ SpriteRenderer:
   m_Size: {x: 0.53125, y: 0.46875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7874584040107169017
@@ -9428,13 +9394,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9550,9 +9513,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9585,7 +9545,7 @@ SpriteRenderer:
   m_Size: {x: 0.03125, y: 0.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6239831922779862881
@@ -9713,9 +9673,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9832,13 +9789,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9919,9 +9873,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -10038,13 +9989,10 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10073,7 +10021,7 @@ SpriteRenderer:
   m_Size: {x: 0.53125, y: 0.375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &8720272441687825342
@@ -10125,9 +10073,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -10160,7 +10105,7 @@ SpriteRenderer:
   m_Size: {x: 0.125, y: 0.21875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &8749827384160467266
@@ -10289,9 +10234,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -10453,9 +10395,6 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
