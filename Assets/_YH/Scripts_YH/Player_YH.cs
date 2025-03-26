@@ -77,6 +77,16 @@ public class Player_YH : MonoBehaviour
         // 마우스 위치에 따른 플레이어 방향 설정
         FlipBasedOnMousePosition();
         
+        // 마우스 좌클릭 입력 처리
+        if (Input.GetMouseButtonDown(0))
+        {
+            // 좌클릭 시 6_Other 트리거 실행
+            if (animator != null)
+            {
+                animator.SetTrigger("6_Other");
+            }
+        }
+        
         // 애니메이션 파라미터 업데이트
         UpdateAnimationParameters();
     }
