@@ -4,27 +4,45 @@ using UnityEngine.Tilemaps;
 
 public class TileResourceCollector : MonoBehaviour
 {
-    public Tilemap resourceTilemap;   // 자원 타일맵
-    public Tile resourceTile;         // 자원 타일
-    public float collectionRange = 2f; // 플레이어 주변 탐색 범위
-    public float collectionTime = 2f;  // 채집에 걸리는 시간
-
+    private Animator animator; // Animator component for animations
     private bool isCollecting = false;
+    private Coroutine currentCollectionCoroutine;
+
+    [Header("Resource Settings")]
+    public Tilemap resourceTilemap;   // Resource tilemap
+    public Tile resourceTile;         // Resource tile
+    public float collectionRange = 2f; // Range to search for resources
+    public float collectionTime = 2f;  // Time required to collect resources
+
+    private Vector3 lastPosition;
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+        lastPosition = transform.position;
+    }
 
     void Update()
     {
+        // Check if the player moved during collection
+        if (isCollecting && Vector3.Distance(transform.position, lastPosition) > 0.01f)
+        {
+            CancelCollection();
+        }
+
+        lastPosition = transform.position;
+
         if (Input.GetKeyDown(KeyCode.E) && !isCollecting)
         {
-            // 플레이어 주변 자원 타일 위치 찾기
             Vector3Int targetCell;
             if (FindNearestResourceTile(out targetCell))
             {
-                StartCoroutine(CollectResource(targetCell));
+                currentCollectionCoroutine = StartCoroutine(CollectResource(targetCell));
             }
         }
     }
 
-    bool FindNearestResourceTile(out Vector3Int targetCell)
+    private bool FindNearestResourceTile(out Vector3Int targetCell)
     {
         targetCell = Vector3Int.zero;
         float minDistance = float.MaxValue;
@@ -48,22 +66,56 @@ public class TileResourceCollector : MonoBehaviour
         return found;
     }
 
-    IEnumerator CollectResource(Vector3Int cell)
+    private IEnumerator CollectResource(Vector3Int cell)
     {
         isCollecting = true;
-        float elapsed = 0f;
 
-        // (여기서 UI 게이지나 효과 연출 가능)
+        // Trigger animation if animator exists
+        if (animator != null)
+        {
+            animator.SetTrigger("Collect");
+        }
+
+        float elapsed = 0f;
 
         while (elapsed < collectionTime)
         {
+            // Check if collection was canceled
+            if (!isCollecting)
+            {
+                yield break;
+            }
+
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // 채집 완료 후 해당 셀의 자원 타일 제거
+        // Remove the resource tile after collection
         resourceTilemap.SetTile(cell, null);
-        // 플레이어 인벤토리에 자원 추가 로직 등 추가 가능
+
+        // Add logic to update inventory or other systems here
+
         isCollecting = false;
+    }
+
+    private void CancelCollection()
+    {
+        if (isCollecting)
+        {
+            isCollecting = false;
+
+            // Stop the current collection coroutine
+            if (currentCollectionCoroutine != null)
+            {
+                StopCoroutine(currentCollectionCoroutine);
+                currentCollectionCoroutine = null;
+            }
+
+            // Trigger cancel animation if needed
+            if (animator != null)
+            {
+                animator.SetTrigger("Cancel");
+            }
+        }
     }
 }
