@@ -75,6 +75,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Worker.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStateElement.cs" />
+    <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\AnimationHelper.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationControllerPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewItem.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationController.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageButton.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpritePos.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumAnimationClip.cs" />
+    <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\SelfDestruct.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
     <Compile Include="Assets\Asset\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
@@ -105,8 +107,10 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Manager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Button.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumPackage.cs" />
+    <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\DemoManager.cs" />
     <Compile Include="Assets\_HW\TileResourceSpawner.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
+    <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\ButtonAnimation.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_AnimationData.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\ShaderControl.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteButtonST.cs" />
@@ -144,6 +148,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Asset\TileMap\BigManJD\readme.txt" />
+    <None Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\Righteous-Regular OFLicence.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
