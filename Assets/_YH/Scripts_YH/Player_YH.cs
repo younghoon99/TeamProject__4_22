@@ -18,7 +18,7 @@ public class Player_YH : MonoBehaviour
     // 지면 체크 관련 변수
     [Header("지면 체크 설정")]
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private float groundCheckRadius = 0.4f;
     [SerializeField] private LayerMask groundLayer;
     
     // 카메라 관련 변수
@@ -53,7 +53,7 @@ public class Player_YH : MonoBehaviour
         {
             GameObject check = new GameObject("GroundCheck");
             check.transform.parent = transform;
-            check.transform.localPosition = new Vector3(0, -0.5f, 0);
+            check.transform.localPosition = new Vector3(0, -1f, 0);
             groundCheck = check.transform;
             Debug.Log("GroundCheck 자동 생성됨");
         }
