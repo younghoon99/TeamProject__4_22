@@ -92,8 +92,8 @@
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\2D\ShapeEditor\EditorTool\ScriptablePathInspector.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\UniversalRenderPipelineAsset\UniversalRenderPipelineAssetUI.Drawers.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\ScriptableRendererFeatureProvider.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\2D\ShapeEditor\Shapes\Spline.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\AssetPostProcessors\MaterialPostprocessor.cs" />
+    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\2D\ShapeEditor\Shapes\Spline.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\2D\ShapeEditor\Selection\ISelection.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\ShaderGraph\UniversalProperties.cs" />
     <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.12\Editor\AssemblyInfo.cs" />
