@@ -160,8 +160,8 @@
     <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\Api\ICallbacksDelegator.cs" />
     <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\TestRunner\Utils\IEditorCompilationInterfaceProxy.cs" />
     <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\TestRunner\Callbacks\RerunCallbackInitializer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\GUI\TestRunnerUIFilter.cs" />
     <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\GUI\Views\EditModeTestListGUI.cs" />
+    <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\GUI\TestRunnerUIFilter.cs" />
     <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\TestRunner\Utils\IEditorLoadedTestAssemblyProvider.cs" />
     <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\TestSettings\ITestSettings.cs" />
     <Compile Include="Library\PackageCache\com.unity.test-framework@1.1.33\UnityEditor.TestRunner\GUI\TestListBuilder\TestTreeViewBuilder.cs" />
