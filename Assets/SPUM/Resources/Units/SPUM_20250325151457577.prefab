@@ -1833,7 +1833,7 @@ MonoBehaviour:
   _version: 177
   EditChk: 0
   _code: SPUM_20250325151457577
-  _anim: {fileID: 8306445490061365295}
+  _anim: {fileID: 0}
   UnitType: Unit
   spumPackages:
   - Name: Legacy
@@ -6191,7 +6191,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7028804108967086660}
   - component: {fileID: 5458920627183737519}
-  - component: {fileID: 8306445490061365295}
   m_Layer: 0
   m_Name: UnitRoot
   m_TagString: Untagged
@@ -6228,27 +6227,6 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_SortAtRoot: 0
---- !u!95 &8306445490061365295
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5817145043226786824}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e9358c226bb09e24da9c5f7064768810, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6463104222796311762
 GameObject:
   m_ObjectHideFlags: 0
