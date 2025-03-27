@@ -114,7 +114,11 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\GroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\DisableLucidEditorAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\SelfDestruct.cs" />
+<<<<<<< HEAD
+    <Compile Include="Assets\_YS\Scripts\EnemyMove.cs" />
+=======
     <Compile Include="Assets\_HW\ResourceTileSpawner.cs" />
+>>>>>>> e196c0ffbaf7ad298a49c87ec3e5d1e8793a280b
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\TabGroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\AssetsOnlyAttribute.cs" />
@@ -160,9 +164,11 @@
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteSyncManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\PropertyGroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\Chest.cs" />
+    <Compile Include="Assets\_YS\Scripts\PlayerMove.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SoonsoonData.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewMatchingList.cs" />
+    <Compile Include="Assets\_YS\Scripts\GameManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideLabelAttribute.cs" />
   </ItemGroup>
   <ItemGroup>

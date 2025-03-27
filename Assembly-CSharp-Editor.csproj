@@ -120,8 +120,8 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\InspectorProperty\NonSerializedProperty.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\GUIColorAttributeProcessor.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Editor\SPUM_SpriteEditor.cs" />
-    <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\Editor\SPUM_Sync.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\LabelWidthAttributeProcessor.cs" />
+    <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\Editor\SPUM_Sync.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\OnValueChangedAttributeProcessor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\PropertyOrderAttributeProcessor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Utils\InspectorPropertyUtil.cs" />
