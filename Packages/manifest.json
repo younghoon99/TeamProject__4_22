@@ -6,10 +6,7 @@
     "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.ide.windsurf": "https://github.com/Asuta/com.unity.ide.windsurf.git",
     "com.unity.render-pipelines.universal": "14.0.12",
-<<<<<<< HEAD
-=======
     "com.unity.shadergraph": "14.0.12",
->>>>>>> 6c4fe38243d84855268c1200afd4da95f157c86d
     "com.unity.test-framework": "1.1.33",
     "com.unity.textmeshpro": "3.0.7",
     "com.unity.timeline": "1.7.6",
