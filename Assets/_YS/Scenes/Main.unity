@@ -13059,8 +13059,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Village OBSERVER
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d6c44b6bc0ff2d548b4611597fa3c3fe, type: 2}
-  m_sharedMaterial: {fileID: -4790092942619433547, guid: d6c44b6bc0ff2d548b4611597fa3c3fe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 95a936d8034eba5439e058a4bf84df34, type: 2}
+  m_sharedMaterial: {fileID: -4790092942619433547, guid: 95a936d8034eba5439e058a4bf84df34, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
