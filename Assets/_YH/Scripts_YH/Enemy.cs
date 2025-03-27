@@ -12,16 +12,30 @@ public class Enemy : MonoBehaviour
     public float detectionRange = 5f;      // 플레이어 탐지 범위
     private Transform player;              // 플레이어 트랜스폼
     
+    [Header("방향 설정")]
+    public bool facingRight = true;        // 적의 초기 방향
+    
     // 애니메이션 컴포넌트
     private Animator animator;
+    // 스프라이트 렌더러
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         // 시작할 때 플레이어 찾기
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         
-        // 애니메이터 컴포넌트 가져오기
-        animator = GetComponent<Animator>();
+        // 애니메이터 컴포넌트 가져오기 (자식 객체에 있을 경우를 위해 GetComponentInChildren 사용)
+        animator = GetComponentInChildren<Animator>();
+        
+        // 스프라이트 렌더러 가져오기
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        
+        // 애니메이터가 없으면 경고 메시지
+        if (animator == null)
+        {
+            Debug.LogWarning(gameObject.name + "에 Animator 컴포넌트가 없습니다.");
+        }
     }
 
     void Update()
@@ -30,7 +44,7 @@ public class Enemy : MonoBehaviour
         if (player == null) return;
         
         // 플레이어와의 거리 계산
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         
         // 탐지 범위 내에 있는지 확인
         if (distanceToPlayer <= detectionRange)
@@ -50,26 +64,41 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    // 플레이어 방향 바라보기
+    // 플레이어 방향 바라보기 (2D 게임용)
     private void LookAtPlayer()
     {
-        // y축 회전만 적용 (2D 게임이라면 다른 축 사용)
-        Vector3 direction = player.position - transform.position;
-        direction.y = 0; // y축 회전만 필요한 경우
+        // 플레이어가 적의 오른쪽에 있는지 왼쪽에 있는지 확인
+        bool playerIsOnRight = player.position.x > transform.position.x;
         
-        if (direction != Vector3.zero)
+        // 적 캐릭터의 방향 설정 (transform.localScale로 뒤집기)
+        if ((playerIsOnRight && !facingRight) || (!playerIsOnRight && facingRight))
         {
-            transform.rotation = Quaternion.LookRotation(direction);
+            // 현재 방향 반전
+            facingRight = !facingRight;
+            
+            // transform.localScale을 이용하여 X 스케일 반전
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
         }
     }
     
     // 공격 함수
     private void Attack()
     {
-        // 애니메이션 재생 (있다면)
+        // 애니메이션 재생 시도
         if (animator != null)
         {
-            animator.SetTrigger("Attack");
+            // 트리거 이름 변경 또는 확인
+            // "2_Attack" 또는 "Attack" 두 가지 모두 시도
+            animator.SetTrigger("2_Attack");
+            
+            // 애니메이션 상태를 디버그에 출력
+            Debug.Log(gameObject.name + "이(가) 공격 애니메이션 트리거를 실행했습니다.");
+        }
+        else
+        {
+            Debug.LogWarning(gameObject.name + "의 애니메이터가 null입니다. 공격 애니메이션을 재생할 수 없습니다.");
         }
         
         // 플레이어 체력 감소시키기
@@ -82,7 +111,7 @@ public class Enemy : MonoBehaviour
     }
     
     // 공격 범위 시각화 (디버깅용)
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         // 공격 범위 표시 (빨간색)
         Gizmos.color = Color.red;

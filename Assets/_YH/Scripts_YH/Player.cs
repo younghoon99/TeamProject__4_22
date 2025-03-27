@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +22,18 @@ public class Player : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.4f;
     [SerializeField] private LayerMask groundLayer;
     
+    // 상호작용 거리 설정
+    [Header("상호작용 설정")]
+    [SerializeField] private float interactionDistance = 2.0f; // 플레이어와 Money 사이의 최대 상호작용 거리
+    
+    // 공격 설정
+    [Header("공격 설정")]
+    [SerializeField] private float attackDamage = 20f;      // 공격력
+    [SerializeField] private float attackRange = 1.5f;      // 공격 범위
+    [SerializeField] private Transform attackPoint;         // 공격 지점 (비어있으면 자동 생성)
+    [SerializeField] private string enemyTag = "Enemy";     // 적 태그
+    [SerializeField] private float attackDelay = 0.2f;      // 공격 애니메이션 후 데미지 적용 지연 시간
+    
     // 카메라 관련 변수
     private Camera mainCamera;
     
@@ -31,9 +44,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // 마우스 커서를 숨기고 중앙에 고정
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        // // 마우스 커서를 숨기고 중앙에 고정
+        // Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Confined;
         
         // 컴포넌트 초기화
         rb = GetComponent<Rigidbody2D>();
@@ -59,6 +72,16 @@ public class Player : MonoBehaviour
             check.transform.localPosition = new Vector3(0, -1f, 0);
             groundCheck = check.transform;
             Debug.Log("GroundCheck 자동 생성됨");
+        }
+        
+        // 없을 경우 attackPoint 생성
+        if (attackPoint == null)
+        {
+            GameObject attack = new GameObject("AttackPoint");
+            attack.transform.parent = transform;
+            attack.transform.localPosition = new Vector3(1f, 0f, 0f); // 플레이어 앞쪽에 위치
+            attackPoint = attack.transform;
+            Debug.Log("AttackPoint 자동 생성됨");
         }
         
         // 카메라 참조가 없을 경우 메인 카메라로 설정
@@ -92,20 +115,98 @@ public class Player : MonoBehaviour
         // 마우스 위치에 따른 플레이어 방향 설정
         FlipBasedOnMousePosition();
         
-        // 마우스 좌클릭 입력 처리
+        // 마우스 좌클릭 입력 처리 - 항상 공격
         if (Input.GetMouseButtonDown(0))
         {
-            // 좌클릭 시 6_Other 트리거 실행
-            if (animator != null)
-            {
-                animator.SetTrigger("6_Other");
-            }
+            Attack();
+        }
+        
+        // E키 입력 처리 - Money 상호작용
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            HandleMoneyInteraction();
         }
         
         // 애니메이션 파라미터 업데이트
         UpdateAnimationParameters();
     }
+
+    // Money 상호작용 처리 함수
+    private void HandleMoneyInteraction()
+    {
+        if (animator == null)
+        {
+            Debug.LogError("애니메이터 컴포넌트가 없습니다!");
+            return;
+        }
+        
+        // 플레이어 주변의 Money 태그를 가진 오브젝트 검색
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, interactionDistance);
+        
+        foreach (Collider2D hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Money"))
+            {
+                // Money 획득 애니메이션 재생
+                animator.SetTrigger("6_Other");
+                Debug.Log("Money 오브젝트 상호작용: 6_Other 애니메이션 재생");
+                return; // 가장 가까운 Money와 상호작용 후 종료
+            }
+        }
+        
+        // 범위 내에 Money가 없을 경우 메시지 출력
+        Debug.Log("상호작용 가능한 Money가 범위 내에 없습니다.");
+    }
     
+    // 공격 수행 함수
+    public void Attack()
+    {
+        // 공격 애니메이션 재생
+        if (animator != null)
+        {
+            animator.SetTrigger("2_Attack");
+            Debug.Log("공격 애니메이션 재생");
+        }
+        
+        // 공격 데미지 처리
+        StartCoroutine(ApplyAttackDamage());
+    }
+    
+    // 공격 데미지 적용 코루틴
+    private IEnumerator ApplyAttackDamage()
+    {
+        // 애니메이션 타이밍 맞추기 위한 지연
+        yield return new WaitForSeconds(attackDelay);
+        
+        // 공격 범위 내 모든 콜라이더 감지
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
+        
+        // 감지된 콜라이더 중 적 태그를 가진 것 찾기
+        bool hitEnemy = false;
+        foreach (Collider2D hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag(enemyTag))
+            {
+                hitEnemy = true;
+                Debug.Log("적 히트: " + hitCollider.name);
+                
+                // EnemyHealth 컴포넌트 확인
+                EnemyHealth enemyHealth = hitCollider.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
+                {
+                    // 데미지 적용
+                    enemyHealth.TakeDamage(attackDamage, (Vector2)transform.position);
+                    Debug.Log(hitCollider.name + "에게 " + attackDamage + " 데미지 적용");
+                }
+            }
+        }
+        
+        if (!hitEnemy)
+        {
+            Debug.Log("공격 범위 내 적이 없습니다.");
+        }
+    }
+
     void FixedUpdate()
     {
         // 이동 입력 처리
@@ -180,6 +281,14 @@ public class Player : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+        
+        // 공격 지점 위치 조정 (플레이어가 바라보는 방향으로)
+        if (attackPoint != null)
+        {
+            Vector3 attackPos = attackPoint.localPosition;
+            attackPos.x = Mathf.Abs(attackPos.x) * (isFacingRight ? 1 : -1);
+            attackPoint.localPosition = attackPos;
+        }
     }
     
     // 카메라 이동 처리 (LateUpdate에서 처리하여 플레이어 이동 후 카메라 이동)
@@ -204,6 +313,17 @@ public class Player : MonoBehaviour
             // 지면 체크 영역 시각화
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+        
+        // 상호작용 거리 시각화
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, interactionDistance);
+        
+        // 공격 범위 시각화
+        if (attackPoint != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
         }
     }
 }
