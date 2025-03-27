@@ -92,11 +92,8 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageButton.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpritePos.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumAnimationClip.cs" />
-<<<<<<< HEAD
-    <Compile Include="Assets\_HW\ResourceTileSpawner.cs" />
-=======
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\SelfDestruct.cs" />
->>>>>>> origin/Merge
+    <Compile Include="Assets\_HW\ResourceTileSpawner.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
     <Compile Include="Assets\Asset\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
@@ -111,11 +108,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Manager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Button.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumPackage.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\DemoManager.cs" />
-    <Compile Include="Assets\_HW\TileResourceSpawner.cs" />
->>>>>>> origin/Merge
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\ButtonAnimation.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_AnimationData.cs" />
