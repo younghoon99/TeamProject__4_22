@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform attackPoint;         // 공격 지점 (비어있으면 자동 생성)
     [SerializeField] private string enemyTag = "Enemy";     // 적 태그
     [SerializeField] private float attackDelay = 0.2f;      // 공격 애니메이션 후 데미지 적용 지연 시간
+    [SerializeField] private float attackCooldown = 1f;   // 공격 쿨다운 시간 (애니메이션 종료 후 다시 공격 가능한 시간)
+    private bool isAttacking = false;                       // 현재 공격 중인지 여부
     
     // 카메라 관련 변수
     private Camera mainCamera;
@@ -115,8 +117,8 @@ public class Player : MonoBehaviour
         // 마우스 위치에 따른 플레이어 방향 설정
         FlipBasedOnMousePosition();
         
-        // 마우스 좌클릭 입력 처리 - 항상 공격
-        if (Input.GetMouseButtonDown(0))
+        // 마우스 좌클릭 입력 처리 - 공격 중이 아닐 때만 공격 가능
+        if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
             Attack();
         }
@@ -161,15 +163,31 @@ public class Player : MonoBehaviour
     // 공격 수행 함수
     public void Attack()
     {
-        // 공격 애니메이션 재생
+        // 이미 공격 중이면 무시
+        if (isAttacking)
+            return;
+            
+        // 공격 상태로 설정
+        isAttacking = true;
+            
+        // 애니메이션 재생 (최우선 처리)
         if (animator != null)
         {
+            // 다른 애니메이션 즉시 중단하고 공격 애니메이션 재생
+            animator.ResetTrigger("2_Attack"); // 기존 트리거 초기화
             animator.SetTrigger("2_Attack");
-            Debug.Log("공격 애니메이션 재생");
+
+            // 공격 애니메이션 파라미터 우선순위 높이기 (선택사항)
+            animator.SetLayerWeight(animator.GetLayerIndex("Base Layer"), 1);
+
+            Debug.Log("공격 애니메이션 즉시 재생");
         }
-        
+
         // 공격 데미지 처리
         StartCoroutine(ApplyAttackDamage());
+        
+        // 공격 쿨다운 시작
+        StartCoroutine(AttackCooldown());
     }
     
     // 공격 데미지 적용 코루틴
@@ -205,6 +223,32 @@ public class Player : MonoBehaviour
         {
             Debug.Log("공격 범위 내 적이 없습니다.");
         }
+    }
+    
+    // 공격 쿨다운 코루틴
+    private IEnumerator AttackCooldown()
+    {
+        // 애니메이션 길이 가져오기 (또는 고정된 쿨다운 시간 사용)
+        float cooldownTime = attackCooldown;
+        
+        if (animator != null)
+        {
+            // 애니메이션 클립 정보 가져오기 시도
+            AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+            if (clipInfo.Length > 0)
+            {
+                // 현재 애니메이션 길이에 기반한 쿨다운 계산
+                cooldownTime = clipInfo[0].clip.length;
+                Debug.Log("애니메이션 길이: " + cooldownTime);
+            }
+        }
+        
+        // 쿨다운 시간 동안 대기
+        yield return new WaitForSeconds(cooldownTime);
+        
+        // 공격 가능 상태로 변경
+        isAttacking = false;
+        Debug.Log("다음 공격 가능");
     }
 
     void FixedUpdate()
