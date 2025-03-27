@@ -75,6 +75,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Worker.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStateElement.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\AnimationHelper.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\EnemyHealth.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\PlayerHealth.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\Player.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationControllerPanel.cs" />
