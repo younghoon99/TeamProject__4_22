@@ -2422,9 +2422,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a978a83cda9ed41a6ef281829037f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 0
+  attackDamage: 20
   attackRange: 1.03
-  attackCooldown: 2
+  attackCooldown: 3
   detectionRange: 1.57
   facingRight: 0
 --- !u!61 &585128022
@@ -7621,12 +7621,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920970951}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.4, y: 23.041044, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.2872543, y: 40.906326, z: 0.19292158}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2034310796}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974243166
 GameObject:
@@ -7727,7 +7727,7 @@ GameObject:
   - component: {fileID: 2034310796}
   - component: {fileID: 2034310795}
   m_Layer: 0
-  m_Name: SkyControl
+  m_Name: TimeControl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7753,7 +7753,18 @@ MonoBehaviour:
   noonTime: 0.33
   eveningTime: 0.66
   transitionDuration: 0.167
+  dayNightTransitionStart: 0.9
+  morningTransitionDuration: 0.1
+  globalLight: {fileID: 1920970952}
+  morningLightIntensity: 1
+  noonLightIntensity: 1
+  eveningLightIntensity: 0.5
+  morningLightColor: {r: 1, g: 1, b: 1, a: 1}
+  noonLightColor: {r: 0.9433962, g: 0.44548225, b: 0.27144888, a: 1}
+  eveningLightColor: {r: 0.8396226, g: 0.73711056, b: 0.629717, a: 1}
   currentTimeOfDay: "\uC544\uCE68"
+  currentLightIntensity: 0
+  currentLightPhase: 
   onMorning:
     m_PersistentCalls:
       m_Calls: []
@@ -7775,7 +7786,8 @@ Transform:
   m_LocalPosition: {x: 3.1127453, y: -17.865284, z: -0.19292158}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1920970953}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2071822310
@@ -25877,5 +25889,4 @@ SceneRoots:
   - {fileID: 2034310796}
   - {fileID: 447924026}
   - {fileID: 906334135}
-  - {fileID: 1920970953}
   - {fileID: 585128019}
