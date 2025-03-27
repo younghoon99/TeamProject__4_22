@@ -74,6 +74,8 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Worker.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStateElement.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\PlayerHealth.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Player.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationControllerPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewItem.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationController.cs" />
@@ -92,10 +94,10 @@
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
     <Compile Include="Assets\Asset\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\Player_YH.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_UIManager.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemySelector.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_HorseSpriteList.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Enemy.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_LoadPrefabPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStatePanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_EyeSet.cs" />
@@ -107,12 +109,12 @@
     <Compile Include="Assets\_HW\TileResourceSpawner.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_AnimationData.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\ShaderControl.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteButtonST.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PaginationManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SPUM_SpriteEditManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_MatchingList.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\TimeControl.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_ConvertView.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Recorder.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteList.cs" />

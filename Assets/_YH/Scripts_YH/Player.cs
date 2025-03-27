@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_YH : MonoBehaviour
+public class Player : MonoBehaviour
 {
     // 플레이어 이동 관련 변수
     [Header("이동 설정")]

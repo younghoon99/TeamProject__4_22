@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class DayCycleController : MonoBehaviour
+public class TimeControl : MonoBehaviour
 {
     [Header("셰이더 설정")]
     public Material skyMaterial;                     // 하늘 재질
