@@ -75,6 +75,9 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Worker.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStateElement.cs" />
+    <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\AnimationHelper.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\PlayerHealth.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Player.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationControllerPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewItem.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationController.cs" />
@@ -89,14 +92,18 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageButton.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpritePos.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumAnimationClip.cs" />
+<<<<<<< HEAD
     <Compile Include="Assets\_HW\ResourceTileSpawner.cs" />
+=======
+    <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\SelfDestruct.cs" />
+>>>>>>> origin/Merge
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
     <Compile Include="Assets\Asset\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\Player_YH.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_UIManager.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemySelector.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_HorseSpriteList.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Enemy.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_LoadPrefabPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStatePanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_EyeSet.cs" />
@@ -104,14 +111,20 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Manager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Button.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumPackage.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\DemoManager.cs" />
+    <Compile Include="Assets\_HW\TileResourceSpawner.cs" />
+>>>>>>> origin/Merge
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
+    <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\ButtonAnimation.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_AnimationData.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\ShaderControl.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteButtonST.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PaginationManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SPUM_SpriteEditManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_MatchingList.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\TimeControl.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_ConvertView.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Recorder.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteList.cs" />
@@ -120,12 +133,35 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewMatchingList.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Asset\TileMap\BigManJD\Platformer Tileset - Pixelart Grasslands\Background\BackChange.shader" />
+    <None Include="Assets\_YS\Package\PixelFX_vol1\readme.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\_YS\Package\Pixel Monster Pack\notes.txt" />
     <None Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Read Me.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\_YS\Package\War\Slime Enemy - Pixel Art\README.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Asset\SPUM\ReadMe - 1.7.7.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Asset\TileMap\BigManJD\readme.txt" />
+    <None Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\Righteous-Regular OFLicence.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
