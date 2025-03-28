@@ -29,7 +29,7 @@ public class Npc : MonoBehaviour
     private SpriteRenderer spriteRenderer;                   // SpriteRenderer 참조
     
     // NPC 상태
-    public enum NpcState { Idle, Moving, Interacting }
+    public enum NpcState { Idle, Moving, Interacting, Escaping }
     private NpcState currentState = NpcState.Idle;
     
     void Start()
@@ -47,10 +47,59 @@ public class Npc : MonoBehaviour
         // 초기 위치 저장
         initialPosition = transform.position;
         
+        // Enemy 오브젝트들과의 충돌 무시 설정
+        IgnoreCollisionsWithEnemies();
+        
         // 첫 번째 행동 결정
         DecideNextAction();
     }
-
+    
+    // Enemy 오브젝트들과의 충돌 무시 설정
+    private void IgnoreCollisionsWithEnemies()
+    {
+        Collider2D npcCollider = GetComponent<Collider2D>();
+        
+        if (npcCollider != null)
+        {
+            // 모든 Enemy와의 충돌 무시
+            Enemy[] enemies = FindObjectsOfType<Enemy>();
+            foreach (Enemy enemy in enemies)
+            {
+                Collider2D enemyCollider = enemy.GetComponent<Collider2D>();
+                if (enemyCollider != null)
+                {
+                    Physics2D.IgnoreCollision(npcCollider, enemyCollider, true);
+                }
+            }
+            
+            // 플레이어와의 충돌 무시
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                Collider2D playerCollider = player.GetComponent<Collider2D>();
+                if (playerCollider != null)
+                {
+                    Physics2D.IgnoreCollision(npcCollider, playerCollider, true);
+                }
+            }
+            
+            // 다른 NPC와의 충돌 무시
+            Npc[] npcs = FindObjectsOfType<Npc>();
+            foreach (Npc otherNpc in npcs)
+            {
+                // 자기 자신은 제외
+                if (otherNpc != this)
+                {
+                    Collider2D otherNpcCollider = otherNpc.GetComponent<Collider2D>();
+                    if (otherNpcCollider != null)
+                    {
+                        Physics2D.IgnoreCollision(npcCollider, otherNpcCollider, true);
+                    }
+                }
+            }
+        }
+    }
+    
     void Update()
     {
         // 상호작용 중이거나 움직임이 비활성화된 경우 움직이지 않음
@@ -203,5 +252,41 @@ public class Npc : MonoBehaviour
         idleTimer = 0f;
         
         Debug.Log("NPC가 플레이어와의 상호작용을 종료했습니다");
+    }
+    
+    // 도망 시작 시 호출 (NpcInteraction에서 호출됨)
+    public void OnEscapeStart()
+    {
+        // 도망 상태로 변경
+        currentState = NpcState.Escaping;
+        
+        // 움직임 비활성화 (NpcInteraction에서 움직임 처리)
+        canMove = false;
+        
+        // 애니메이션 설정 (이동 애니메이션)
+        if (animator != null)
+        {
+            animator.SetBool("1_Move", true);
+        }
+        
+        Debug.Log(gameObject.name + "이(가) 도망 상태로 전환되었습니다.");
+    }
+    
+    // 도망 종료 시 호출 (NpcInteraction에서 호출됨)
+    public void OnEscapeEnd()
+    {
+        // 도망 상태가 아닌 경우 무시
+        if (currentState != NpcState.Escaping) return;
+        
+        // 원래 상태로 돌아가기
+        currentState = NpcState.Idle;
+        
+        // 움직임 재활성화
+        canMove = true;
+        
+        // 다음 행동 결정
+        DecideNextAction();
+        
+        Debug.Log(gameObject.name + "이(가) 일반 상태로 돌아왔습니다.");
     }
 }

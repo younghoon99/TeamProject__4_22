@@ -20,7 +20,7 @@ public class EnemyHealth : MonoBehaviour
     [Header("피격 효과")]
     [SerializeField] private float invincibilityTime = 0.5f; // 무적 시간
     [SerializeField] private float blinkRate = 0.1f;      // 깜빡임 간격 (초)
-    private bool isInvincible = false;                    // 무적 상태 여부
+    private bool isInvincible = false;                    // 무적 상태 여부 
     
     // 컴포넌트 참조
     private Animator animator;
