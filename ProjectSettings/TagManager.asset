@@ -7,7 +7,7 @@ TagManager:
   - Ground
   - Enemy
   - Money
-  - MoneyTilemap
+  - NPC
   layers:
   - Default
   - TransparentFX
