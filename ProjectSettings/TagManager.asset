@@ -6,8 +6,13 @@ TagManager:
   tags:
   - Ground
   - Enemy
+<<<<<<< HEAD
   - Money
   - MoneyTilemap
+=======
+  - Item
+  - NPC
+>>>>>>> origin/YS
   layers:
   - Default
   - TransparentFX
@@ -19,7 +24,7 @@ TagManager:
   - Player
   - Platform
   - Enemy
-  - 
+  - NPC
   - 
   - 
   - 
