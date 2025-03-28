@@ -4,31 +4,24 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
-  - Enemy
-<<<<<<< HEAD
-  - Money
-<<<<<<< HEAD
-  - MoneyTilemap
-=======
+  - ItemDrop
+  - ItemPickup
   - Item
-  - NPC
->>>>>>> origin/YS
-=======
-  - NPC
->>>>>>> 9f8c12a205b895231b7aca065980a547f17a4f53
+  - Slot
+  - Money
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - Player
   - Water
   - UI
   - Ground
-  - Player
-  - Platform
-  - Enemy
-  - NPC
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -51,12 +44,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Back
-    uniqueID: 2332179417
-    locked: 0
-  - name: Middle
-    uniqueID: 1267840417
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

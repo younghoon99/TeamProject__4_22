@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
             UIhealth[0].color = new Color(1, 0, 0, 0.4f);
 
             //플레이어 사망 이펙트
-            player.OnDie();
+///            player.OnDie();
 
             //재시작 버튼 UI
             UIRestartBtn.SetActive(true);
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     void PlayerReposition()
     {   //플레이어 위치 되돌리기 함수
         player.transform.position = new Vector3(0, 0, -1);  //플레이어 위치 이동
-        player.VelocityZero();  //플레이어 낙하 속도 0으로 만들기
+///        player.VelocityZero();  //플레이어 낙하 속도 0으로 만들기
     }
 
     public void Restart()

@@ -1793,7 +1793,6 @@ GameObject:
   - component: {fileID: 1660216485530318033}
   - component: {fileID: 6787641487677466397}
   - component: {fileID: 3639055250951132121}
-  - component: {fileID: 6417983959285875292}
   m_Layer: 10
   m_Name: SPUM_20250325151457577
   m_TagString: NPC
@@ -4923,20 +4922,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6417983959285875292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3041094180666393459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 968a39a6d0541a44f9afa7d16c276d6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextMove: 0
-  animator: {fileID: 3079598576785739401}
 --- !u!1 &3290718909953415363
 GameObject:
   m_ObjectHideFlags: 0
