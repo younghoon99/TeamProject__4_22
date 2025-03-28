@@ -113,14 +113,30 @@ public class NpcInteraction : MonoBehaviour
             isUIActive = !isUIActive;
             interactionUI.SetActive(isUIActive);
             
+            // Npc 스크립트 가져오기
+            Npc npcController = GetComponent<Npc>();
+            
             if (isUIActive)
             {
                 // UI가 활성화될 때 위치 즉시 업데이트
                 UpdateUIPosition();
+                
+                // NPC 움직임 멈추기
+                if (npcController != null)
+                {
+                    npcController.OnInteractionStart();
+                }
+                
                 Debug.Log("NPC 상호작용 UI가 활성화되었습니다.");
             }
             else
             {
+                // NPC 움직임 재개
+                if (npcController != null)
+                {
+                    npcController.OnInteractionEnd();
+                }
+                
                 Debug.Log("NPC 상호작용 UI가 비활성화되었습니다.");
             }
         }
@@ -149,6 +165,13 @@ public class NpcInteraction : MonoBehaviour
                     
                     Debug.Log("패널 초기화: " + panel.name + " - " + (isFirstPanel ? "활성화" : "비활성화"));
                 }
+            }
+            
+            // NPC 움직임 재개
+            Npc npcController = GetComponent<Npc>();
+            if (npcController != null)
+            {
+                npcController.OnInteractionEnd();
             }
             
             // UI 비활성화
