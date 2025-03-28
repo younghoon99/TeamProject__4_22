@@ -111,13 +111,15 @@ public class NpcInteraction : MonoBehaviour
         if (interactionUI != null)
         {
             isUIActive = !isUIActive;
-            interactionUI.SetActive(isUIActive);
             
             // Npc 스크립트 가져오기
             Npc npcController = GetComponent<Npc>();
             
             if (isUIActive)
             {
+                // UI 활성화
+                interactionUI.SetActive(true);
+                
                 // UI가 활성화될 때 위치 즉시 업데이트
                 UpdateUIPosition();
                 
@@ -131,11 +133,33 @@ public class NpcInteraction : MonoBehaviour
             }
             else
             {
+                // 비활성화 시 패널 초기화 (HideInteractionUI와 동일한 초기화 로직)
+                // 인터렉션 UI 초기화 - 모든 대화 패널을 검사하여 초기화
+                Transform[] allPanels = interactionUI.GetComponentsInChildren<Transform>(true); // true: 비활성화된 오브젝트도 포함
+                
+                foreach (Transform panel in allPanels)
+                {
+                    // 패널 이름에 "Panel" 또는 "페이지"가 포함된 오브젝트 찾기
+                    if (panel.name.Contains("Panel") || panel.name.Contains("페이지") || panel.name.Contains("Page"))
+                    {
+                        // 첫 번째 패널인지 확인 (이름에 "1" 또는 "First"가 포함되어 있는지)
+                        bool isFirstPanel = panel.name.Contains("1") || panel.name.Contains("First") || panel.name.Contains("첫번째");
+                        
+                        // 첫 번째 패널만 활성화, 나머지는 비활성화
+                        panel.gameObject.SetActive(isFirstPanel);
+                        
+                        Debug.Log("패널 초기화: " + panel.name + " - " + (isFirstPanel ? "활성화" : "비활성화"));
+                    }
+                }
+                
                 // NPC 움직임 재개
                 if (npcController != null)
                 {
                     npcController.OnInteractionEnd();
                 }
+                
+                // UI 비활성화
+                interactionUI.SetActive(false);
                 
                 Debug.Log("NPC 상호작용 UI가 비활성화되었습니다.");
             }

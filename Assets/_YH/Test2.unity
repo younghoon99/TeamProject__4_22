@@ -339,9 +339,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8569630312734322003, guid: 05518ef811dba9a4ba4d24c882007ec5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8517266}
-    - targetCorrespondingSourceObject: {fileID: 8569630312734322003, guid: 05518ef811dba9a4ba4d24c882007ec5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1801578892}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3802287088166620687, guid: 05518ef811dba9a4ba4d24c882007ec5, type: 3}
       insertIndex: -1
@@ -731,7 +728,7 @@ GameObject:
   - component: {fileID: 263151374}
   - component: {fileID: 263151373}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Enemy UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -807,18 +804,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263151371}
-  m_LocalRotation: {x: -0, y: -0.008726557, z: 0, w: 0.9999619}
-  m_LocalPosition: {x: 0, y: 0, z: 0.045}
-  m_LocalScale: {x: 0.0005, y: 0.0005, z: 0.0005}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1912068915}
   - {fileID: 647714002}
-  m_Father: {fileID: 440895877}
+  m_Father: {fileID: 1823968294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.012, y: 0.705}
+  m_AnchoredPosition: {x: 10.53, y: 57.3}
   m_SizeDelta: {x: 1006, y: 580}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &288327372
@@ -1466,7 +1463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5189523365546633931, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5189523365546633931, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
       propertyPath: m_TagString
@@ -1478,10 +1475,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: c21f90e6a4f2c82419a7f9a040b62f9c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2562865834194753334, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 263151375}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5189523365546633931, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
       insertIndex: -1
@@ -1499,11 +1493,6 @@ PrefabInstance:
 --- !u!1 &440895876 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5189523365546633931, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
-  m_PrefabInstance: {fileID: 440895875}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &440895877 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2562865834194753334, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
   m_PrefabInstance: {fileID: 440895875}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &440895878
@@ -1524,6 +1513,7 @@ MonoBehaviour:
   smoothSpeed: 5
   floatingDamageTextPrefab: {fileID: 647714001}
   worldCanvas: {fileID: 263151372}
+  healthBarOffset: {x: 0, y: 1.5, z: 0}
   invincibilityTime: 0.5
   blinkRate: 0.1
 --- !u!61 &440895879
@@ -2223,7 +2213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 655369075}
   m_Layer: 0
-  m_Name: Backgrounds
+  m_Name: "Backgrounds- \uBC30\uACBD \uB808\uC774\uC5B4 \uC21C\uC11C \uACE0\uBBFC "
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3927,7 +3917,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 321421928}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1823968294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -23890,7 +23880,7 @@ GameObject:
   - component: {fileID: 1801578890}
   - component: {fileID: 1801578889}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: NPC UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23966,18 +23956,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1801578888}
-  m_LocalRotation: {x: -0, y: -0.008726557, z: -0, w: 0.9999619}
-  m_LocalPosition: {x: 0, y: 0, z: -0.06}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00016538799}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 623777763}
   - {fileID: 704932256}
-  m_Father: {fileID: 51420559}
+  m_Father: {fileID: 1823968294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.01, y: 1.32}
+  m_AnchoredPosition: {x: -320.09485, y: -392.68}
   m_SizeDelta: {x: 1005, y: 580}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1807831826
@@ -24463,6 +24453,40 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1823968293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823968294}
+  m_Layer: 0
+  m_Name: UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1823968294
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823968293}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1801578892}
+  - {fileID: 1175762984}
+  - {fileID: 263151375}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1827428754
 GameObject:
   m_ObjectHideFlags: 0
@@ -25753,10 +25777,10 @@ SceneRoots:
   m_Roots:
   - {fileID: 1102996871}
   - {fileID: 296591782}
+  - {fileID: 1823968294}
   - {fileID: 1175662613}
   - {fileID: 1470484794}
   - {fileID: 2006846010}
   - {fileID: 1442393165}
   - {fileID: 440895875}
-  - {fileID: 1175762984}
   - {fileID: 51420555}
