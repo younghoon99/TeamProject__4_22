@@ -31,7 +31,11 @@ public class EnemyMove : MonoBehaviour
         Debug.DrawRay(frontVec, Vector3.down, new Color(0, 1, 0));
         RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
         if (rayHit.collider == null)
+        {
+            Debug.Log("Enemy 턴");
             Turn();
+        }
+
 
     }
 
