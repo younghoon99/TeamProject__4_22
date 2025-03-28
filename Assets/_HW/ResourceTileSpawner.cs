@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class ResourceTileSpawner : MonoBehaviour
 {
+    
     [SerializeField] private float fixedYPosition = 0f; // Fixed Y position for spawning
     [SerializeField] private Tilemap tilemap; // Reference to the Tilemap
     [SerializeField] private Tile[] woodTiles; // Array of wood tile variations
@@ -47,13 +48,16 @@ public class ResourceTileSpawner : MonoBehaviour
         int randomIndex = Random.Range(0, tileArray.Length);
 
         // Choose a random position on the Tilemap
-        Vector3 randomPosition = GetRandomTilePosition();
+        Vector3 randomPosition = GetRandomTilePosition();                
 
         // Check if the position is already occupied
         if (tilemap.GetTile(tilemap.WorldToCell(randomPosition)) == null)
         {
             // Place the tile on the Tilemap
             tilemap.SetTile(tilemap.WorldToCell(randomPosition), tileArray[randomIndex]);
+
+            // Adjust the tile's transform matrix for precise positioning
+            tilemap.SetTransformMatrix(tilemap.WorldToCell(randomPosition), Matrix4x4.TRS(randomPosition, Quaternion.identity, Vector3.one));
 
             // Add the position to the list of spawned tiles
             spawnedTilePositions.Add(randomPosition);
