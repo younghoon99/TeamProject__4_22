@@ -59,7 +59,7 @@
     <UnityVersion>2022.3.60f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\tjoeun\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\tjoeun\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.60f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.60f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -114,8 +114,10 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\GroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\DisableLucidEditorAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\SelfDestruct.cs" />
+    <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\NpcMove.cs" />
     <Compile Include="Assets\_YS\Scripts\EnemyMove.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
+    <Compile Include="Assets\_YS\Scripts\NpcMove.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\TabGroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\AssetsOnlyAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ShowInInspectorAttribute.cs" />
