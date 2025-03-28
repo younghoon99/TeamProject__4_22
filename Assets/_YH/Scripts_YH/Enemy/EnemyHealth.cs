@@ -14,12 +14,13 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float smoothSpeed = 5f;      // 체력바 변화 속도
     [SerializeField] private GameObject floatingDamageTextPrefab; // 데미지 텍스트 프리팹
     [SerializeField] private Canvas worldCanvas;          // 월드 캔버스 (없으면 자동 생성)
+    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0); // 체력바 위치 오프셋
     private float targetFill;                            // 목표 체력바 비율
     
     [Header("피격 효과")]
     [SerializeField] private float invincibilityTime = 0.5f; // 무적 시간
     [SerializeField] private float blinkRate = 0.1f;      // 깜빡임 간격 (초)
-    private bool isInvincible = false;                    // 무적 상태 여부
+    private bool isInvincible = false;                    // 무적 상태 여부 
     
     // 컴포넌트 참조
     private Animator animator;
@@ -75,6 +76,20 @@ public class EnemyHealth : MonoBehaviour
         if (healthBarImage != null)
         {
             healthBarImage.fillAmount = Mathf.Lerp(healthBarImage.fillAmount, targetFill, Time.deltaTime * smoothSpeed);
+            
+            // 체력바가 적의 머리 위를 따라다니도록 설정
+            Transform healthBarTransform = healthBarImage.transform.parent;
+            if (healthBarTransform != null)
+            {
+                // 적 머리 위에 위치하도록 설정
+                healthBarTransform.position = transform.position + healthBarOffset;
+                
+                // 체력바가 항상 카메라를 향하도록 설정 (빌보드 효과)
+                if (Camera.main != null)
+                {
+                    healthBarTransform.LookAt(healthBarTransform.position + Camera.main.transform.forward);
+                }
+            }
         }
     }
 
@@ -285,15 +300,21 @@ public class EnemyHealth : MonoBehaviour
     {
         float duration = 1.0f;
         float startTime = Time.time;
-        Vector3 startPos = textObj.transform.position;
+        Vector3 startOffset = Vector3.up * 1.2f;
         
         // 2초 동안 위로 움직이면서 페이드아웃
         while (Time.time < startTime + duration)
         {
             float progress = (Time.time - startTime) / duration;
             
-            // 위로 이동
-            textObj.transform.position = startPos + Vector3.up * progress * 1.5f;
+            // 적 위치를 계속 추적하면서 점점 위로 올라가는 효과 적용
+            textObj.transform.position = transform.position + startOffset + Vector3.up * progress * 0.5f;
+            
+            // UI가 항상 카메라를 향하도록 설정 (빌보드 효과)
+            if (Camera.main != null)
+            {
+                textObj.transform.LookAt(textObj.transform.position + Camera.main.transform.forward);
+            }
             
             // 텍스트 컴포넌트 찾아서 알파값 조절
             TextMeshProUGUI tmpText = textObj.GetComponent<TextMeshProUGUI>();
