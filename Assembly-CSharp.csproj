@@ -79,6 +79,7 @@
     <Compile Include="Assets\Asset\SPUM\Basic_Resources\Package\Script\SPUM_PresetData.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\OnValueChangedAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Common\Script\Utils\SecondOrderDynamics.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Player\Player.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\PreviewMatchingElement.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\SectionHeaderAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationManager.cs" />
@@ -89,13 +90,11 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\FoldoutGroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\EnableIfAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\AnimationHelper.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\EnemyHealth.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\PlayerHealth.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\Player.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationControllerPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewItem.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\DisableInEditModeAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationController.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Player\PlayerHealth.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemyTest.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\IndentAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\TitleHeaderAttribute.cs" />
@@ -113,6 +112,7 @@
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteSync.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageButton.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpritePos.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\Npc Interaction.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumAnimationClip.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\GroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\DisableLucidEditorAttribute.cs" />
@@ -138,22 +138,26 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_UIManager.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemySelector.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_HorseSpriteList.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\Enemy.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Enemy\EnemyHealth.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_LoadPrefabPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStatePanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_EyeSet.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Etc\ColorSelect.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Enemy\Enemy.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\UI\TimeControl.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Manager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Button.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ValidateInputAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumPackage.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\DemoManager.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\Npc.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\LabelWidthAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HelpBoxAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteEyeSync.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\ButtonAnimation.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_AnimationData.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\DisableInPlayModeAttribute.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\UI\TimeClockUI.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\DisableIfAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteButtonST.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PaginationManager.cs" />
@@ -162,7 +166,6 @@
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_MatchingList.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\BoxGroupAttribute.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\TimeControl.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_ConvertView.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Recorder.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteList.cs" />
@@ -187,6 +190,8 @@
     <None Include="Assets\Asset\TileMap\BigManJD\Platformer Tileset - Pixelart Grasslands\Background\BackChange.shader" />
     <None Include="Assets\_YS\Package\PixelFX_vol1\readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\Font\Noto_Sans_KR\OFL.txt" />
+    <None Include="Assets\Font\IBM_Plex_Sans_KR\OFL.txt" />
     <None Include="Assets\_YS\Package\Cainos\Pixel Art Icon Pack - RPG\Shader\SH Sprite Icon Outline Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Changelog.txt" />
@@ -194,6 +199,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\_YS\Package\Pixel Monster Pack\notes.txt" />
     <None Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Read Me.txt" />
+    <None Include="Assets\Font\Noto_Sans_KR\README.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -551,12 +557,12 @@
       <HintPath>Library\PackageCache\com.unity.collections@1.2.4\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.visualscripting@1.9.4\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
+      <HintPath>Library\PackageCache\com.unity.visualscripting@1.9.4\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Android.Types">

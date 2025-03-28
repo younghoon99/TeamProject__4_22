@@ -139,10 +139,14 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
     - _TimeOfDay: 0.27204838
 =======
     - _TimeOfDay: 0.9868598
 >>>>>>> origin/YS
+=======
+    - _TimeOfDay: 0.50129986
+>>>>>>> 9f8c12a205b895231b7aca065980a547f17a4f53
     - _TransitionDuration: 0.167
     - _UVSec: 0
     - _ZWrite: 1
