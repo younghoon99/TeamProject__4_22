@@ -3607,11 +3607,11 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 10
   isFacingRight: 0
-  groundCheck: {fileID: 0}
+  groundCheck: {fileID: 6381077739281084464}
   groundCheckRadius: 0.4
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   interactionDistance: 1.15
   attackDamage: 20
   attackRange: 1.5
@@ -3619,6 +3619,8 @@ MonoBehaviour:
   enemyTag: Enemy
   attackDelay: 0.2
   attackCooldown: 1
+  resourceTilemap: {fileID: 1818279832}
+  resourceTileSpawner: {fileID: 1818279833}
   animator: {fileID: 3012572869320513194}
 --- !u!50 &1442393172
 Rigidbody2D:
@@ -4086,7 +4088,7 @@ GameObject:
   - component: {fileID: 1629699684}
   - component: {fileID: 1629699683}
   - component: {fileID: 1629699682}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
