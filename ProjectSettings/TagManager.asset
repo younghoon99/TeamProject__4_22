@@ -17,10 +17,17 @@ TagManager:
   - Player
   - Water
   - UI
+<<<<<<< HEAD
   - Ground
   - 
   - 
   - 
+=======
+  - 
+  - Player
+  - Platform
+  - Enemy
+>>>>>>> origin/HW
   - 
   - 
   - 
