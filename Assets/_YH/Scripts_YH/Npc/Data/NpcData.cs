@@ -13,7 +13,8 @@ public enum NpcRarity
 // NPC 직업 타입 정의
 public enum NpcJobType
 {
-    채집가,
+    광부,
+    채집,
     전사,
     궁수,
     탱커,
@@ -74,7 +75,8 @@ public class NpcData : ScriptableObject
 
         [Header("특수 능력치")]
         public float criticalChance = 0f;     // 치명타 확률 (%)
-        public float channelSpeed = 0f;       // 채집/채굴 속도 보너스 (%)
+        public float gatheringSpeed = 0f;     // 채집 속도 보너스 (%)
+        public float miningSpeed = 0f;        // 채굴 속도 보너스 (%)
         public float magicPower = 0f;         // 마법 공격력
         public bool canHeal = false;          // 치유 가능 여부
         public bool canAoe = false;           // 광역 공격 가능 여부

@@ -8,6 +8,7 @@ public enum AbilityType
     버프,     // 능력치를 올려주는 능력
     디버프,   // 적의 능력치를 낮추는 능력
     채집,     // 채집 관련 능력
+    채굴,     // 채굴 관련 능력
     특수,     // 특수 효과를 제공하는 능력
     소환      // 다른 개체를 소환하는 능력
 }
@@ -72,6 +73,11 @@ public class NpcAbility : ScriptableObject
             case AbilityType.채집:
                 // 채집 로직
                 ApplyGathering(user, target);
+                break;
+                
+            case AbilityType.채굴:
+                // 채굴 로직
+                ApplyMining(user, target);
                 break;
                 
             case AbilityType.특수:
@@ -168,8 +174,39 @@ public class NpcAbility : ScriptableObject
     {
         if (target == null) return;
         
-        // 채집 로직 (구현 필요)
+        // 채집 관련 로직
         Debug.Log($"{user.name}이(가) {target.name}에 채집 능력을 사용했습니다.");
+        
+        // Npc 컴포넌트 확인
+        Npc npc = user.GetComponent<Npc>();
+        if (npc != null)
+        {
+            // 채집 속도 보너스 적용
+            float gatheringSpeed = npc.GetGatheringSpeed();
+            Debug.Log($"채집 속도: {gatheringSpeed} (보너스 적용됨)");
+            
+            // 여기에 실제 채집 로직 구현
+        }
+    }
+    
+    // 채굴 효과 적용
+    protected virtual void ApplyMining(GameObject user, GameObject target)
+    {
+        if (target == null) return;
+        
+        // 채굴 관련 로직
+        Debug.Log($"{user.name}이(가) {target.name}에 채굴 능력을 사용했습니다.");
+        
+        // Npc 컴포넌트 확인
+        Npc npc = user.GetComponent<Npc>();
+        if (npc != null)
+        {
+            // 채굴 속도 보너스 적용
+            float miningSpeed = npc.GetMiningSpeed();
+            Debug.Log($"채굴 속도: {miningSpeed} (보너스 적용됨)");
+            
+            // 여기에 실제 채굴 로직 구현
+        }
     }
     
     // 특수 효과 적용

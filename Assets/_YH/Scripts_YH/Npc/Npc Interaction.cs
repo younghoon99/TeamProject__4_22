@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class NpcInteraction : MonoBehaviour
 {
@@ -8,7 +10,7 @@ public class NpcInteraction : MonoBehaviour
     [SerializeField] private float interactionDistance = 3f;  // 상호작용 가능 거리
     [SerializeField] private GameObject interactionUI;        // NPC 머리 위에 표시될 UI
     [SerializeField] private Transform uiPosition;            // UI가 표시될 위치 (주로 NPC 머리 위)
-    [SerializeField] private string descriptionTextName = "description";  // NPC 설명을 표시할 텍스트 오브젝트 이름
+    [SerializeField] private string descriptionTextName = "Description";  // NPC 설명을 표시할 텍스트 오브젝트 이름
 
     [Header("디버그")]
     [SerializeField] private bool showDebugInfo = false;     // 디버그 정보 표시 여부
@@ -111,15 +113,13 @@ public class NpcInteraction : MonoBehaviour
         if (interactionUI != null)
         {
             isUIActive = !isUIActive;
+            interactionUI.SetActive(isUIActive);
 
             // Npc 스크립트 가져오기
             Npc npcController = GetComponent<Npc>();
 
             if (isUIActive)
             {
-                // UI 활성화
-                interactionUI.SetActive(true);
-
                 // UI가 활성화될 때 위치 즉시 업데이트
                 UpdateUIPosition();
 
@@ -138,23 +138,26 @@ public class NpcInteraction : MonoBehaviour
                             Transform descriptionTransform = panelTransform.Find(descriptionTextName);
                             if (descriptionTransform != null)
                             {
-                                // SendMessage를 통해 텍스트 설정 - TextMeshPro에서 "SetText" 메서드 호출
-                                descriptionTransform.gameObject.SendMessage("SetText", npcController.NpcEntry.description, SendMessageOptions.DontRequireReceiver);
-                                
-                                // 또한 직접 "text" 속성에 접근하는 시도
-                                // TextMeshPro의 경우 text 속성을 어떻게 접근하는지 알 수 없으므로 리플렉션 사용
-                                var textComponent = descriptionTransform.GetComponent(System.Type.GetType("TMPro.TMP_Text, Unity.TextMeshPro"));
-                                if (textComponent != null)
+                                TextMeshProUGUI tmpText = descriptionTransform.GetComponent<TextMeshProUGUI>();
+                                if (tmpText != null)
                                 {
-                                    System.Reflection.PropertyInfo prop = textComponent.GetType().GetProperty("text");
-                                    if (prop != null)
+                                    tmpText.text = npcController.NpcEntry.description;
+                                    Debug.Log("NPC 설명 표시: " + npcController.NpcEntry.description);
+                                }
+                                else
+                                {
+                                    // 다른 Text 컴포넌트 시도
+                                    Text legacyText = descriptionTransform.GetComponent<Text>();
+                                    if (legacyText != null)
                                     {
-                                        prop.SetValue(textComponent, npcController.NpcEntry.description, null);
-                                        Debug.Log("리플렉션을 통해 NPC 설명 설정: " + npcController.NpcEntry.description);
+                                        legacyText.text = npcController.NpcEntry.description;
+                                        Debug.Log("NPC 설명 표시(Legacy): " + npcController.NpcEntry.description);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogWarning("텍스트 컴포넌트를 찾을 수 없습니다: " + descriptionTextName);
                                     }
                                 }
-                                
-                                Debug.Log("NPC 설명 표시: " + npcController.NpcEntry.description);
                             }
                             else
                             {
@@ -172,33 +175,11 @@ public class NpcInteraction : MonoBehaviour
             }
             else
             {
-                // 비활성화 시 패널 초기화 (HideInteractionUI와 동일한 초기화 로직)
-                // 인터렉션 UI 초기화 - 모든 대화 패널을 검사하여 초기화
-                Transform[] allPanels = interactionUI.GetComponentsInChildren<Transform>(true); // true: 비활성화된 오브젝트도 포함
-
-                foreach (Transform panel in allPanels)
-                {
-                    // 패널 이름에 "Panel" 또는 "페이지"가 포함된 오브젝트 찾기
-                    if (panel.name.Contains("Panel") || panel.name.Contains("페이지") || panel.name.Contains("Page"))
-                    {
-                        // 첫 번째 패널인지 확인 (이름에 "1" 또는 "First"가 포함되어 있는지)
-                        bool isFirstPanel = panel.name.Contains("1") || panel.name.Contains("First") || panel.name.Contains("첫번째");
-
-                        // 첫 번째 패널만 활성화, 나머지는 비활성화
-                        panel.gameObject.SetActive(isFirstPanel);
-
-                        Debug.Log("패널 초기화: " + panel.name + " - " + (isFirstPanel ? "활성화" : "비활성화"));
-                    }
-                }
-
                 // NPC 움직임 재개
                 if (npcController != null)
                 {
                     npcController.OnInteractionEnd();
                 }
-
-                // UI 비활성화
-                interactionUI.SetActive(false);
 
                 Debug.Log("NPC 상호작용 UI가 비활성화되었습니다.");
             }
@@ -256,42 +237,6 @@ public class NpcInteraction : MonoBehaviour
                 interactionUI.transform.LookAt(interactionUI.transform.position + Camera.main.transform.forward);
             }
         }
-    }
-
-    // 설명 텍스트 오브젝트 찾기
-    private GameObject FindDescriptionTextObject()
-    {
-        if (interactionUI == null) return null;
-        
-        // 직접 이름으로 찾기
-        Transform textTransform = interactionUI.transform.Find(descriptionTextName);
-        if (textTransform != null)
-        {
-            return textTransform.gameObject;
-        }
-        
-        // 재귀적으로 모든 자식 오브젝트에서 검색
-        return FindChildWithName(interactionUI.transform, descriptionTextName);
-    }
-    
-    // 재귀적으로 자식 오브젝트 검색
-    private GameObject FindChildWithName(Transform parent, string name)
-    {
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-            {
-                return child.gameObject;
-            }
-            
-            GameObject found = FindChildWithName(child, name);
-            if (found != null)
-            {
-                return found;
-            }
-        }
-        
-        return null;
     }
 
     // 범위 시각화 (에디터에서 확인용)
