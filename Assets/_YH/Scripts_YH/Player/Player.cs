@@ -114,11 +114,11 @@ public class Player : MonoBehaviour
         CheckIsGrounded();
 
         // 점프 입력 처리
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        /*if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Debug.Log("점프 입력 감지됨");
             Jump();
-        }
+        } */
 
         // 마우스 위치에 따른 플레이어 방향 설정
         FlipBasedOnMousePosition();
@@ -415,7 +415,7 @@ public class Player : MonoBehaviour
 
         // 공격 지점 위치 조정 (플레이어가 바라보는 방향으로)
         if (attackPoint != null)
-        {
+        {   
             Vector3 attackPos = attackPoint.localPosition;
             attackPos.x = Mathf.Abs(attackPos.x) * (isFacingRight ? 1 : -1);
             attackPoint.localPosition = attackPos;
