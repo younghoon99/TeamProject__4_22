@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using UnityEngine.Events;
+using TMPro;
 
-// 내부 스크립트 참조 - 코드 중복 방지를 위한 주석
-// 참고: NpcData, NpcAbility, SynergyData 등 클래스는 별도 파일에 정의됨
+public enum NpcItemType
+{
+    None,
+    Axe,      // 도끼
+    Pickaxe,  // 곡괭이
+    Sword     // 검
+}
 
 public class Npc : MonoBehaviour
 {
     [Header("NPC 데이터")]
     [SerializeField] private NpcData npcData;  // NPC 데이터 참조
-    [SerializeField] private string npcId;  // NPC ID (컨테이너에서 찾을 때 사용)
-    private NpcData.NpcEntry npcEntry;  // 현재 NPC의 데이터 항목
+    [SerializeField] private string npcId;     // NPC ID
+    private NpcData.NpcEntry npcEntry;         // 현재 NPC의 데이터 항목
 
     // 외부에서 NPC 데이터 접근용 프로퍼티
     public NpcData.NpcEntry NpcEntry => npcEntry;
@@ -30,6 +34,10 @@ public class Npc : MonoBehaviour
 
     [Header("방향 설정")]
     [SerializeField] private bool facingleft = true;        // NPC의 초기 방향 (true: 왼쪽, false: 오른쪽)
+
+    [Header("UI 설정")]
+    [SerializeField] private GameObject healthBarPrefab;     // 체력바 프리팹
+    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0); // 체력바 위치 오프셋
 
     [Header("컴포넌트 참조")]
     [SerializeField] private Animator animator;              // 애니메이터 참조
@@ -49,31 +57,40 @@ public class Npc : MonoBehaviour
     private int currentHealth;
     private int maxHealth;
     private int attackPower;
-    private int defensePower;
-    private float currentAttackSpeed;
-    private float criticalChance;
+    private int miningPower;
+    private int moveSpeedStat;
 
-    // 시너지 관련 필드
-    private List<NpcAbility> unlockedSpecialAbilities = new List<NpcAbility>();
-
-    // 시너지 효과로 인한 보너스 스탯
-    private float attackBonus = 0f;
-    private float healthBonus = 0f;
-    private float defenseBonus = 0f;
-    private float speedBonus = 0f;
-    private float criticalChanceBonus = 0f;
-    private float gatheringSpeedBonus = 0f;
-    private float miningAmountBonus = 0f;
-    private float healingAmountBonus = 0f;
-    private float damageReductionBonus = 0f;
-    private float healthRegenBonus = 0f;
-    private float aoeBonus = 0f;
-    private float debuffDurationBonus = 0f;
-    private float magicDamageBonus = 0f;
+    // UI 관련 변수
+    private GameObject healthBarObject;
+    private TextMeshProUGUI nameText;
+    private TextMeshProUGUI healthText;
+    private Transform healthBarTransform;
 
     // NPC 상태
     public enum NpcState { Idle, Moving, Interacting, Escaping }
     private NpcState currentState = NpcState.Idle;
+
+    // NPC 작업 유형
+    public enum NpcTask
+    {
+        None,
+        Woodcutting, // 나무 채집
+        Mining,      // 광물 채집
+        Combat       // 전투
+    }
+
+    // 현재 작업
+    private NpcTask currentTask = NpcTask.None;
+
+    // 장착 아이템
+    private NpcItemType equippedItem = NpcItemType.None;
+
+    // 아이템 및 작업 관련 변수
+    private Transform targetObject = null;
+    private bool isReturningToBase = false;
+    private Vector3 basePosition;
+    private float resourceGatheringTimer = 0f;
+    private int gatheredResources = 0;
 
     // 시작 시 호출됨
     private void Start()
@@ -92,53 +109,201 @@ public class Npc : MonoBehaviour
         IgnoreCollisionsWithEnemies();
 
         // NPC ID로 데이터 항목 가져오기
-        if (npcData != null && !string.IsNullOrEmpty(npcId))
+        if (npcData != null)
         {
-            npcEntry = npcData.GetNpcById(npcId);
+            if (!string.IsNullOrEmpty(npcId))
+            {
+                npcEntry = npcData.GetNpcById(npcId);
+            }
+            
+            // ID로 찾지 못한 경우 랜덤 NPC 생성
+            if (npcEntry == null)
+            {
+                // 등급별 확률 계산 (노말 60%, 레어 25%, 영웅 10%, 전설 5%)
+                float rarityRoll = Random.Range(0f, 1f);
+                NpcData.NpcRarity rarity;
+                
+                if (rarityRoll < 0.05f)
+                    rarity = NpcData.NpcRarity.전설;
+                else if (rarityRoll < 0.15f)
+                    rarity = NpcData.NpcRarity.영웅;
+                else if (rarityRoll < 0.40f)
+                    rarity = NpcData.NpcRarity.레어;
+                else
+                    rarity = NpcData.NpcRarity.노말;
+                
+                npcEntry = npcData.GenerateRandomNpc(rarity);
+                npcId = npcEntry.npcId;
+            }
+            
+            // 먼저 데이터 초기화
             InitializeFromData();
+            
+            // 데이터 초기화 후 체력바 생성
+            CreateHealthBar();
+        }
+        else
+        {
+            Debug.LogError("NPC 데이터가 없습니다. NPC 데이터를 할당해 주세요.");
         }
 
         // 초기 상태 설정 (자동으로 움직이기 시작)
         DecideNextAction();
+    }
 
-        // 시너지 매니저에 등록
-        if (SynergyManager.Instance != null)
+    // 매 프레임 업데이트
+    private void Update()
+    {
+        // 상호작용 중이거나 움직임이 비활성화된 경우 움직이지 않음
+        if (!canMove || currentState == NpcState.Interacting || !randomMovementActive)
         {
-            SynergyManager.Instance.AddNpc(this);
+            // 움직이지 않을 때는 속도를 0으로 설정
+            if (rb != null) rb.velocity = Vector2.zero;
+
+            // 움직임 애니메이션 비활성화
+            if (animator != null) animator.SetBool("1_Move", false);
+            return;
+        }
+
+        // 현재 상태에 따른 처리
+        switch (currentState)
+        {
+            case NpcState.Idle:
+                HandleIdleState();
+                break;
+
+            case NpcState.Moving:
+                HandleMovingState();
+                break;
+        }
+
+        // 애니메이션 업데이트
+        UpdateAnimation();
+        
+        // 체력바 위치 업데이트
+        UpdateHealthBarPosition();
+        
+        // 작업 처리
+        if (currentTask != NpcTask.None)
+        {
+            HandleTask();
         }
     }
 
-    // 파괴될 때 호출됨
-    private void OnDestroy()
+    // 체력바 생성
+    private void CreateHealthBar()
     {
-        // 시너지 매니저에서 제거
-        if (SynergyManager.Instance != null)
+        if (healthBarPrefab == null)
         {
-            SynergyManager.Instance.RemoveNpc(this);
+            Debug.LogWarning("체력바 프리팹이 없습니다.");
+            return;
+        }
+
+        // 체력바 생성
+        healthBarObject = Instantiate(healthBarPrefab, transform.position + healthBarOffset, Quaternion.identity);
+        healthBarObject.transform.SetParent(transform);
+        
+        // 이름 텍스트 및 체력 텍스트 찾기
+        nameText = healthBarObject.transform.Find("NameText")?.GetComponent<TextMeshProUGUI>();
+        healthText = healthBarObject.transform.Find("HealthText")?.GetComponent<TextMeshProUGUI>();
+        healthBarTransform = healthBarObject.transform;
+        
+        // 텍스트 설정
+        if (nameText != null)
+        {
+            nameText.text = GetColoredRarityName();
+        }
+        
+        UpdateHealthUI();
+    }
+    
+    // 등급에 따른 색상 이름 반환
+    private string GetColoredRarityName()
+    {
+        if (npcEntry == null) return gameObject.name;
+        
+        string colorCode;
+        
+        switch (npcEntry.rarity)
+        {
+            case NpcData.NpcRarity.노말:
+                colorCode = "white";
+                break;
+            case NpcData.NpcRarity.레어:
+                colorCode = "blue";
+                break;
+            case NpcData.NpcRarity.영웅:
+                colorCode = "purple";
+                break;
+            case NpcData.NpcRarity.전설:
+                colorCode = "orange";
+                break;
+            default:
+                colorCode = "white";
+                break;
+        }
+        
+        // ID 대신 이름만 표시
+        return $"<color={colorCode}>{npcEntry.npcName}</color>";
+    }
+    
+    // 체력 UI 업데이트
+    private void UpdateHealthUI()
+    {
+        if (healthText != null)
+        {
+            // 유효한 체력 값인지 확인
+            if (currentHealth <= 0 || maxHealth <= 0)
+            {
+                currentHealth = (currentHealth <= 0) ? 10 : currentHealth;
+                maxHealth = (maxHealth <= 0) ? 10 : maxHealth;
+                Debug.LogWarning($"{npcEntry.npcName}의 체력이 유효하지 않아 기본값으로 설정했습니다.");
+            }
+            
+            healthText.text = $"{currentHealth}/{maxHealth}";
+        }
+    }
+    
+    // 체력바 위치 업데이트
+    private void UpdateHealthBarPosition()
+    {
+        if (healthBarTransform != null)
+        {
+            healthBarTransform.position = transform.position + healthBarOffset;
         }
     }
 
     // NPC 데이터로부터 초기화
     public void InitializeFromData()
     {
-        if (npcEntry == null) return;
+        if (npcEntry == null) 
+        {
+            Debug.LogError("NPC 데이터 항목이 null입니다.");
+            return;
+        }
 
         // 기본 스탯 설정
-        currentHealth = npcEntry.health;
-        maxHealth = npcEntry.health;
+        maxHealth = npcEntry.health * 10; // 체력을 10배로 늘림
+        currentHealth = maxHealth;        // 현재 체력도 최대 체력으로 설정
         attackPower = npcEntry.attack;
-        defensePower = npcEntry.defense;
-        currentAttackSpeed = npcEntry.attackSpeed;
-        criticalChance = npcEntry.criticalChance;
+        miningPower = npcEntry.miningPower;
+        moveSpeedStat = npcEntry.moveSpeed;
+        
+        // 능력치가 0이하인 경우 최소값으로 설정 (데이터 누락 방지)
+        if (currentHealth <= 0) currentHealth = 100; // 최소 체력도 10배로 늘림
+        if (maxHealth <= 0) maxHealth = 100;        // 최소 체력도 10배로 늘림
+        if (attackPower <= 0) attackPower = 1;
+        if (miningPower <= 0) miningPower = 1;
+        if (moveSpeedStat <= 0) moveSpeedStat = 1;
 
-        // 이동 설정 적용 (NpcData에 값이 있는 경우에만)
-        if (npcEntry.moveSpeed > 0) moveSpeed = npcEntry.moveSpeed;
-        if (npcEntry.idleTimeMin > 0) idleTimeMin = npcEntry.idleTimeMin;
-        if (npcEntry.idleTimeMax > 0) idleTimeMax = npcEntry.idleTimeMax;
-        if (npcEntry.moveTimeMin > 0) moveTimeMin = npcEntry.moveTimeMin;
-        if (npcEntry.moveTimeMax > 0) moveTimeMax = npcEntry.moveTimeMax;
+        // 이동 설정 적용
+        moveSpeed = 0.5f + (moveSpeedStat * 0.1f); // 이동 속도는 기본 0.5 + 스탯의 10%
+        idleTimeMin = npcEntry.idleTimeMin;
+        idleTimeMax = npcEntry.idleTimeMax;
+        moveTimeMin = npcEntry.moveTimeMin;
+        moveTimeMax = npcEntry.moveTimeMax;
 
-        Debug.Log($"{npcEntry.npcName} NPC가 초기화되었습니다. 체력: {maxHealth}, 공격력: {attackPower}");
+        Debug.Log($"{npcEntry.npcName} NPC가 초기화되었습니다: 등급-{npcEntry.rarity}, 체력-{maxHealth}, 공격력-{attackPower}, 채굴력-{miningPower}, 이동속도-{moveSpeedStat}");
     }
 
     // Enemy 오브젝트들과의 충돌 무시 설정
@@ -187,35 +352,6 @@ public class Npc : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        // 상호작용 중이거나 움직임이 비활성화된 경우 움직이지 않음
-        if (!canMove || currentState == NpcState.Interacting || !randomMovementActive)
-        {
-            // 움직이지 않을 때는 속도를 0으로 설정
-            if (rb != null) rb.velocity = Vector2.zero;
-
-            // 움직임 애니메이션 비활성화
-            if (animator != null) animator.SetBool("1_Move", false);
-            return;
-        }
-
-        // 현재 상태에 따른 처리
-        switch (currentState)
-        {
-            case NpcState.Idle:
-                HandleIdleState();
-                break;
-
-            case NpcState.Moving:
-                HandleMovingState();
-                break;
-        }
-
-        // 애니메이션 업데이트
-        UpdateAnimation();
-    }
-
     // 정지 상태 처리
     private void HandleIdleState()
     {
@@ -223,10 +359,10 @@ public class Npc : MonoBehaviour
         idleTimer += Time.deltaTime;
 
         // 정지 시간이 지나면 이동 상태로 전환
-        if (idleTimer >= UnityEngine.Random.Range(idleTimeMin, idleTimeMax))
+        if (idleTimer >= Random.Range(idleTimeMin, idleTimeMax))
         {
             // 이동 방향 결정 (왼쪽 또는 오른쪽)
-            float directionX = UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
+            float directionX = Random.Range(0, 2) == 0 ? -1 : 1;
             moveDirection = new Vector2(directionX, 0);
 
             // 방향에 따라 facingleft 업데이트
@@ -240,7 +376,7 @@ public class Npc : MonoBehaviour
             isMoving = true;
 
             // 디버그 로그
-            Debug.Log($"NPC가 {(directionX < 0 ? "왼쪽" : "오른쪽")}으로 이동 시작");
+            Debug.Log($"NPC {NpcName}이(가) {(directionX < 0 ? "왼쪽" : "오른쪽")}으로 이동 시작");
         }
     }
 
@@ -264,11 +400,11 @@ public class Npc : MonoBehaviour
         {
             // 반대 방향으로 전환
             moveDirection = -moveDirection;
-            Debug.Log("NPC가 이동 범위 한계에 도달하여 방향을 바꿨습니다");
+            Debug.Log($"NPC {NpcName}이(가) 이동 범위 한계에 도달하여 방향을 바꿨습니다");
         }
 
         // 이동 시간이 지나면 정지 상태로 전환
-        if (moveTimer >= UnityEngine.Random.Range(moveTimeMin, moveTimeMax))
+        if (moveTimer >= Random.Range(moveTimeMin, moveTimeMax))
         {
             // 속도 초기화 및 상태 변경
             rb.velocity = Vector2.zero;
@@ -277,7 +413,7 @@ public class Npc : MonoBehaviour
             currentState = NpcState.Idle;
             isMoving = false;
 
-            Debug.Log("NPC가 이동을 멈추고 대기 상태로 전환");
+            Debug.Log($"NPC {NpcName}이(가) 이동을 멈추고 대기 상태로 전환");
         }
     }
 
@@ -301,7 +437,7 @@ public class Npc : MonoBehaviour
     private void DecideNextAction()
     {
         // 랜덤하게 첫 상태 결정
-        if (UnityEngine.Random.Range(0, 2) == 0)
+        if (Random.Range(0, 2) == 0)
         {
             currentState = NpcState.Idle;
             idleTimer = 0f;
@@ -310,7 +446,7 @@ public class Npc : MonoBehaviour
         {
             currentState = NpcState.Moving;
             moveTimer = 0f;
-            float directionX = UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
+            float directionX = Random.Range(0, 2) == 0 ? -1 : 1;
             moveDirection = new Vector2(directionX, 0);
             isMoving = true;
 
@@ -335,7 +471,7 @@ public class Npc : MonoBehaviour
             animator.SetBool("1_Move", false);
         }
 
-        Debug.Log("NPC가 플레이어와의 상호작용을 시작했습니다");
+        Debug.Log($"NPC {NpcName}이(가) 플레이어와의 상호작용을 시작했습니다");
     }
 
     // 상호작용 종료 (NpcInteraction에서 호출)
@@ -346,322 +482,356 @@ public class Npc : MonoBehaviour
         currentState = NpcState.Idle;
         idleTimer = 0f;
 
-        Debug.Log("NPC가 플레이어와의 상호작용을 종료했습니다");
-    }
-
-    // 도망 시작 시 호출 (NpcInteraction에서 호출됨)
-    public void OnEscapeStart()
-    {
-        // 도망 상태로 변경
-        currentState = NpcState.Escaping;
-
-        // 움직임 비활성화 (NpcInteraction에서 움직임 처리)
-        canMove = false;
-
-        // 애니메이션 설정 (이동 애니메이션)
-        if (animator != null)
-        {
-            animator.SetBool("1_Move", true);
-        }
-
-        Debug.Log(gameObject.name + "이(가) 도망 상태로 전환되었습니다.");
-    }
-
-    // 도망 종료 시 호출 (NpcInteraction에서 호출됨)
-    public void OnEscapeEnd()
-    {
-        // 도망 상태가 아닌 경우 무시
-        if (currentState != NpcState.Escaping) return;
-
-        // 원래 상태로 돌아가기
-        currentState = NpcState.Idle;
-
-        // 움직임 재활성화
-        canMove = true;
-
-        // 다음 행동 결정
-        DecideNextAction();
-
-        Debug.Log(gameObject.name + "이(가) 일반 상태로 돌아왔습니다.");
-    }
-
-    // 강제로 움직임을 중지시키는 메서드 (NpcInteraction 등에서 호출됨)
-    public void ForceStopMovement()
-    {
-        // 물리적 속도 즉시 중지
-        if (rb != null)
-        {
-            rb.velocity = Vector2.zero;
-        }
-
-        // 이동 상태 해제
-        isMoving = false;
-
-        // 애니메이션 업데이트 (이동 중지)
-        if (animator != null)
-        {
-            animator.SetBool("1_Move", false);
-        }
-
-        // 현재 상태가 Moving인 경우 Idle로 변경
-        if (currentState == NpcState.Moving)
-        {
-            currentState = NpcState.Idle;
-            idleTimer = 0f;
-        }
-
-        Debug.Log(gameObject.name + "의 움직임이 강제로 중지되었습니다.");
-    }
-
-    // 랜덤 움직임 활성화/비활성화 설정
-    public void SetRandomMovementActive(bool active)
-    {
-        randomMovementActive = active;
-
-        // 비활성화 시 움직임 즉시 멈춤
-        if (!active && rb != null)
-        {
-            rb.velocity = Vector2.zero;
-
-            // 애니메이션 업데이트
-            if (animator != null)
-            {
-                animator.SetBool("1_Move", false);
-            }
-        }
-    }
-
-    // 시너지 관련 메서드
-
-    // 시너지 효과 초기화
-    public void ResetSynergyEffects()
-    {
-        attackBonus = 0f;
-        healthBonus = 0f;
-        defenseBonus = 0f;
-        speedBonus = 0f;
-        criticalChanceBonus = 0f;
-        gatheringSpeedBonus = 0f;
-        miningAmountBonus = 0f;
-        healingAmountBonus = 0f;
-        damageReductionBonus = 0f;
-        healthRegenBonus = 0f;
-        aoeBonus = 0f;
-        debuffDurationBonus = 0f;
-        magicDamageBonus = 0f;
-
-        // 특수 해금 능력 초기화
-        unlockedSpecialAbilities.Clear();
-
-        // 기본 스탯으로 복원
-        UpdateStats();
-    }
-
-    // 시너지 보너스 적용
-    public void ApplySynergyBonus(float attack, float health, float defense, float speed)
-    {
-        attackBonus += attack;
-        healthBonus += health;
-        defenseBonus += defense;
-        speedBonus += speed;
-
-        // 스탯 업데이트
-        UpdateStats();
-    }
-
-    // 채집 보너스 적용
-    public void ApplyGatheringBonus(float bonus)
-    {
-        gatheringSpeedBonus += bonus;
-    }
-
-    // 채굴 보너스 적용
-    public void ApplyMiningBonus(float bonus)
-    {
-        miningAmountBonus += bonus;
-    }
-
-    // 치명타 보너스 적용
-    public void ApplyCriticalChanceBonus(float bonus)
-    {
-        criticalChanceBonus += bonus;
-        UpdateStats();
-    }
-
-    // 피해 감소 보너스 적용
-    public void ApplyDamageReductionBonus(float bonus)
-    {
-        damageReductionBonus += bonus;
-    }
-
-    // 체력 재생 보너스 적용
-    public void ApplyHealthRegenBonus(float bonus)
-    {
-        healthRegenBonus += bonus;
-    }
-
-    // 치유량 보너스 적용
-    public void ApplyHealingBonus(float bonus)
-    {
-        healingAmountBonus += bonus;
-    }
-
-    // 광역 공격 보너스 적용
-    public void ApplyAoeBonus(float bonus)
-    {
-        aoeBonus += bonus;
-    }
-
-    // 디버프 지속시간 보너스 적용
-    public void ApplyDebuffBonus(float bonus)
-    {
-        debuffDurationBonus += bonus;
-    }
-
-    // 마법 피해 보너스 적용
-    public void ApplyMagicDamageBonus(float bonus)
-    {
-        magicDamageBonus += bonus;
-    }
-
-    // 특수 능력 해금
-    public void UnlockSpecialAbility(NpcAbility ability)
-    {
-        if (ability != null && !unlockedSpecialAbilities.Contains(ability))
-        {
-            unlockedSpecialAbilities.Add(ability);
-            Debug.Log($"{NpcName}이(가) 새로운 특수 능력을 해금했습니다: {ability.name}");
-        }
-    }
-
-    // 스탯 업데이트
-    private void UpdateStats()
-    {
-        // 보너스를 적용한 최종 스탯 계산
-        int finalMaxHealth = maxHealth + Mathf.RoundToInt(maxHealth * (healthBonus / 100f));
-        int finalAttackPower = attackPower + Mathf.RoundToInt(attackPower * (attackBonus / 100f));
-        int finalDefensePower = defensePower + Mathf.RoundToInt(defensePower * (defenseBonus / 100f));
-        float finalAttackSpeed = currentAttackSpeed * (1f + (speedBonus / 100f));
-        float finalCriticalChance = criticalChance + criticalChanceBonus;
-
-        // 최대 체력이 증가했을 경우 현재 체력도 비율에 맞게 증가
-        float healthRatio = (float)currentHealth / maxHealth;
-        maxHealth = finalMaxHealth;
-        currentHealth = Mathf.RoundToInt(maxHealth * healthRatio);
-
-        // 다른 스탯 적용
-        attackPower = finalAttackPower;
-        defensePower = finalDefensePower;
-        currentAttackSpeed = finalAttackSpeed;
-        criticalChance = finalCriticalChance;
-
-        // 이동 속도 적용
-        moveSpeed = moveSpeed * (1f + (speedBonus / 100f));
-    }
-
-    // NPC 정보 반환 메서드
-
-    // 현재 HP 반환
-    public int GetCurrentHealth()
-    {
-        return currentHealth;
-    }
-
-    // 최대 HP 반환
-    public int GetMaxHealth()
-    {
-        return maxHealth;
-    }
-
-    // 공격력 반환
-    public int GetAttackPower()
-    {
-        return attackPower;
-    }
-
-    // 방어력 반환
-    public int GetDefensePower()
-    {
-        return defensePower;
-    }
-
-    // 치명타 확률 반환
-    public float GetCriticalChance()
-    {
-        return criticalChance;
-    }
-
-    // 특수 능력 목록 반환
-    public List<NpcAbility> GetAbilities()
-    {
-        return npcEntry != null ? npcEntry.abilities : new List<NpcAbility>();
-    }
-
-    // 활성화된 특수 능력 목록 반환
-    public List<NpcAbility> GetUnlockedAbilities()
-    {
-        return unlockedSpecialAbilities;
-    }
-
-    // 시너지 타입 목록 반환
-    public List<SynergyType> GetSynergyTypes()
-    {
-        return npcEntry != null ? npcEntry.synergyTypes : new List<SynergyType>();
-    }
-
-    // 해당 시너지 타입을 가지고 있는지 확인
-    public bool HasSynergyType(SynergyType type)
-    {
-        return npcEntry != null && npcEntry.synergyTypes != null && npcEntry.synergyTypes.Contains(type);
-    }
-
-    // 채집 속도 반환
-    public float GetGatheringSpeed()
-    {
-        // 기본 채집 속도에 시너지 보너스 적용
-        return npcEntry != null ? npcEntry.gatheringSpeed * (1 + gatheringSpeedBonus / 100f) : 0f;
-    }
-
-    // 채굴 속도 반환
-    public float GetMiningSpeed()
-    {
-        // 기본 채굴 속도에 시너지 보너스 적용
-        return npcEntry != null ? npcEntry.miningSpeed * (1 + miningAmountBonus / 100f) : 0f;
+        Debug.Log($"NPC {NpcName}이(가) 플레이어와의 상호작용을 종료했습니다");
     }
 
     // 데미지 받기
-    public void TakeDamage(int amount)
+    public void TakeDamage(int damage)
     {
-        // 실제 피해량 계산 (방어력 및 피해 감소 효과 적용)
-        float damageReduction = (defensePower / 100f) + (damageReductionBonus / 100f);
-        int actualDamage = Mathf.Max(1, Mathf.RoundToInt(amount * (1f - damageReduction)));
-
-        currentHealth -= actualDamage;
-
+        if (damage <= 0) return;
+        
+        currentHealth -= damage;
+        
+        // 체력 최소 0으로 제한
+        if (currentHealth < 0)
+            currentHealth = 0;
+            
+        // 체력 UI 업데이트
+        UpdateHealthUI();
+        
+        Debug.Log($"NPC {NpcName}이(가) {damage}의 피해를 입었습니다. 현재 체력: {currentHealth}/{maxHealth}");
+        
+        // 사망 처리
         if (currentHealth <= 0)
         {
-            currentHealth = 0;
             Die();
         }
-
-        Debug.Log($"{NpcName}이(가) {actualDamage}의 피해를 입었습니다. 남은 체력: {currentHealth}/{maxHealth}");
     }
-
+    
     // 체력 회복
-    public void Heal(int amount)
+    public void Heal(int healAmount)
     {
-        // 힐량 보너스 적용
-        int actualHealAmount = Mathf.RoundToInt(amount * (1f + (healingAmountBonus / 100f)));
-
-        currentHealth = Mathf.Min(maxHealth, currentHealth + actualHealAmount);
-
-        Debug.Log($"{NpcName}이(가) {actualHealAmount}의 체력을 회복했습니다. 현재 체력: {currentHealth}/{maxHealth}");
+        if (healAmount <= 0) return;
+        
+        currentHealth += healAmount;
+        
+        // 최대 체력 제한
+        if (currentHealth > maxHealth)
+            currentHealth = maxHealth;
+            
+        // 체력 UI 업데이트
+        UpdateHealthUI();
+        
+        Debug.Log($"NPC {NpcName}이(가) {healAmount}만큼 회복되었습니다. 현재 체력: {currentHealth}/{maxHealth}");
     }
-
+    
     // 사망 처리
     private void Die()
     {
-        Debug.Log($"{NpcName}이(가) 사망했습니다.");
-        // 사망 이벤트 등 추가 처리
+        Debug.Log($"NPC {NpcName}이(가) 사망했습니다.");
+        
+        // 사망 애니메이션 호출 (있는 경우)
+        if (animator != null && animator.HasState(0, Animator.StringToHash("Death")))
+        {
+            animator.SetTrigger("Death");
+        }
+        else
+        {
+            // 애니메이션이 없는 경우 즉시 파괴
+            Destroy(gameObject, 0.1f);
+        }
+        
+        // 이동 정지
+        canMove = false;
+        rb.velocity = Vector2.zero;
+    }
+    
+    // NPC 정보 반환 (상호작용 UI용)
+    public string GetNpcInfoText()
+    {
+        if (npcEntry == null) return "NPC 정보가 없습니다.";
+        
+        string coloredName = GetColoredRarityName();
+        string statInfo = $"<b>공격력:</b> {attackPower}\n<b>체력:</b> {currentHealth}/{maxHealth}\n<b>채굴능력:</b> {miningPower}\n<b>이동속도:</b> {moveSpeedStat}";
+        
+        return $"{coloredName}\n\n<b>[등급 {npcEntry.rarity}]</b>\n\n{statInfo}\n\n{npcEntry.description}";
+    }
+    
+    // 능력치 값들 반환 메서드
+    public int GetAttackPower() => attackPower;
+    public int GetMaxHealth() => maxHealth;
+    public int GetCurrentHealth() => currentHealth;
+    public int GetMiningPower() => miningPower;
+    public int GetMoveSpeedStat() => moveSpeedStat;
+    public NpcData.NpcRarity GetRarity() => npcEntry != null ? npcEntry.rarity : NpcData.NpcRarity.노말;
+
+    // 작업 처리
+    private void HandleTask()
+    {
+        switch (currentTask)
+        {
+            case NpcTask.Woodcutting:
+                HandleWoodcuttingTask();
+                break;
+            case NpcTask.Mining:
+                HandleMiningTask();
+                break;
+            case NpcTask.Combat:
+                HandleCombatTask();
+                break;
+        }
+    }
+    
+    // 나무 채집 처리
+    private void HandleWoodcuttingTask()
+    {
+        // 나무 찾기 및 채집 로직
+        GameObject nearestTree = FindNearestObjectWithTag("Tree");
+        if (nearestTree != null)
+        {
+            // 나무로 이동
+            float distanceToTree = Vector3.Distance(transform.position, nearestTree.transform.position);
+            
+            if (distanceToTree > 1.5f)
+            {
+                // 나무로 이동
+                Vector3 direction = (nearestTree.transform.position - transform.position).normalized;
+                rb.velocity = direction * moveSpeed;
+                
+                // 애니메이션 업데이트
+                if (animator != null) animator.SetBool("1_Move", true);
+                
+                // 방향 설정
+                UpdateDirection(direction);
+            }
+            else
+            {
+                // 나무 근처에 도착하면 채집 시작
+                rb.velocity = Vector2.zero;
+                if (animator != null) animator.SetBool("1_Move", false);
+                
+                // 채집 애니메이션이나 효과 표시 (예: 나무 흔들기)
+                if (Random.Range(0, 100) < 5) // 5% 확률로 자원 획득
+                {
+                    Debug.Log($"{NpcName}이(가) 나무를 획득했습니다.");
+                    gatheredResources++;
+                    
+                    // 일정량 이상 모았으면 기지로 귀환
+                    if (gatheredResources >= 5)
+                    {
+                        isReturningToBase = true;
+                    }
+                }
+            }
+        }
+        else if (isReturningToBase)
+        {
+            // 기지로 귀환
+            float distanceToBase = Vector3.Distance(transform.position, basePosition);
+            
+            if (distanceToBase > 1.0f)
+            {
+                // 기지로 이동
+                Vector3 direction = (basePosition - transform.position).normalized;
+                rb.velocity = direction * moveSpeed;
+                
+                // 애니메이션 업데이트
+                if (animator != null) animator.SetBool("1_Move", true);
+                
+                // 방향 설정
+                UpdateDirection(direction);
+            }
+            else
+            {
+                // 기지 도착
+                Debug.Log($"{NpcName}이(가) {gatheredResources}개의 나무를 기지에 전달했습니다.");
+                gatheredResources = 0;
+                isReturningToBase = false;
+            }
+        }
+        else
+        {
+            // 나무가 없는 경우 임의 이동
+            DecideNextAction();
+        }
+    }
+    
+    // 광물 채집 처리
+    private void HandleMiningTask()
+    {
+        // 광물 찾기 및 채집 로직 (나무 채집과 유사하게 구현)
+        GameObject nearestOre = FindNearestObjectWithTag("Ore");
+        if (nearestOre != null)
+        {
+            // 광물로 이동
+            float distanceToOre = Vector3.Distance(transform.position, nearestOre.transform.position);
+            
+            if (distanceToOre > 1.5f)
+            {
+                // 광물로 이동
+                Vector3 direction = (nearestOre.transform.position - transform.position).normalized;
+                rb.velocity = direction * moveSpeed;
+                
+                // 애니메이션 업데이트
+                if (animator != null) animator.SetBool("1_Move", true);
+                
+                // 방향 설정
+                UpdateDirection(direction);
+            }
+            else
+            {
+                // 광물 근처에 도착하면 채집 시작
+                rb.velocity = Vector2.zero;
+                if (animator != null) animator.SetBool("1_Move", false);
+                
+                // 채집 애니메이션이나 효과 표시
+                if (Random.Range(0, 100) < 3) // 3% 확률로 자원 획득 (광물은 더 귀함)
+                {
+                    Debug.Log($"{NpcName}이(가) 광물을 획득했습니다.");
+                    gatheredResources++;
+                    
+                    // 일정량 이상 모았으면 기지로 귀환
+                    if (gatheredResources >= 3)
+                    {
+                        isReturningToBase = true;
+                    }
+                }
+            }
+        }
+        else if (isReturningToBase)
+        {
+            // 기지로 귀환 (나무 채집과 동일)
+            float distanceToBase = Vector3.Distance(transform.position, basePosition);
+            
+            if (distanceToBase > 1.0f)
+            {
+                Vector3 direction = (basePosition - transform.position).normalized;
+                rb.velocity = direction * moveSpeed;
+                if (animator != null) animator.SetBool("1_Move", true);
+                UpdateDirection(direction);
+            }
+            else
+            {
+                Debug.Log($"{NpcName}이(가) {gatheredResources}개의 광물을 기지에 전달했습니다.");
+                gatheredResources = 0;
+                isReturningToBase = false;
+            }
+        }
+        else
+        {
+            // 광물이 없는 경우 임의 이동
+            DecideNextAction();
+        }
+    }
+    
+    // 전투 처리
+    private void HandleCombatTask()
+    {
+        // 적 찾기 및 전투 로직
+        GameObject nearestEnemy = FindNearestObjectWithTag("Enemy");
+        if (nearestEnemy != null)
+        {
+            // 적으로 이동
+            float distanceToEnemy = Vector3.Distance(transform.position, nearestEnemy.transform.position);
+            
+            if (distanceToEnemy > 1.0f)
+            {
+                // 적에게 이동
+                Vector3 direction = (nearestEnemy.transform.position - transform.position).normalized;
+                rb.velocity = direction * moveSpeed;
+                
+                // 애니메이션 업데이트
+                if (animator != null) animator.SetBool("1_Move", true);
+                
+                // 방향 설정
+                UpdateDirection(direction);
+            }
+            else
+            {
+                // 적 근처에 도착하면 공격 시작
+                rb.velocity = Vector2.zero;
+                if (animator != null) animator.SetBool("1_Move", false);
+                
+                // 공격 애니메이션이나 효과 표시
+                Debug.Log($"{NpcName}이(가) 적을 공격합니다. 공격력: {attackPower}");
+                
+                // 적 데미지 주기 (적 체력 시스템이 있다면)
+                Enemy enemy = nearestEnemy.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(attackPower);
+                }
+            }
+        }
+        else
+        {
+            // 적이 없는 경우 임의 이동
+            DecideNextAction();
+        }
+    }
+    
+    // 태그로 가장 가까운 오브젝트 찾기
+    private GameObject FindNearestObjectWithTag(string tag)
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+        GameObject nearest = null;
+        float minDistance = float.MaxValue;
+        
+        foreach (GameObject obj in objects)
+        {
+            float distance = Vector3.Distance(transform.position, obj.transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearest = obj;
+            }
+        }
+        
+        return nearest;
+    }
+    
+    // 방향 업데이트
+    private void UpdateDirection(Vector3 direction)
+    {
+        if (direction.x > 0)
+        {
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            facingleft = false;
+        }
+        else if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            facingleft = true;
+        }
+    }
+    
+    // 아이템 장착 메서드
+    public void EquipItem(NpcItemType item)
+    {
+        equippedItem = item;
+        Debug.Log($"{NpcName}이(가) {item} 아이템을 장착했습니다.");
+    }
+    
+    // 장착된 아이템 가져오기
+    public NpcItemType GetEquippedItem()
+    {
+        return equippedItem;
+    }
+    
+    // 작업 설정
+    public void SetTask(NpcTask task)
+    {
+        currentTask = task;
+        randomMovementActive = task == NpcTask.None;
+        
+        Debug.Log($"{NpcName}에게 {task} 작업이 할당되었습니다.");
+        
+        // 작업이 할당되면 기지 위치 저장
+        if (task != NpcTask.None)
+        {
+            basePosition = transform.position;
+            isReturningToBase = false;
+            gatheredResources = 0;
+        }
     }
 }

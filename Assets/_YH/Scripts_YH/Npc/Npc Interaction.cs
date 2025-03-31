@@ -7,242 +7,454 @@ using TMPro;
 public class NpcInteraction : MonoBehaviour
 {
     [Header("상호작용 설정")]
-    [SerializeField] private float interactionDistance = 3f;  // 상호작용 가능 거리
-    [SerializeField] private GameObject interactionUI;        // NPC 머리 위에 표시될 UI
-    [SerializeField] private Transform uiPosition;            // UI가 표시될 위치 (주로 NPC 머리 위)
-    [SerializeField] private string descriptionTextName = "Description";  // NPC 설명을 표시할 텍스트 오브젝트 이름
+    [SerializeField] private float interactionRange = 2.0f;
+    [SerializeField] private KeyCode interactionKey = KeyCode.F;
+    
+    [Header("UI 오프셋 설정")]
+    [SerializeField] private Vector3 promptOffset = new Vector3(0, 2.0f, 0); // NPC 머리 위 오프셋
+    [SerializeField] private Vector3 infoOffset = new Vector3(0, 2.5f, 0);    // 정보 패널 오프셋
 
-    [Header("디버그")]
-    [SerializeField] private bool showDebugInfo = false;     // 디버그 정보 표시 여부
+    [Header("UI 설정")]
+    [SerializeField] private GameObject interactionPrompt;    // NPC와 상호작용할 수 있을 때 표시되는 프롬프트 UI (예: "F키를 눌러 대화하기")
+    [SerializeField] private GameObject npcInfoPanel;         // NPC 정보를 표시하는 패널 (이름, 등급, 능력치 등을 포함)
+    [SerializeField] private TextMeshProUGUI npcInfoText;     // NPC 세부 정보를 표시하는 텍스트 컴포넌트
+    [SerializeField] private GameObject interactionButtonsPanel; // 상호작용 버튼들이 포함된 패널
 
-    private Transform playerTransform;                       // 플레이어 트랜스폼
-    private bool isPlayerInRange = false;                    // 플레이어가 범위 내에 있는지 여부
-    private bool isUIActive = false;                         // UI가 활성화되어 있는지 여부
-
-    void Start()
+    [Header("드래그 앤 드롭 인벤토리")]
+    [SerializeField] private GameObject inventoryPanel;       // 인벤토리 패널
+    [SerializeField] private GameObject itemSlotPrefab;       // 아이템 슬롯 프리팹
+    [SerializeField] private Transform inventoryContainer;    // 아이템 슬롯들이 배치될 컨테이너
+    [SerializeField] private Transform npcItemSlot;           // NPC가 아이템을 장착할 슬롯
+    [SerializeField] private List<ItemData> availableItems = new List<ItemData>();  // 사용 가능한 아이템 목록
+    [SerializeField] private Image npcItemSlotImage;          // NPC가 들고 있는 아이템 표시 이미지
+    
+    [Header("아이템 이미지")]
+    [SerializeField] private Sprite axeSprite;                // 도끼 이미지
+    [SerializeField] private Sprite pickaxeSprite;            // 곡괭이 이미지
+    [SerializeField] private Sprite swordSprite;              // 검 이미지
+    
+    // 참조 변수
+    private Transform playerTransform;
+    private Npc currentNpc;
+    private NpcAbility currentNpcAbility;
+    private bool isInteracting = false;
+    private bool isNpcFollowing = false;
+    
+    private NpcItemType currentEquippedItem = NpcItemType.None;
+    
+    private void Start()
     {
-        // UI 초기 상태 비활성화
-        if (interactionUI != null)
+        // 플레이어 트랜스폼 찾기
+        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        
+        if (playerTransform == null)
         {
-            interactionUI.SetActive(false);
+            Debug.LogError("플레이어를 찾을 수 없습니다. 'Player' 태그가 설정되었는지 확인하세요.");
         }
-
-        // UI 위치 설정이 없으면 현재 트랜스폼 사용
-        if (uiPosition == null)
+        
+        // UI 초기 상태 설정
+        if (interactionPrompt) interactionPrompt.SetActive(false);
+        if (npcInfoPanel) npcInfoPanel.SetActive(false);
+        if (inventoryPanel) inventoryPanel.SetActive(false);
+        
+        // 인벤토리 초기화
+        InitializeInventory();
+    }
+    
+    // 인벤토리 초기화
+    private void InitializeInventory()
+    {
+        if (inventoryContainer == null || itemSlotPrefab == null) return;
+        
+        // 사용 가능한 아이템이 비어있으면 기본 아이템 추가
+        if (availableItems.Count == 0)
         {
-            uiPosition = transform;
+            // 기본 아이템 데이터 생성
+            // 사용자가 Inspector에서 아이템을 설정하지 않았을 경우에만 실행
+            CreateDefaultItems();
         }
-
-        // 플레이어 찾기
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        
+        // 기존 슬롯 삭제
+        foreach (Transform child in inventoryContainer)
         {
-            playerTransform = player.transform;
+            Destroy(child.gameObject);
+        }
+        
+        // 새 아이템 슬롯 생성
+        foreach (ItemData item in availableItems)
+        {
+            GameObject slotObj = Instantiate(itemSlotPrefab, inventoryContainer);
+            DraggableItem draggable = slotObj.GetComponent<DraggableItem>();
+            if (draggable != null)
+            {
+                draggable.data = item;
+                Image icon = slotObj.GetComponent<Image>();
+                if (icon != null)
+                {
+                    icon.sprite = item.icon;
+                }
+            }
+        }
+    }
+    
+    // 기본 아이템 생성
+    private void CreateDefaultItems()
+    {
+        // 도끼 아이템
+        ItemData axe = new ItemData
+        {
+            itemName = "도끼",
+            icon = axeSprite,
+            itemType = NpcItemType.Axe,
+            description = "나무를 자르는 데 사용됩니다."
+        };
+        
+        // 곡괭이 아이템
+        ItemData pickaxe = new ItemData
+        {
+            itemName = "곡괭이",
+            icon = pickaxeSprite,
+            itemType = NpcItemType.Pickaxe,
+            description = "광물을 채굴하는 데 사용됩니다."
+        };
+        
+        // 검 아이템
+        ItemData sword = new ItemData
+        {
+            itemName = "검",
+            icon = swordSprite,
+            itemType = NpcItemType.Sword,
+            description = "전투에 사용됩니다."
+        };
+        
+        // 아이템 목록에 추가
+        availableItems.Add(axe);
+        availableItems.Add(pickaxe);
+        availableItems.Add(sword);
+    }
+    
+    private void Update()
+    {
+        if (playerTransform == null) return;
+        
+        // 가장 가까운 NPC 찾기
+        Npc nearestNpc = FindNearestNpc();
+        
+        // NPC와의 상호작용 처리
+        if (nearestNpc != null)
+        {
+            // 상호작용 프롬프트 표시
+            if (interactionPrompt && !isInteracting)
+            {
+                interactionPrompt.SetActive(true);
+                
+                // 프롬프트 위치를 NPC 머리 위로 설정
+                interactionPrompt.transform.position = Camera.main.WorldToScreenPoint(
+                    nearestNpc.transform.position + promptOffset);
+            }
+            
+            // 상호작용 키 입력 감지
+            if (Input.GetKeyDown(interactionKey) && !isInteracting)
+            {
+                StartInteraction(nearestNpc);
+            }
+            else if (Input.GetKeyDown(interactionKey) && isInteracting)
+            {
+                EndInteraction();
+            }
         }
         else
         {
-            Debug.LogWarning("Player 태그를 가진 오브젝트를 찾을 수 없습니다.");
-        }
-    }
-
-    void Update()
-    {
-        // 플레이어가 없으면 실행하지 않음
-        if (playerTransform == null)
-        {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
+            // 가까운 NPC가 없으면 프롬프트 숨기기
+            if (interactionPrompt)
             {
-                playerTransform = player.transform;
+                interactionPrompt.SetActive(false);
             }
-            else
+            
+            // 상호작용 중이었다면 종료
+            if (isInteracting)
             {
-                return;
+                EndInteraction();
             }
         }
-
-        // 플레이어와의 거리 계산
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-
-        // 거리 내에 있는지 확인
-        isPlayerInRange = distanceToPlayer <= interactionDistance;
-
-        // 우클릭 감지 및 UI 표시 처리
-        HandleInteractionInput();
-
-        // UI 위치 업데이트 (UI가 활성화되어 있을 때만)
-        if (isUIActive && interactionUI != null)
-        {
-            UpdateUIPosition();
-        }
-
-        // 플레이어가 범위를 벗어나면 UI 비활성화
-        if (!isPlayerInRange && isUIActive)
-        {
-            HideInteractionUI();
-        }
-
-        // 디버그 정보 표시
-        if (showDebugInfo)
-        {
-            Debug.DrawLine(transform.position, playerTransform.position, isPlayerInRange ? Color.green : Color.red);
-            Debug.Log("NPC와 플레이어 간 거리: " + distanceToPlayer);
-        }
+        
+        // UI 위치 업데이트
+        UpdateUIPositions();
+        
+        // NPC 따라오기 로직
+        UpdateFollowing();
     }
 
-    // 상호작용 입력 처리
-    private void HandleInteractionInput()
+    private void UpdateUIPositions()
     {
-        // 플레이어가 우클릭하고 범위 내에 있을 때 UI 토글
-        if (Input.GetMouseButtonDown(1) && isPlayerInRange)
+        if (currentNpc != null)
         {
-            // 레이캐스트로 우클릭한 오브젝트가 이 NPC인지 확인
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-            if (hit.collider != null && hit.collider.gameObject == gameObject)
+            // UI 요소 위치 업데이트
+            if (interactionPrompt && interactionPrompt.activeSelf)
             {
-                ToggleInteractionUI();
+                interactionPrompt.transform.position = Camera.main.WorldToScreenPoint(
+                    currentNpc.transform.position + promptOffset);
+            }
+
+            if (npcInfoPanel && npcInfoPanel.activeSelf)
+            {
+                // LookAt 제거하고 위치만 업데이트
+                npcInfoPanel.transform.position = Camera.main.WorldToScreenPoint(
+                    currentNpc.transform.position + infoOffset);
+            }
+
+            // 상호작용 버튼 패널도 NPC 위치에 따라 업데이트
+            if (interactionButtonsPanel && interactionButtonsPanel.activeSelf)
+            {
+                interactionButtonsPanel.transform.position = Camera.main.WorldToScreenPoint(
+                    currentNpc.transform.position + new Vector3(0, 3.0f, 0));
+            }
+            
+            // 인벤토리 패널 위치 업데이트
+            if (inventoryPanel && inventoryPanel.activeSelf)
+            {
+                inventoryPanel.transform.position = Camera.main.WorldToScreenPoint(
+                    currentNpc.transform.position + new Vector3(0, 3.5f, 0));
             }
         }
     }
 
-    // UI 표시 상태 전환
-    private void ToggleInteractionUI()
+    // 가장 가까운 NPC 찾기
+    private Npc FindNearestNpc()
     {
-        if (interactionUI != null)
+        Npc closestNpc = null;
+        float closestDistance = interactionRange;
+        
+        Npc[] allNpcs = FindObjectsOfType<Npc>();
+        foreach (Npc npc in allNpcs)
         {
-            isUIActive = !isUIActive;
-            interactionUI.SetActive(isUIActive);
-
-            // Npc 스크립트 가져오기
-            Npc npcController = GetComponent<Npc>();
-
-            if (isUIActive)
+            float distance = Vector3.Distance(playerTransform.position, npc.transform.position);
+            if (distance < closestDistance)
             {
-                // UI가 활성화될 때 위치 즉시 업데이트
-                UpdateUIPosition();
+                closestDistance = distance;
+                closestNpc = npc;
+            }
+        }
+        
+        return closestNpc;
+    }
+    
+    // NPC와 상호작용 시작
+    private void StartInteraction(Npc npc)
+    {
+        currentNpc = npc;
+        currentNpcAbility = npc.GetComponent<NpcAbility>();
+        isInteracting = true;
+        
+        // NPC 정보 패널 표시
+        if (npcInfoPanel)
+        {
+            npcInfoPanel.SetActive(true);
+            
+            // NPC 정보 텍스트 업데이트
+            if (npcInfoText)
+            {
+                npcInfoText.text = npc.GetNpcInfoText();
+            }
+        }
+        
+        // 상호작용 프롬프트 숨기기
+        if (interactionPrompt)
+        {
+            interactionPrompt.SetActive(false);
+        }
+        
+        // NPC에게 상호작용 시작 알림
+        npc.OnInteractionStart();
+        
+        // 인벤토리 패널 활성화
+        if (inventoryPanel)
+        {
+            inventoryPanel.SetActive(true);
+            
+            // 현재 장착된 아이템 상태 갱신
+            currentEquippedItem = npc.GetEquippedItem();
+            UpdateItemSlotImage();
+        }
+    }
+    
+    // NPC와 상호작용 종료
+    private void EndInteraction()
+    {
+        // NPC 상호작용 종료 알림
+        if (currentNpc != null)
+        {
+            currentNpc.OnInteractionEnd();
+            
+            // 채굴 중이었다면 중지
+            if (currentNpcAbility != null)
+            {
+                currentNpcAbility.StopGathering();
+            }
+        }
+        
+        // UI 패널 숨기기
+        if (npcInfoPanel)
+        {
+            npcInfoPanel.SetActive(false);
+        }
+        
+        if (interactionButtonsPanel)
+        {
+            interactionButtonsPanel.SetActive(false);
+        }
+        
+        if (inventoryPanel)
+        {
+            inventoryPanel.SetActive(false);
+        }
+        
+        // 상태 초기화
+        isInteracting = false;
+        currentNpc = null;
+        currentNpcAbility = null;
+    }
+    
+    // NPC에게 아이템 지급
+    public void GiveItemToNpc(NpcItemType itemType)
+    {
+        if (currentNpc == null) return;
+        
+        // 아이템 장착
+        currentEquippedItem = itemType;
+        currentNpc.EquipItem(itemType);
+        
+        // 아이템 이미지 업데이트
+        UpdateItemSlotImage();
+        
+        // 아이템에 따른 작업 시작
+        switch (itemType)
+        {
+            case NpcItemType.Axe:
+                StartWoodcuttingTask();
+                break;
+            case NpcItemType.Pickaxe:
+                StartMiningTask();
+                break;
+            case NpcItemType.Sword:
+                StartCombatTask();
+                break;
+        }
+    }
 
-                // NPC 움직임 멈추기
-                if (npcController != null)
+    // 아이템 슬롯 이미지 업데이트
+    private void UpdateItemSlotImage()
+    {
+        if (npcItemSlotImage == null) return;
+        
+        switch (currentEquippedItem)
+        {
+            case NpcItemType.Axe:
+                npcItemSlotImage.sprite = axeSprite;
+                break;
+            case NpcItemType.Pickaxe:
+                npcItemSlotImage.sprite = pickaxeSprite;
+                break;
+            case NpcItemType.Sword:
+                npcItemSlotImage.sprite = swordSprite;
+                break;
+            case NpcItemType.None:
+                npcItemSlotImage.sprite = null;
+                npcItemSlotImage.color = new Color(1, 1, 1, 0); // 투명하게
+                break;
+        }
+        
+        npcItemSlotImage.color = currentEquippedItem != NpcItemType.None ? 
+            new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
+    }
+
+    // NPC에게서 아이템 회수
+    public void RemoveItemFromNpc()
+    {
+        if (currentNpc == null) return;
+        
+        // 작업 중지
+        StopCurrentTask();
+        
+        // 아이템 제거
+        currentEquippedItem = NpcItemType.None;
+        currentNpc.EquipItem(NpcItemType.None);
+        
+        // NPC 슬롯에서 아이템 제거
+        if (npcItemSlot != null)
+        {
+            foreach (Transform child in npcItemSlot)
+            {
+                if (child.GetComponent<DraggableItem>() != null)
                 {
-                    npcController.OnInteractionStart();
-                    
-                    // NPC 설명 표시 (NpcEntry에서 가져와서 텍스트 컴포넌트에 설정)
-                    if (npcController.NpcEntry != null)
-                    {
-                        // Panel1 아래의 description 텍스트 찾기
-                        Transform panelTransform = interactionUI.transform.Find("Panel1");
-                        if (panelTransform != null)
-                        {
-                            Transform descriptionTransform = panelTransform.Find(descriptionTextName);
-                            if (descriptionTransform != null)
-                            {
-                                TextMeshProUGUI tmpText = descriptionTransform.GetComponent<TextMeshProUGUI>();
-                                if (tmpText != null)
-                                {
-                                    tmpText.text = npcController.NpcEntry.description;
-                                    Debug.Log("NPC 설명 표시: " + npcController.NpcEntry.description);
-                                }
-                                else
-                                {
-                                    // 다른 Text 컴포넌트 시도
-                                    Text legacyText = descriptionTransform.GetComponent<Text>();
-                                    if (legacyText != null)
-                                    {
-                                        legacyText.text = npcController.NpcEntry.description;
-                                        Debug.Log("NPC 설명 표시(Legacy): " + npcController.NpcEntry.description);
-                                    }
-                                    else
-                                    {
-                                        Debug.LogWarning("텍스트 컴포넌트를 찾을 수 없습니다: " + descriptionTextName);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                Debug.LogWarning("설명 텍스트 오브젝트를 찾을 수 없습니다: " + descriptionTextName);
-                            }
-                        }
-                        else
-                        {
-                            Debug.LogWarning("Panel1을 찾을 수 없습니다.");
-                        }
-                    }
+                    // 인벤토리로 돌려보내기
+                    child.SetParent(inventoryContainer);
+                    child.localPosition = Vector3.zero;
                 }
-
-                Debug.Log("NPC 상호작용 UI가 활성화되었습니다.");
-            }
-            else
-            {
-                // NPC 움직임 재개
-                if (npcController != null)
-                {
-                    npcController.OnInteractionEnd();
-                }
-
-                Debug.Log("NPC 상호작용 UI가 비활성화되었습니다.");
             }
         }
+        
+        // 아이템 이미지 업데이트
+        UpdateItemSlotImage();
+    }
+    
+    // 나무 채집 작업 시작
+    private void StartWoodcuttingTask()
+    {
+        if (currentNpc == null) return;
+        
+        Debug.Log($"{currentNpc.NpcName}이(가) 나무 채집 작업을 시작합니다.");
+        
+        // NPC에게 나무 채집 임무 부여
+        currentNpc.SetTask(Npc.NpcTask.Woodcutting);
     }
 
-    // UI 숨기기
-    private void HideInteractionUI()
+    // 광물 채집 작업 시작
+    private void StartMiningTask()
     {
-        if (interactionUI != null && isUIActive)
+        if (currentNpc == null) return;
+        
+        Debug.Log($"{currentNpc.NpcName}이(가) 광물 채집 작업을 시작합니다.");
+        
+        // NPC에게 광물 채집 임무 부여
+        currentNpc.SetTask(Npc.NpcTask.Mining);
+    }
+
+    // 전투 작업 시작
+    private void StartCombatTask()
+    {
+        if (currentNpc == null) return;
+        
+        Debug.Log($"{currentNpc.NpcName}이(가) 전투 임무를 시작합니다.");
+        
+        // NPC에게 전투 임무 부여
+        currentNpc.SetTask(Npc.NpcTask.Combat);
+    }
+
+    // 현재 작업 중지
+    private void StopCurrentTask()
+    {
+        if (currentNpc == null) return;
+        
+        Debug.Log($"{currentNpc.NpcName}의 현재 작업이 중지되었습니다.");
+        
+        // NPC 작업 초기화
+        currentNpc.SetTask(Npc.NpcTask.None);
+    }
+    
+    // NPC 따라오기 로직 업데이트
+    private void UpdateFollowing()
+    {
+        if (isNpcFollowing && currentNpc != null && playerTransform != null)
         {
-            isUIActive = false;
-
-            // 인터렉션 UI 초기화 - 모든 대화 패널을 검사하여 초기화
-            Transform[] allPanels = interactionUI.GetComponentsInChildren<Transform>(true); // true: 비활성화된 오브젝트도 포함
-
-            foreach (Transform panel in allPanels)
+            float distance = Vector3.Distance(playerTransform.position, currentNpc.transform.position);
+            
+            // 일정 거리 이상 떨어지면 NPC가 플레이어를 향해 이동
+            if (distance > 3.0f)
             {
-                // 패널 이름에 "Panel" 또는 "페이지"가 포함된 오브젝트 찾기
-                if (panel.name.Contains("Panel") || panel.name.Contains("페이지") || panel.name.Contains("Page"))
-                {
-                    // 첫 번째 패널인지 확인 (이름에 "1" 또는 "First"가 포함되어 있는지)
-                    bool isFirstPanel = panel.name.Contains("1") || panel.name.Contains("First") || panel.name.Contains("첫번째");
-
-                    // 첫 번째 패널만 활성화, 나머지는 비활성화
-                    panel.gameObject.SetActive(isFirstPanel);
-
-                    Debug.Log("패널 초기화: " + panel.name + " - " + (isFirstPanel ? "활성화" : "비활성화"));
-                }
-            }
-
-            // NPC 움직임 재개
-            Npc npcController = GetComponent<Npc>();
-            if (npcController != null)
-            {
-                npcController.OnInteractionEnd();
-            }
-
-            // UI 비활성화
-            interactionUI.SetActive(false);
-
-            Debug.Log("플레이어가 범위를 벗어나 NPC 상호작용 UI가 비활성화되었습니다.");
-        }
-    }
-
-    // UI 위치 업데이트
-    private void UpdateUIPosition()
-    {
-        if (uiPosition != null && interactionUI != null)
-        {
-            // UI가 항상 카메라를 향하도록 설정 (빌보드 효과)
-            interactionUI.transform.position = uiPosition.position + Vector3.up * 0.5f;
-            if (Camera.main != null)
-            {
-                interactionUI.transform.LookAt(interactionUI.transform.position + Camera.main.transform.forward);
+                // 플레이어 방향으로 이동하는 로직 (실제 이동은 Npc 클래스에서 구현)
+                Debug.Log($"{currentNpc.NpcName}이(가) 플레이어를 따라갑니다. 거리: {distance:F2}");
             }
         }
-    }
-
-    // 범위 시각화 (에디터에서 확인용)
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, interactionDistance);
     }
 }

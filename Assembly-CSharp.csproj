@@ -70,6 +70,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumTextureData.cs" />
     <Compile Include="Assets\_YS\Package\InventoryAsset\Inventory\SaveSystem\InventorySaveSystem.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationPackagePanel.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\ItemDropSlot.cs" />
     <Compile Include="Assets\_YS\Package\Inventory System - Kinnly\Script\Objects\DisplayTable.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideIfAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifEncoder.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Assets\_YH\Scripts_YH\Player\Player.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\PreviewMatchingElement.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\SectionHeaderAttribute.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\ItemData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\PropertyOrderAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Worker.cs" />
@@ -115,7 +117,6 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationPreset.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HorizontalLineAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\LabelTextAttribute.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\Npc\Data\SynergyData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_Prefabs.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifFrame.cs" />
     <Compile Include="Assets\_YS\Package\InventoryAsset\Inventory\InventoryScripts\Inventory.cs" />
@@ -145,7 +146,6 @@
     <Compile Include="Assets\Asset\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
     <Compile Include="Assets\_YS\Package\Inventory System - Kinnly\Script\Player\PlayerMovement.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\Npc\Synergy\SynergyManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HelpBoxIfAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\MovingPlatform.cs" />
     <Compile Include="Assets\_YS\Package\InventoryAsset\Inventory\InventoryItem\InventoryItemScript\DragItem.cs" />
@@ -203,6 +203,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_ConvertView.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Recorder.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_SpriteList.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\Data\NpcManager.cs" />
     <Compile Include="Assets\_YS\Package\Inventory System - Kinnly\Script\Player\Player.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ButtonAttribute.cs" />
     <Compile Include="Assets\_YS\Package\InventoryAsset\Inventory\InventoryItem\InventoryItemScript\ItemInitializerUnityEvent.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Assets\_YS\Package\Inventory System - Kinnly\Script\Inventory\Utility\TrashCan.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideLabelAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Inventory System - Kinnly\Script\Objects\LoggingNode.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\DraggableItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_YS\Package\Cainos\Pixel Art Icon Pack - RPG\Shader\SH UI Icon Outline Color.shader" />
