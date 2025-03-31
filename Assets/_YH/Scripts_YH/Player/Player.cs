@@ -36,6 +36,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float attackCooldown = 1f;   // 공격 쿨다운 시간 (애니메이션 종료 후 다시 공격 가능한 시간)
     private bool isAttacking = false;                       // 현재 공격 중인지 여부
 
+    // 타일맵 관련 변수
+    [Header("타일맵 설정")]
+    [SerializeField] private Tilemap resourceTilemap; // Resource 타일맵 참조
+    [SerializeField] private ResourceTileSpawner resourceTileSpawner; // ResourceTileSpawner 스크립트 참조
+
     // 카메라 관련 변수
     private Camera mainCamera;
 
@@ -111,6 +116,7 @@ public class Player : MonoBehaviour
         // 점프 입력 처리
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            Debug.Log("점프 입력 감지됨");
             Jump();
         }
 
@@ -152,12 +158,83 @@ public class Player : MonoBehaviour
                 // Money 획득 애니메이션 재생
                 animator.SetTrigger("6_Other");
                 Debug.Log("Money 오브젝트 상호작용: 6_Other 애니메이션 재생");
+
+                // 3초 후 가장 가까운 타일 제거
+                StartCoroutine(RemoveClosestTileAfterDelay(3f));
                 return; // 가장 가까운 Money와 상호작용 후 종료
             }
         }
 
         // 범위 내에 Money가 없을 경우 메시지 출력
         Debug.Log("상호작용 가능한 Money가 범위 내에 없습니다.");
+    }
+
+    private IEnumerator RemoveClosestTileAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (resourceTilemap == null || resourceTileSpawner == null)
+        {
+            Debug.LogError("Resource 타일맵 또는 ResourceTileSpawner가 설정되지 않았습니다!");
+            yield break;
+        }
+
+        // 플레이어 위치를 기준으로 가장 가까운 타일 찾기
+        Vector3Int closestTilePosition = FindClosestTile();
+        if (closestTilePosition != Vector3Int.zero)
+        {
+            // 타일 제거
+            resourceTilemap.SetTile(closestTilePosition, null);
+            Debug.Log($"가장 가까운 타일 제거됨: {closestTilePosition}");
+        }
+        else
+        {
+            Debug.Log("가까운 타일을 찾을 수 없습니다.");
+        }
+    }
+
+    private Vector3Int FindClosestTile()
+    {
+        Vector3Int closestTilePosition = Vector3Int.zero;
+        float closestDistance = float.MaxValue;
+
+        // Resource 타일맵의 모든 타일 좌표를 순회
+        BoundsInt bounds = resourceTilemap.cellBounds;
+        foreach (Vector3Int position in bounds.allPositionsWithin)
+        {
+            TileBase tile = resourceTilemap.GetTile(position);
+            if (tile != null && (IsWoodTile(tile) || IsStoneTile(tile)))
+            {
+                // 플레이어와 타일 간의 거리 계산
+                Vector3 worldPosition = resourceTilemap.CellToWorld(position);
+                float distance = Vector3.Distance(transform.position, worldPosition);
+
+                // 플레이어의 상호작용 거리 내에 있는 타일만 고려
+                if (distance <= interactionDistance && distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTilePosition = position;
+                }
+            }
+        }
+
+        // 상호작용 거리 내에 타일이 없으면 Vector3Int.zero 반환
+        if (closestTilePosition == Vector3Int.zero)
+        {
+            Debug.Log("상호작용 거리 내에 제거 가능한 타일이 없습니다.");
+        }
+
+        return closestTilePosition;
+    }
+
+    private bool IsWoodTile(TileBase tile)
+    {
+        return System.Array.Exists(resourceTileSpawner.GetWoodTiles(), t => t == tile);
+    }
+
+    private bool IsStoneTile(TileBase tile)
+    {
+        return System.Array.Exists(resourceTileSpawner.GetStoneTiles(), t => t == tile);
     }
 
     // 공격 수행 함수
@@ -283,13 +360,23 @@ public class Player : MonoBehaviour
         // 현재 y속도는 0으로 설정하고 jumpForce만큼 위로 힘 가함
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        Debug.Log("점프: " + jumpForce + " 힘 적용됨");
     }
 
     // 지면 체크 함수
     private void CheckIsGrounded()
     {
         // 원형 캐스트로 지면 체크
+        Debug.Log("지면 체크 중...");
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        if (isGrounded)
+        {
+            Debug.Log("지면에 닿음");
+        }
+        else
+        {
+            Debug.Log("지면에 닿지 않음");
+        }
     }
 
     // 마우스 위치에 따른 플레이어 방향 전환

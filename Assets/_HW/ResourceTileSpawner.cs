@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class ResourceTileSpawner : MonoBehaviour
 {
+    
     [SerializeField] private float fixedYPosition = 0f; // Fixed Y position for spawning
     [SerializeField] private Tilemap tilemap; // Reference to the Tilemap
     [SerializeField] private Tile[] woodTiles; // Array of wood tile variations
@@ -15,6 +16,15 @@ public class ResourceTileSpawner : MonoBehaviour
 
     private List<Vector3> spawnedWoodTilePositions = new List<Vector3>();
     private List<Vector3> spawnedStoneTilePositions = new List<Vector3>();
+
+    public Tile[] GetWoodTiles()
+    {
+        return woodTiles;
+    }
+     public Tile[] GetStoneTiles()
+    {
+        return stoneTiles;
+    }
 
     private void Start()
     {
@@ -49,16 +59,40 @@ public class ResourceTileSpawner : MonoBehaviour
         // Choose a random position on the Tilemap
         Vector3 randomPosition = GetRandomTilePosition();
 
+        // Ensure the Z value is consistent
+        randomPosition.z = 0f; // Set Z value to 0
+
+        // Convert the random position to cell coordinates
+        Vector3Int cellPosition = tilemap.WorldToCell(randomPosition);
+
+        // Ensure the cell position is within the tilemap bounds
+        if (!tilemap.cellBounds.Contains(cellPosition))
+        {
+            Debug.LogWarning($"Position {cellPosition} is outside the tilemap bounds.");
+            return;
+        }
+
         // Check if the position is already occupied
-        if (tilemap.GetTile(tilemap.WorldToCell(randomPosition)) == null)
+        if (tilemap.GetTile(cellPosition) == null)
         {
             // Place the tile on the Tilemap
-            tilemap.SetTile(tilemap.WorldToCell(randomPosition), tileArray[randomIndex]);
+            tilemap.SetTile(cellPosition, tileArray[randomIndex]);
+
+            // Refresh the tile to ensure it is rendered correctly
+            tilemap.RefreshTile(cellPosition);
 
             // Add the position to the list of spawned tiles
-            spawnedTilePositions.Add(randomPosition);
+            Vector3 cellCenterPosition = tilemap.CellToWorld(cellPosition);
+            spawnedTilePositions.Add(cellCenterPosition);
+
+            // Optionally resize the tilemap bounds if needed
+            if (!tilemap.cellBounds.Contains(cellPosition))
+            {
+                tilemap.ResizeBounds();
+            }
         }
     }
+
     [SerializeField] private float minX = -10f; // Minimum X position for spawning
     [SerializeField] private float maxX = 10f;  // Maximum X position for spawning
     [SerializeField] private float minDistanceBetweenTiles = 3f; // Minimum distance between spawned tiles
