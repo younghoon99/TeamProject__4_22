@@ -153,7 +153,7 @@ public class Player : MonoBehaviour
 
         foreach (Collider2D hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Money"))
+            if (hitCollider.CompareTag("Resource"))
             {
                 // Money 획득 애니메이션 재생
                 animator.SetTrigger("6_Other");
