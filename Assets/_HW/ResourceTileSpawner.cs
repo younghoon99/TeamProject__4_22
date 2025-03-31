@@ -17,6 +17,15 @@ public class ResourceTileSpawner : MonoBehaviour
     private List<Vector3> spawnedWoodTilePositions = new List<Vector3>();
     private List<Vector3> spawnedStoneTilePositions = new List<Vector3>();
 
+    public Tile[] GetWoodTiles()
+    {
+        return woodTiles;
+    }
+     public Tile[] GetStoneTiles()
+    {
+        return stoneTiles;
+    }
+
     private void Start()
     {
         StartCoroutine(SpawnTiles());
