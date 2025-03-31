@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class NpcInteraction : MonoBehaviour
 {
     [Header("상호작용 설정")]
     [SerializeField] private float interactionDistance = 3f;  // 상호작용 가능 거리
     [SerializeField] private GameObject interactionUI;        // NPC 머리 위에 표시될 UI
     [SerializeField] private Transform uiPosition;            // UI가 표시될 위치 (주로 NPC 머리 위)
+    [SerializeField] private string descriptionTextName = "description";  // NPC 설명을 표시할 텍스트 오브젝트 이름
 
     [Header("디버그")]
     [SerializeField] private bool showDebugInfo = false;     // 디버그 정보 표시 여부
@@ -126,6 +128,45 @@ public class NpcInteraction : MonoBehaviour
                 if (npcController != null)
                 {
                     npcController.OnInteractionStart();
+                    
+                    // NPC 설명 표시 (NpcData에서 가져와서 텍스트 컴포넌트에 설정)
+                    if (npcController.NpcData != null)
+                    {
+                        // Panel1 아래의 description 텍스트 찾기
+                        Transform panelTransform = interactionUI.transform.Find("Panel1");
+                        if (panelTransform != null)
+                        {
+                            Transform descriptionTransform = panelTransform.Find(descriptionTextName);
+                            if (descriptionTransform != null)
+                            {
+                                // SendMessage를 통해 텍스트 설정 - TextMeshPro에서 "SetText" 메서드 호출
+                                descriptionTransform.gameObject.SendMessage("SetText", npcController.NpcData.description, SendMessageOptions.DontRequireReceiver);
+                                
+                                // 또한 직접 "text" 속성에 접근하는 시도
+                                // TextMeshPro의 경우 text 속성을 어떻게 접근하는지 알 수 없으므로 리플렉션 사용
+                                var textComponent = descriptionTransform.GetComponent(System.Type.GetType("TMPro.TMP_Text, Unity.TextMeshPro"));
+                                if (textComponent != null)
+                                {
+                                    System.Reflection.PropertyInfo prop = textComponent.GetType().GetProperty("text");
+                                    if (prop != null)
+                                    {
+                                        prop.SetValue(textComponent, npcController.NpcData.description, null);
+                                        Debug.Log("리플렉션을 통해 NPC 설명 설정: " + npcController.NpcData.description);
+                                    }
+                                }
+                                
+                                Debug.Log("NPC 설명 표시: " + npcController.NpcData.description);
+                            }
+                            else
+                            {
+                                Debug.LogWarning("설명 텍스트 오브젝트를 찾을 수 없습니다: " + descriptionTextName);
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Panel1을 찾을 수 없습니다.");
+                        }
+                    }
                 }
 
                 Debug.Log("NPC 상호작용 UI가 활성화되었습니다.");
@@ -216,6 +257,42 @@ public class NpcInteraction : MonoBehaviour
                 interactionUI.transform.LookAt(interactionUI.transform.position + Camera.main.transform.forward);
             }
         }
+    }
+
+    // 설명 텍스트 오브젝트 찾기
+    private GameObject FindDescriptionTextObject()
+    {
+        if (interactionUI == null) return null;
+        
+        // 직접 이름으로 찾기
+        Transform textTransform = interactionUI.transform.Find(descriptionTextName);
+        if (textTransform != null)
+        {
+            return textTransform.gameObject;
+        }
+        
+        // 재귀적으로 모든 자식 오브젝트에서 검색
+        return FindChildWithName(interactionUI.transform, descriptionTextName);
+    }
+    
+    // 재귀적으로 자식 오브젝트 검색
+    private GameObject FindChildWithName(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+            {
+                return child.gameObject;
+            }
+            
+            GameObject found = FindChildWithName(child, name);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+        
+        return null;
     }
 
     // 범위 시각화 (에디터에서 확인용)
