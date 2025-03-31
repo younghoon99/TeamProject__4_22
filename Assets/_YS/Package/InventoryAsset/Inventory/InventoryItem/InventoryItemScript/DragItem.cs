@@ -10,7 +10,7 @@ namespace InventorySystem
     /// <summary>
     /// Controls the dragging of an item.
     /// </summary>
-    internal class DragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    internal class DragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerUpHandler, IPointerDownHandler
     {
         /// The current slot associated with the drag item
         private Slot CurrentSlot;
@@ -26,8 +26,10 @@ namespace InventorySystem
         private bool returnOnMiss = false;
         private bool dropped = true;
         /// The text UI element for displaying item information
+        private bool isDragging = false;
         private GameObject prevslot;
         /// Initializes the CurrentSlot on start
+        [SerializeField] GameObject clickEffectPrefab; // 클릭 이펙트 프리팹
         private void Start()
         {
             prevslot = null;
@@ -53,11 +55,44 @@ namespace InventorySystem
                 Debug.LogError("Slot child null");
             }
         }
+        // 클릭다운 이벤트 처리
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            isDragging = false; // 클릭다운 시 드래그 상태 초기화
+        }
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (isDragging)
+            {
+                return;
+            }
+            // 클릭 이펙트 생성
+            if (clickEffectPrefab != null)
+            {
+                Vector3 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                clickPosition.z = 0f; // 2D 게임의 z축은 0으로 설정
+                Instantiate(clickEffectPrefab, clickPosition, Quaternion.identity);
+            }
+            // 아이템 숫자 감소 또는 슬롯에서 제거
+            if (item != null && !item.GetIsNull())
+            {
+                item.SetAmount(item.GetAmount() - 1); // 아이템 숫자 감소
+                SetText(); // UI 업데이트
+
+                if (item.GetAmount() <= 0)
+                {
+                    CurrentSlot.ResetSlot(); // 슬롯 초기화
+                    Destroy(gameObject); // DragItem 제거
+                }
+            }
+        }
         /// <summary>
         /// Handles the drag event
         /// </summary>
         public void OnDrag(PointerEventData eventData)
         {
+            isDragging = true;
+
             if (Draggable()) return;
 
             // Get the canvas and its RectTransform
