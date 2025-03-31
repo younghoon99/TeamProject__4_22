@@ -59,10 +59,6 @@
     <UnityVersion>2022.3.60f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-<<<<<<< HEAD
-=======
-    <Analyzer Include="C:\Users\tjoeun\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.1\Analyzers\Microsoft.Unity.Analyzers.dll" />
->>>>>>> origin/YS
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.60f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.60f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -103,9 +99,11 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationPreset.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HorizontalLineAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\LabelTextAttribute.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\Data\SynergyData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_Prefabs.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\GifFrame.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideMonoScript.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\Data\NpcData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackagePanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HorizontalGroupAttribute.cs" />
@@ -117,15 +115,9 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\GroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\DisableLucidEditorAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\SelfDestruct.cs" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\NpcMove.cs" />
->>>>>>> origin/YS
-    <Compile Include="Assets\_YS\Scripts\EnemyMove.cs" />
-=======
     <Compile Include="Assets\_HW\ResourceTileSpawner.cs" />
->>>>>>> e196c0ffbaf7ad298a49c87ec3e5d1e8793a280b
+    <Compile Include="Assets\_YS\Scripts\EnemyMove.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
     <Compile Include="Assets\_YS\Scripts\NpcMove.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\TabGroupAttribute.cs" />
@@ -133,9 +125,11 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ShowInInspectorAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\Synergy\SynergyManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HelpBoxIfAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\MovingPlatform.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_UIManager.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\Data\NpcAbility.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemySelector.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_HorseSpriteList.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\Enemy\EnemyHealth.cs" />
