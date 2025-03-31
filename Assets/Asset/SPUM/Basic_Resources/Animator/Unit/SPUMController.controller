@@ -283,13 +283,8 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-<<<<<<< HEAD
-  - m_Name: WalkSpeed
-    m_Type: 3
-=======
   - m_Name: Velocity
     m_Type: 1
->>>>>>> origin/HW
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
