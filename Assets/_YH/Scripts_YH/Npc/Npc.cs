@@ -10,13 +10,15 @@ using UnityEngine.Events;
 public class Npc : MonoBehaviour
 {
     [Header("NPC 데이터")]
-    [SerializeField] private NpcData npcData;  // NpcData ScriptableObject 참조
+    [SerializeField] private NpcData npcData;  // NPC 데이터 참조
+    [SerializeField] private string npcId;  // NPC ID (컨테이너에서 찾을 때 사용)
+    private NpcData.NpcEntry npcEntry;  // 현재 NPC의 데이터 항목
     
     // 외부에서 NPC 데이터 접근용 프로퍼티
-    public NpcData NpcData => npcData;
+    public NpcData.NpcEntry NpcEntry => npcEntry;
     
     // 접근자 속성
-    public string NpcName => npcData != null ? npcData.npcName : gameObject.name;
+    public string NpcName => npcEntry != null ? npcEntry.npcName : gameObject.name;
     
     [Header("이동 설정")]
     [SerializeField] private float moveSpeed = 1.0f;         // 이동 속도
@@ -88,9 +90,10 @@ public class Npc : MonoBehaviour
         // 다른 에너미 오브젝트와의 충돌 무시 설정
         IgnoreCollisionsWithEnemies();
         
-        // NPC 데이터로부터 초기화
-        if (npcData != null)
+        // NPC ID로 데이터 항목 가져오기
+        if (npcData != null && !string.IsNullOrEmpty(npcId))
         {
+            npcEntry = npcData.GetNpcById(npcId);
             InitializeFromData();
         }
         
@@ -117,24 +120,24 @@ public class Npc : MonoBehaviour
     // NPC 데이터로부터 초기화
     public void InitializeFromData()
     {
-        if (npcData == null) return;
+        if (npcEntry == null) return;
         
         // 기본 스탯 설정
-        currentHealth = npcData.health;
-        maxHealth = npcData.health;
-        attackPower = npcData.attack;
-        defensePower = npcData.defense;
-        currentAttackSpeed = npcData.attackSpeed;
-        criticalChance = npcData.criticalChance;
+        currentHealth = npcEntry.health;
+        maxHealth = npcEntry.health;
+        attackPower = npcEntry.attack;
+        defensePower = npcEntry.defense;
+        currentAttackSpeed = npcEntry.attackSpeed;
+        criticalChance = npcEntry.criticalChance;
         
         // 이동 설정 적용 (NpcData에 값이 있는 경우에만)
-        if (npcData.moveSpeed > 0) moveSpeed = npcData.moveSpeed;
-        if (npcData.idleTimeMin > 0) idleTimeMin = npcData.idleTimeMin;
-        if (npcData.idleTimeMax > 0) idleTimeMax = npcData.idleTimeMax;
-        if (npcData.moveTimeMin > 0) moveTimeMin = npcData.moveTimeMin;
-        if (npcData.moveTimeMax > 0) moveTimeMax = npcData.moveTimeMax;
+        if (npcEntry.moveSpeed > 0) moveSpeed = npcEntry.moveSpeed;
+        if (npcEntry.idleTimeMin > 0) idleTimeMin = npcEntry.idleTimeMin;
+        if (npcEntry.idleTimeMax > 0) idleTimeMax = npcEntry.idleTimeMax;
+        if (npcEntry.moveTimeMin > 0) moveTimeMin = npcEntry.moveTimeMin;
+        if (npcEntry.moveTimeMax > 0) moveTimeMax = npcEntry.moveTimeMax;
         
-        Debug.Log($"{npcData.npcName} NPC가 초기화되었습니다. 체력: {maxHealth}, 공격력: {attackPower}");
+        Debug.Log($"{npcEntry.npcName} NPC가 초기화되었습니다. 체력: {maxHealth}, 공격력: {attackPower}");
     }
     
     // Enemy 오브젝트들과의 충돌 무시 설정
@@ -564,7 +567,7 @@ public class Npc : MonoBehaviour
     // 특수 능력 목록 반환
     public List<NpcAbility> GetAbilities()
     {
-        return npcData != null ? npcData.abilities : new List<NpcAbility>();
+        return npcEntry != null ? npcEntry.abilities : new List<NpcAbility>();
     }
     
     // 활성화된 특수 능력 목록 반환
@@ -576,13 +579,13 @@ public class Npc : MonoBehaviour
     // 시너지 타입 목록 반환
     public List<SynergyType> GetSynergyTypes()
     {
-        return npcData != null ? npcData.synergyTypes : new List<SynergyType>();
+        return npcEntry != null ? npcEntry.synergyTypes : new List<SynergyType>();
     }
     
     // 해당 시너지 타입을 가지고 있는지 확인
     public bool HasSynergyType(SynergyType type)
     {
-        return npcData != null && npcData.synergyTypes != null && npcData.synergyTypes.Contains(type);
+        return npcEntry != null && npcEntry.synergyTypes != null && npcEntry.synergyTypes.Contains(type);
     }
     
     // 데미지 받기

@@ -61,12 +61,12 @@ public class SynergyManager : MonoBehaviour
     // NPC 추가
     public void AddNpc(Npc npc)
     {
-        if (npc == null || npc.NpcData == null) return;
+        if (npc == null || npc.NpcEntry == null) return;
         
         if (!activeNpcs.Contains(npc))
         {
             activeNpcs.Add(npc);
-            string npcId = npc.NpcData.npcId;
+            string npcId = npc.NpcEntry.npcId;
             
             // NPC ID 리스트에 추가
             if (!activeNpcIds.Contains(npcId))
@@ -85,19 +85,19 @@ public class SynergyManager : MonoBehaviour
             }
             
             UpdateSynergies();
-            Debug.Log($"{npc.NpcData.npcName} NPC가 시너지 시스템에 추가되었습니다. 현재 {npcId} 수: {npcCounts[npcId]}");
+            Debug.Log($"{npc.NpcEntry.npcName} NPC가 시너지 시스템에 추가되었습니다. 현재 {npcId} 수: {npcCounts[npcId]}");
         }
     }
     
     // NPC 제거
     public void RemoveNpc(Npc npc)
     {
-        if (npc == null || npc.NpcData == null) return;
+        if (npc == null || npc.NpcEntry == null) return;
         
         if (activeNpcs.Contains(npc))
         {
             activeNpcs.Remove(npc);
-            string npcId = npc.NpcData.npcId;
+            string npcId = npc.NpcEntry.npcId;
             
             // NPC 카운트 감소
             if (npcCounts.ContainsKey(npcId))
@@ -113,7 +113,7 @@ public class SynergyManager : MonoBehaviour
             }
             
             UpdateSynergies();
-            Debug.Log($"{npc.NpcData.npcName} NPC가 시너지 시스템에서 제거되었습니다.");
+            Debug.Log($"{npc.NpcEntry.npcName} NPC가 시너지 시스템에서 제거되었습니다.");
         }
     }
     
@@ -190,7 +190,7 @@ public class SynergyManager : MonoBehaviour
             case SynergyType.정밀사격:
                 foreach (Npc npc in activeNpcs)
                 {
-                    if (synergy.requiredNpcIds.Contains(npc.NpcData.npcId))
+                    if (synergy.requiredNpcIds.Contains(npc.NpcEntry.npcId))
                     {
                         affectedNpcs.Add(npc);
                     }
@@ -207,7 +207,7 @@ public class SynergyManager : MonoBehaviour
             case SynergyType.수호천사:
                 foreach (Npc npc in activeNpcs)
                 {
-                    if (npc.NpcData.jobType == NpcJobType.탱커)
+                    if (npc.NpcEntry.jobType == NpcJobType.탱커)
                     {
                         affectedNpcs.Add(npc);
                     }
@@ -217,7 +217,7 @@ public class SynergyManager : MonoBehaviour
             case SynergyType.마나의격류:
                 foreach (Npc npc in activeNpcs)
                 {
-                    if (npc.NpcData.jobType == NpcJobType.힐러)
+                    if (npc.NpcEntry.jobType == NpcJobType.힐러)
                     {
                         affectedNpcs.Add(npc);
                     }
@@ -228,9 +228,9 @@ public class SynergyManager : MonoBehaviour
             case SynergyType.방패와창:
                 foreach (Npc npc in activeNpcs)
                 {
-                    if (npc.NpcData.jobType == NpcJobType.전사 || 
-                        npc.NpcData.jobType == NpcJobType.궁수 ||
-                        npc.NpcData.jobType == NpcJobType.딜러)
+                    if (npc.NpcEntry.jobType == NpcJobType.전사 || 
+                        npc.NpcEntry.jobType == NpcJobType.궁수 ||
+                        npc.NpcEntry.jobType == NpcJobType.딜러)
                     {
                         affectedNpcs.Add(npc);
                     }
@@ -301,7 +301,7 @@ public class SynergyManager : MonoBehaviour
                 npc.UnlockSpecialAbility(activeTier.specialAbility);
             }
             
-            Debug.Log($"{npc.NpcData.npcName}에게 {synergy.synergyType} 시너지 효과가 적용되었습니다.");
+            Debug.Log($"{npc.NpcEntry.npcName}에게 {synergy.synergyType} 시너지 효과가 적용되었습니다.");
         }
     }
     

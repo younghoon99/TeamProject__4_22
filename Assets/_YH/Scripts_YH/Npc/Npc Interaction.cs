@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class NpcInteraction : MonoBehaviour
 {
     [Header("상호작용 설정")]
@@ -129,8 +128,8 @@ public class NpcInteraction : MonoBehaviour
                 {
                     npcController.OnInteractionStart();
                     
-                    // NPC 설명 표시 (NpcData에서 가져와서 텍스트 컴포넌트에 설정)
-                    if (npcController.NpcData != null)
+                    // NPC 설명 표시 (NpcEntry에서 가져와서 텍스트 컴포넌트에 설정)
+                    if (npcController.NpcEntry != null)
                     {
                         // Panel1 아래의 description 텍스트 찾기
                         Transform panelTransform = interactionUI.transform.Find("Panel1");
@@ -140,7 +139,7 @@ public class NpcInteraction : MonoBehaviour
                             if (descriptionTransform != null)
                             {
                                 // SendMessage를 통해 텍스트 설정 - TextMeshPro에서 "SetText" 메서드 호출
-                                descriptionTransform.gameObject.SendMessage("SetText", npcController.NpcData.description, SendMessageOptions.DontRequireReceiver);
+                                descriptionTransform.gameObject.SendMessage("SetText", npcController.NpcEntry.description, SendMessageOptions.DontRequireReceiver);
                                 
                                 // 또한 직접 "text" 속성에 접근하는 시도
                                 // TextMeshPro의 경우 text 속성을 어떻게 접근하는지 알 수 없으므로 리플렉션 사용
@@ -150,12 +149,12 @@ public class NpcInteraction : MonoBehaviour
                                     System.Reflection.PropertyInfo prop = textComponent.GetType().GetProperty("text");
                                     if (prop != null)
                                     {
-                                        prop.SetValue(textComponent, npcController.NpcData.description, null);
-                                        Debug.Log("리플렉션을 통해 NPC 설명 설정: " + npcController.NpcData.description);
+                                        prop.SetValue(textComponent, npcController.NpcEntry.description, null);
+                                        Debug.Log("리플렉션을 통해 NPC 설명 설정: " + npcController.NpcEntry.description);
                                     }
                                 }
                                 
-                                Debug.Log("NPC 설명 표시: " + npcController.NpcData.description);
+                                Debug.Log("NPC 설명 표시: " + npcController.NpcEntry.description);
                             }
                             else
                             {

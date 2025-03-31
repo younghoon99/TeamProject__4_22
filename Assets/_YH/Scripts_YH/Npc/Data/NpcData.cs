@@ -46,56 +46,93 @@ public enum SynergyType
     마나의격류
 }
 
-[CreateAssetMenu(fileName = "New NPC Data", menuName = "NPC 시스템/NPC 데이터")]
+[CreateAssetMenu(fileName = "NPC Data", menuName = "NPC 시스템/NPC 데이터")]
 public class NpcData : ScriptableObject
 {
-    [Header("기본 정보")]
-    public string npcId;              // 고유 식별자 (예: "김광부", "김채집" 등)
-    public string npcName;            // NPC 표시 이름
-    public Sprite portrait;           // 초상화 이미지
-    public GameObject prefab;         // NPC 프리팹
+    [System.Serializable]
+    public class NpcEntry
+    {
+        [Header("기본 정보")]
+        public string npcId;              // 고유 식별자 (예: "김광부", "김채집" 등)
+        public string npcName;            // NPC 표시 이름
+        public Sprite portrait;           // 초상화 이미지
+        public GameObject prefab;         // NPC 프리팹
 
-    [Header("NPC 세부 정보")]
-    public NpcRarity rarity;          // NPC 등급 (노말, 레어, 전설, 신화)
-    public NpcJobType jobType;        // NPC 직업 타입
+        [Header("NPC 세부 정보")]
+        public NpcRarity rarity;          // NPC 등급 (노말, 레어, 전설, 신화)
+        public NpcJobType jobType;        // NPC 직업 타입
 
-    [Header("대화 정보")]
-    [TextArea(2, 5)]
-    public string description;        // NPC 설명 (예: "내가 팔을 휘두르기 시작한 지 40년, 광산이 무너져도 내 곡괭이는 멈추지 않지.")
+        [Header("대화 정보")]
+        [TextArea(2, 5)]
+        public string description;        // NPC 설명
 
-    [Header("능력치")]
-    public int health = 100;          // 체력
-    public int attack = 10;           // 공격력
-    public int defense = 5;           // 방어력
-    public float attackSpeed = 1.0f;  // 공격 속도
+        [Header("능력치")]
+        public int health = 100;          // 체력
+        public int attack = 10;           // 공격력
+        public int defense = 5;           // 방어력
+        public float attackSpeed = 1.0f;  // 공격 속도
 
-    [Header("특수 능력치")]
-    public float criticalChance = 0f;     // 치명타 확률 (%)
-    public float channelSpeed = 0f;       // 채집/채굴 속도 보너스 (%)
-    public float magicPower = 0f;         // 마법 공격력
-    public bool canHeal = false;          // 치유 가능 여부
-    public bool canAoe = false;           // 광역 공격 가능 여부
-    public bool canDebuff = false;        // 디버프 가능 여부
+        [Header("특수 능력치")]
+        public float criticalChance = 0f;     // 치명타 확률 (%)
+        public float channelSpeed = 0f;       // 채집/채굴 속도 보너스 (%)
+        public float magicPower = 0f;         // 마법 공격력
+        public bool canHeal = false;          // 치유 가능 여부
+        public bool canAoe = false;           // 광역 공격 가능 여부
+        public bool canDebuff = false;        // 디버프 가능 여부
 
-    [Header("시너지 정보")]
-    public List<SynergyType> synergyTypes; // 시너지 타입 목록
+        [Header("시너지 정보")]
+        public List<SynergyType> synergyTypes = new List<SynergyType>(); // 시너지 타입 목록
 
-    [Header("특수 능력")]
-    public List<NpcAbility> abilities;    // 특수 능력 목록
+        [Header("특수 능력")]
+        public List<NpcAbility> abilities = new List<NpcAbility>();    // 특수 능력 목록
 
-    [Header("이동 설정")]
-    public float moveSpeed = 1.0f;        // 이동 속도
-    public float idleTimeMin = 2.0f;      // 최소 정지 시간
-    public float idleTimeMax = 5.0f;      // 최대 정지 시간
-    public float moveTimeMin = 1.0f;      // 최소 이동 시간
-    public float moveTimeMax = 3.0f;      // 최대 이동 시간
+        [Header("이동 설정")]
+        public float moveSpeed = 1.0f;        // 이동 속도
+        public float idleTimeMin = 2.0f;      // 최소 정지 시간
+        public float idleTimeMax = 5.0f;      // 최대 정지 시간
+        public float moveTimeMin = 1.0f;      // 최소 이동 시간
+        public float moveTimeMax = 3.0f;      // 최대 이동 시간
+    }
 
+    [Header("NPC 데이터 목록")]
+    public List<NpcEntry> npcList = new List<NpcEntry>();
+
+    // ID로 NPC 데이터 찾기
+    public NpcEntry GetNpcById(string id)
+    {
+        return npcList.Find(npc => npc.npcId == id);
+    }
+
+    // 이름으로 NPC 데이터 찾기
+    public NpcEntry GetNpcByName(string name)
+    {
+        return npcList.Find(npc => npc.npcName == name);
+    }
+
+    // 직업 타입으로 NPC 데이터 필터링
+    public List<NpcEntry> GetNpcsByJobType(NpcJobType jobType)
+    {
+        return npcList.FindAll(npc => npc.jobType == jobType);
+    }
+
+    // 등급으로 NPC 데이터 필터링
+    public List<NpcEntry> GetNpcsByRarity(NpcRarity rarity)
+    {
+        return npcList.FindAll(npc => npc.rarity == rarity);
+    }
+
+    // 시너지 타입으로 NPC 데이터 필터링
+    public List<NpcEntry> GetNpcsBySynergyType(SynergyType synergyType)
+    {
+        return npcList.FindAll(npc => npc.synergyTypes.Contains(synergyType));
+    }
+    
     // NPC 시너지 설명 반환 메서드
-    public string GetSynergyDescription()
+    public string GetSynergyDescription(NpcEntry npc)
     {
         string result = "시너지 효과:\n";
 
-        foreach (SynergyType synergy in synergyTypes)
+        foreach (SynergyType synergy in npc.synergyTypes)
         {
             switch (synergy)
             {
