@@ -128,7 +128,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _MorningTime: 0
-    - _NightTransition: 0
+    - _NightTransition: 0.5
     - _NoonTime: 0.33
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -138,6 +138,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+<<<<<<< HEAD
 <<<<<<< HEAD
     - _TimeOfDay: 0.24276853
 =======
@@ -150,6 +151,9 @@ Material:
     - _TimeOfDay: 0.9988796
 >>>>>>> origin/HW
 >>>>>>> 5fb03c457f453b928283e8938da7fb40b4c21ee0
+>>>>>>> origin/Merge
+=======
+    - _TimeOfDay: 0
 >>>>>>> origin/Merge
     - _TransitionDuration: 0.167
     - _UVSec: 0
