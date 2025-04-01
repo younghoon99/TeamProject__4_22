@@ -138,7 +138,11 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TimeOfDay: 0.8998576
+<<<<<<< HEAD
+    - _TimeOfDay: 0.64191705
+=======
+    - _TimeOfDay: 0.9988796
+>>>>>>> origin/HW
     - _TransitionDuration: 0.167
     - _UVSec: 0
     - _ZWrite: 1
