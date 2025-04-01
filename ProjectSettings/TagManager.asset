@@ -4,13 +4,21 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - ItemDrop
+  - Slot
+  - ItemPickup
+  - NPC
   - Enemy
-  - Resource
+<<<<<<< HEAD
+  - BackGroundImage
+=======
+  - Money
+>>>>>>> 5fb03c457f453b928283e8938da7fb40b4c21ee0
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - ground
   - Water
   - UI
   - 
