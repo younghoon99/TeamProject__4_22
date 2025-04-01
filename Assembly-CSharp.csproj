@@ -146,7 +146,6 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HelpBoxIfAttribute.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\Npc\UseItem.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\MovingPlatform.cs" />
-    <Compile Include="Assets\_YS\Package\InventoryAsset\Inventory\InventoryItem\InventoryItemScript\DragItem.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_UIManager.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemySelector.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\CameraSystem.cs" />
