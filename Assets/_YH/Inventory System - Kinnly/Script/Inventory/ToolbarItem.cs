@@ -1,3 +1,6 @@
+// 이 스크립트는 더 이상 사용되지 않습니다.
+// 인벤토리 시스템 개선을 위해 비활성화되었습니다.
+/*
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,3 +42,4 @@ namespace Kinnly
         }
     }
 }
+*/

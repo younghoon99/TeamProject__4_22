@@ -95,12 +95,6 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
             {
                 HandleItemDrop();
             }
-
-            // 우클릭으로 아이템 추가 분할 (한 개씩)
-            if (Input.GetMouseButtonDown(1))
-            {
-                AddSplitAmount(1);
-            }
         }
     }
 
@@ -156,11 +150,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
             StartDragging();
         }
 
-        // 우클릭: 아이템 개수 분할
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            SplitAmount();
-        }
+        // 우클릭 기능 비활성화
     }
 
     // 아이템 개수 추가
@@ -177,51 +167,15 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         UpdateUI();
     }
 
-    // 아이템 개수 설정 (특정 값으로)
+    // 아이템 개수 설정
     public void SetAmount(int amount)
     {
         this.Amount = amount;
         UpdateUI();
     }
 
-    // 아이템 분할 (우클릭)
-    public void SplitAmount()
-    {
-        // 다른 아이템 드래그 중이면 무시
-        if (playerInventory != null && playerInventory.IsDragging)
-        {
-            return;
-        }
-
-        // 1개를 새로운 인벤토리 아이템으로 생성
-        if (playerInventory != null)
-        {
-            playerInventory.SpawnInventoryItem(Item, 1);
-            RemoveAmount(1); // 현재 아이템 개수 1 감소
-            UpdateUI();
-        }
-    }
-
-    // 드래그 중 우클릭으로 다른 슬롯에서 아이템 추가
-    public void AddSplitAmount(int amount)
-    {
-        if (playerInventory != null && playerInventory.CurrentlyHoveredInventorySlot != null)
-        {
-            InventoryItem hoveredItem = playerInventory.CurrentlyHoveredInventorySlot.GetComponentInChildren<InventoryItem>();
-            if (hoveredItem != null)
-            {
-                // 같은 아이템이고 최대 스택 수를 초과하지 않으면 아이템 이동
-                if (hoveredItem.Item.name == this.Item.name && this.Amount <= maxAmount)
-                {
-                    hoveredItem.RemoveAmount(amount);
-                    AddAmount(amount);
-                }
-            }
-        }
-    }
-
     // UI 업데이트 (아이템 개수 표시)
-    private void UpdateUI()
+    public void UpdateUI()
     {
         // 아이템이 없거나 개수가 0 이하면 오브젝트 파괴
         if (Item == null || Amount <= 0)
@@ -412,62 +366,11 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     }
 
     // 분할된 아이템 스폰
-    public void SpawnSplittedItem(int amount)
+    private void SpawnSplitItem(int amount)
     {
-        if (playerInventory != null && playerInventory.CurrentlyHoveredInventorySlot != null)
+        if (playerInventory != null)
         {
-            // 현재 아이템이 분할 가능한지 확인
-            if (this.Item.isStackable && this.Amount > 1)
-            {
-                // 호버된 슬롯에 아이템이 이미 있는지 확인
-                InventoryItem hoveredItem = playerInventory.CurrentlyHoveredInventorySlot.GetComponentInChildren<InventoryItem>();
-                
-                // 슬롯이 비어있으면 분할 
-                if (hoveredItem == null)
-                {
-                    int splitAmount = amount;
-                    if (splitAmount >= this.Amount)
-                    {
-                        splitAmount = this.Amount - 1; // 최소 1개는 남겨둔다
-                    }
-
-                    if (splitAmount > 0)
-                    {
-                        this.RemoveAmount(splitAmount);
-                        
-                        // 새 아이템 생성 및 슬롯에 배치
-                        playerInventory.SpawnInventoryItem(this.Item, splitAmount);
-                        
-                        // 새로 스폰된 아이템을 현재 슬롯으로 이동
-                        if (playerInventory.CurrentlySelectedInventoryItem != null)
-                        {
-                            playerInventory.CurrentlySelectedInventoryItem.CancelDragging();
-                            playerInventory.CurrentlySelectedInventoryItem.transform.SetParent(playerInventory.CurrentlyHoveredInventorySlot.transform);
-                            playerInventory.CurrentlySelectedInventoryItem.transform.localPosition = Vector3.zero;
-                            playerInventory.CurrentlySelectedInventoryItem.IsDragging = false;
-                            playerInventory.IsDragging = false;
-                        }
-                        
-                        UpdateUI();
-                    }
-                }
-                // 동일한 아이템이면 스택 쌓기
-                else if (hoveredItem.Item.name == this.Item.name && hoveredItem.Item.isStackable)
-                {
-                    int splitAmount = amount;
-                    if (splitAmount >= this.Amount)
-                    {
-                        splitAmount = this.Amount - 1; // 최소 1개는 남겨둔다
-                    }
-
-                    if (splitAmount > 0)
-                    {
-                        this.RemoveAmount(splitAmount);
-                        hoveredItem.AddAmount(splitAmount);
-                        UpdateUI();
-                    }
-                }
-            }
+            playerInventory.SpawnInventoryItem(Item, amount);
         }
     }
 }

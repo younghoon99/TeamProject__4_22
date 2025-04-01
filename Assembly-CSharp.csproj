@@ -99,6 +99,7 @@
     <Compile Include="Assets\_YH\Scripts_YH\Player\PlayerHealth.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemyTest.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\IndentAttribute.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\NPC Inventory.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\TitleHeaderAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ShowIfAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\MinAttribute.cs" />

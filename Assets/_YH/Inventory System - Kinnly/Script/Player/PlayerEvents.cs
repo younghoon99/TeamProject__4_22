@@ -35,7 +35,8 @@ namespace Kinnly
 
         public void ToggleInventoryEvent()
         {
-            playerInventory.ToggleInventory();
+            // 인벤토리 토글 기능 비활성화 (툴바 기능 제거)
+            // 인벤토리는 항상 활성화 상태로 유지됨
         }
     }
 }

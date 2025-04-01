@@ -12,22 +12,18 @@ namespace Kinnly
     {
         [Header("Core")]
         [SerializeField] GameObject inventoryUI;
-        [SerializeField] GameObject toolbarUI;
         [SerializeField] List<GameObject> inventorySlot = new List<GameObject>();
-        [SerializeField] List<GameObject> toolbarSlot = new List<GameObject>();
 
         [Header("Prefabs")]
         [SerializeField] GameObject inventoryItem;
-        [SerializeField] GameObject toolbarItem;
         [SerializeField] GameObject itemDrop;
 
         [Header("Config")]
         public int MaxAmount;
 
         [HideInInspector] public GameObject CurrentlyHoveredInventorySlot;
-        [HideInInspector] public GameObject CurrentlyHoveredToolbarSlot;
         [HideInInspector] public InventoryItem CurrentlySelectedInventoryItem;
-        [HideInInspector] public int CurrentlySelectedToolBar;
+        [HideInInspector] public int CurrentlySelectedInventorySlot; // 현재 선택된 인벤토리 슬롯 번호
         [HideInInspector] public bool IsHoveringDropBox;
         [HideInInspector] public bool IsHoveringTrashcan;
         [HideInInspector] public bool IsDragging;
@@ -39,42 +35,58 @@ namespace Kinnly
         void Start()
         {
             MaxAmount = 999;
-
-            CurrentlySelectedToolBar = 0;
+            CurrentlySelectedInventorySlot = 0; // 기본값으로 첫 번째 슬롯 선택
             dialogBox = DialogBox.instance;
+
+            // 인벤토리 슬롯 번호 초기화
+            InitializeInventorySlotNumbers();
+            
+            // 인벤토리 UI 항상 활성화
+            if (inventoryUI != null)
+            {
+                inventoryUI.SetActive(true);
+            }
+        }
+
+        // 인벤토리 슬롯에 번호 할당
+        private void InitializeInventorySlotNumbers()
+        {
+            for (int i = 0; i < inventorySlot.Count; i++)
+            {
+                InventorySlot slot = inventorySlot[i].GetComponent<InventorySlot>();
+                if (slot != null)
+                {
+                    slot.slotNumber = i;
+                }
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
-            //Num Key to switch selected Toolbar
+            // 숫자키로 인벤토리 슬롯 선택
             int keyNumber = GetKeyNumber();
             if (keyNumber != -1)
             {
-                CurrentlySelectedToolBar = keyNumber;
+                CurrentlySelectedInventorySlot = keyNumber;
             }
 
-            //Mouse Scroll to switch selected Toolbar
+            // 마우스 스크롤로 슬롯 선택
             if (Input.mouseScrollDelta.y < 0)
             {
-                CurrentlySelectedToolBar += 1;
-                if (CurrentlySelectedToolBar > 11)
+                CurrentlySelectedInventorySlot += 1;
+                if (CurrentlySelectedInventorySlot >= inventorySlot.Count)
                 {
-                    CurrentlySelectedToolBar -= 12;
+                    CurrentlySelectedInventorySlot = 0;
                 }
             }
             else if (Input.mouseScrollDelta.y > 0)
             {
-                CurrentlySelectedToolBar -= 1;
-                if (CurrentlySelectedToolBar < 0)
+                CurrentlySelectedInventorySlot -= 1;
+                if (CurrentlySelectedInventorySlot < 0)
                 {
-                    CurrentlySelectedToolBar += 12;
+                    CurrentlySelectedInventorySlot = inventorySlot.Count - 1;
                 }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                ToggleInventory();
             }
 
             if (Input.GetMouseButtonUp(0))
@@ -83,26 +95,6 @@ namespace Kinnly
             }
 
             UpdateCurrentlySelectedItem();
-        }
-
-        public void ToggleInventory()
-        {
-            if (IsDragging)
-            {
-                return;
-            }
-
-            if (inventoryUI.activeInHierarchy)
-            {
-                inventoryUI.SetActive(false);
-                toolbarUI.SetActive(true);
-                UpdateToolbar();
-            }
-            else
-            {
-                inventoryUI.SetActive(true);
-                toolbarUI.SetActive(false);
-            }
         }
 
         public void AddItem(Item item, int amount)
@@ -118,14 +110,12 @@ namespace Kinnly
                         if (total <= MaxAmount)
                         {
                             inventoryItem.AddAmount(amount);
-                            UpdateToolbar();
                             return;
                         }
                         else
                         {
                             inventoryItem.AddAmount(amount - (total - MaxAmount));
                             SpawnItemDrop(item, amount - (amount - (total - MaxAmount)));
-                            UpdateToolbar();
                             return;
                         }
                     }
@@ -138,7 +128,6 @@ namespace Kinnly
                 {
                     GameObject go = Instantiate(inventoryItem, slot.transform);
                     go.GetComponent<InventoryItem>().SetItem(item, amount);
-                    UpdateToolbar();
                     return;
                 }
             }
@@ -149,7 +138,6 @@ namespace Kinnly
         public void RemoveItem(InventoryItem inventoryItem, int amount)
         {
             inventoryItem.RemoveAmount(amount);
-            UpdateToolbar();
         }
 
         public bool IsSlotAvailable(Item item, int amount)
@@ -196,126 +184,97 @@ namespace Kinnly
             this.IsDragging = true;
         }
 
-        public void MoveItemBetweenSlots(int sourceSlotIndex, int targetSlotIndex)
+        public void MoveItemBetweenSlots(GameObject from, GameObject to)
         {
-            // 소스 슬롯과 타겟 슬롯의 인벤토리 아이템 가져오기
-            GameObject sourceSlot = inventorySlot[sourceSlotIndex];
-            GameObject targetSlot = inventorySlot[targetSlotIndex];
-
-            InventoryItem sourceItem = sourceSlot.GetComponentInChildren<InventoryItem>();
-            InventoryItem targetItem = targetSlot.GetComponentInChildren<InventoryItem>();
-
-            // 타겟 슬롯에 아이템이 없는 경우
-            if (targetItem == null)
+            if (from.transform.childCount <= 0 || to.transform.childCount >= 1)
             {
-                // 소스 아이템을 타겟 슬롯으로 이동
-                if (sourceItem != null)
-                {
-                    sourceItem.transform.SetParent(targetSlot.transform);
-                    UpdateToolbar();
-                }
-            }
-            // 타겟 슬롯에 아이템이 있는 경우
-            else
-            {
-                // 같은 아이템이면 합치기 시도
-                if (sourceItem != null && targetItem.Item.name == sourceItem.Item.name && targetItem.Item.isStackable)
-                {
-                    int totalAmount = targetItem.Amount + sourceItem.Amount;
-                    if (totalAmount <= MaxAmount)
-                    {
-                        // 모두 합칠 수 있는 경우
-                        targetItem.SetAmount(totalAmount);
-                        Destroy(sourceItem.gameObject);
-                    }
-                    else
-                    {
-                        // 일부만 합칠 수 있는 경우
-                        targetItem.SetAmount(MaxAmount);
-                        sourceItem.SetAmount(totalAmount - MaxAmount);
-                    }
-                }
-                // 다른 아이템이면 위치 교체
-                else if (sourceItem != null)
-                {
-                    // 임시로 부모 보관
-                    Transform sourceParent = sourceItem.transform.parent;
-                    Transform targetParent = targetItem.transform.parent;
-
-                    // 부모 교체
-                    sourceItem.transform.SetParent(targetParent);
-                    targetItem.transform.SetParent(sourceParent);
-                }
+                return;
             }
 
-            UpdateToolbar();
+            from.transform.GetChild(0).transform.SetParent(to.transform);
         }
 
-        private float RandomNumber(float minRange, float maxRange, float minExclude, float maxExclude)
+        private float RandomNumber(float min1, float max1, float min2, float max2)
         {
-            float randomValue;
-            do
+            float random = Random.Range(0f, 1f);
+            if (random < 0.5f)
             {
-                randomValue = Random.Range(minRange, maxRange);
+                return Random.Range(min1, max1);
             }
-            while (randomValue <= minExclude && randomValue >= maxExclude);
-
-            return randomValue;
+            else
+            {
+                return Random.Range(min2, max2);
+            }
         }
 
         private int GetKeyNumber()
         {
-            for (int i = 0; i < 9; i++)
+            if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
-                if (Input.GetKeyDown((KeyCode)((int)KeyCode.Alpha1 + i)))
-                {
-                    return i;
-                }
+                return 0;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha0))
+            else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+            {
+                return 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+            {
+                return 2;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+            {
+                return 3;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+            {
+                return 4;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+            {
+                return 5;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+            {
+                return 6;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
+            {
+                return 7;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
+            {
+                return 8;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
             {
                 return 9;
             }
-            if (Input.GetKeyDown(KeyCode.Minus))
+            else if (Input.GetKeyDown(KeyCode.Minus) || Input.GetKeyDown(KeyCode.KeypadMinus))
             {
                 return 10;
             }
-            if (Input.GetKeyDown(KeyCode.Equals))
+            else if (Input.GetKeyDown(KeyCode.Equals) || Input.GetKeyDown(KeyCode.KeypadEquals))
             {
                 return 11;
             }
-            return -1;
-        }
-
-        public void UpdateToolbar()
-        {
-            for (int i = 0; i < toolbarSlot.Count; i++)
+            else
             {
-                ToolbarItem[] components = toolbarSlot[i].GetComponentsInChildren<ToolbarItem>();
-                foreach (var component in components)
-                {
-                    Destroy(component.gameObject);
-                }
-
-                if (inventorySlot[i].gameObject.transform.childCount >= 1)
-                {
-                    GameObject go = Instantiate(toolbarItem, toolbarSlot[i].transform);
-                    InventoryItem inventoryItem = inventorySlot[i].GetComponentInChildren<InventoryItem>();
-                    go.GetComponent<ToolbarItem>().SetItem(inventoryItem.Item, inventoryItem.Amount);
-                }
+                return -1;
             }
-            UpdateCurrentlySelectedItem();
         }
 
         private void UpdateCurrentlySelectedItem()
         {
-            try
+            if (CurrentlyHoveredInventorySlot != null)
             {
-                CurrentlySelectedInventoryItem = inventorySlot[CurrentlySelectedToolBar].GetComponentInChildren<InventoryItem>();
-            }
-            catch
-            {
-                CurrentlySelectedInventoryItem = null;
+                if (CurrentlyHoveredInventorySlot.transform.childCount >= 1)
+                {
+                    CurrentlySelectedInventoryItem = CurrentlyHoveredInventorySlot.transform.GetChild(0).GetComponent<InventoryItem>();
+                }
+                else
+                {
+                    CurrentlySelectedInventoryItem = null;
+                }
             }
         }
 
@@ -333,6 +292,35 @@ namespace Kinnly
                 return inventorySlot[index];
             }
             return null;
+        }
+
+        // 아이템 드롭 메서드 (아이템을 버릴 때 사용)
+        public void DropItem(Item item, int amount)
+        {
+            if (item != null && amount > 0)
+            {
+                Vector3 dropPosition = transform.position + transform.forward * 1.5f;
+                GameObject droppedItem = Instantiate(itemDrop, dropPosition, Quaternion.identity);
+                droppedItem.GetComponent<ItemDrop>().SetItem(item, amount);
+            }
+        }
+
+        // 특정 슬롯에서 아이템 제거 메서드
+        public void RemoveItemFromSlot(InventoryItem inventoryItem, int amount)
+        {
+            if (inventoryItem != null)
+            {
+                int remainingAmount = inventoryItem.Amount - amount;
+                if (remainingAmount <= 0)
+                {
+                    Destroy(inventoryItem.gameObject);
+                }
+                else
+                {
+                    inventoryItem.Amount = remainingAmount;
+                    inventoryItem.UpdateUI();
+                }
+            }
         }
     }
 }

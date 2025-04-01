@@ -18,17 +18,11 @@ public class NpcInteraction : MonoBehaviour
     [SerializeField] private GameObject interactionPrompt;    // NPC와 상호작용할 수 있을 때 표시되는 프롬프트 UI (예: "F키를 눌러 대화하기")
     [SerializeField] private GameObject npcInfoPanel;         // NPC 정보를 표시하는 패널 (이름, 등급, 능력치 등을 포함)
     [SerializeField] private TextMeshProUGUI npcInfoText;     // NPC 세부 정보를 표시하는 텍스트 컴포넌트
-    [SerializeField] private GameObject interactionButtonsPanel; // 상호작용 버튼들이 포함된 패널 (따라오기, 거래, 채굴 등의 버튼 포함)
-    [SerializeField] private Button followButton;             // NPC가 플레이어를 따라오도록 지시하는 버튼
-    [SerializeField] private Button tradeButton;              // NPC와 거래 기능을 활성화하는 버튼
-    [SerializeField] private Button miningButton;             // NPC에게 채굴 작업을 지시하는 버튼
     
     // 참조 변수
     private Transform playerTransform;
     private Npc currentNpc;
-    private NpcAbility currentNpcAbility;
     private bool isInteracting = false;
-    private bool isNpcFollowing = false;
     
     private void Start()
     {
@@ -92,9 +86,6 @@ public class NpcInteraction : MonoBehaviour
         
         // UI 위치 업데이트
         UpdateUIPositions();
-        
-        // NPC 따라오기 로직
-        UpdateFollowing();
     }
 
     private void UpdateUIPositions()
@@ -113,13 +104,6 @@ public class NpcInteraction : MonoBehaviour
                 // LookAt 제거하고 위치만 업데이트
                 npcInfoPanel.transform.position = Camera.main.WorldToScreenPoint(
                     currentNpc.transform.position + infoOffset);
-            }
-
-            // 상호작용 버튼 패널도 NPC 위치에 따라 업데이트
-            if (interactionButtonsPanel && interactionButtonsPanel.activeSelf)
-            {
-                interactionButtonsPanel.transform.position = Camera.main.WorldToScreenPoint(
-                    currentNpc.transform.position + new Vector3(0, 3.0f, 0));
             }
         }
     }
@@ -148,7 +132,6 @@ public class NpcInteraction : MonoBehaviour
     private void StartInteraction(Npc npc)
     {
         currentNpc = npc;
-        currentNpcAbility = npc.GetComponent<NpcAbility>();
         isInteracting = true;
         
         // NPC 정보 패널 표시
@@ -176,48 +159,31 @@ public class NpcInteraction : MonoBehaviour
     // NPC와 상호작용 종료
     private void EndInteraction()
     {
-        // NPC 상호작용 종료 알림
-        if (currentNpc != null)
-        {
-            currentNpc.OnInteractionEnd();
-            
-            // 채굴 중이었다면 중지
-            if (currentNpcAbility != null)
-            {
-                currentNpcAbility.StopGathering();
-            }
-        }
+        isInteracting = false;
         
-        // UI 패널 숨기기
+        // NPC 정보 패널 숨기기
         if (npcInfoPanel)
         {
             npcInfoPanel.SetActive(false);
         }
         
-        if (interactionButtonsPanel)
+        // NPC에게 상호작용 종료 알림
+        if (currentNpc != null)
         {
-            interactionButtonsPanel.SetActive(false);
+            currentNpc.OnInteractionEnd();
+            currentNpc = null;
         }
-        
-        // 상태 초기화
-        isInteracting = false;
-        currentNpc = null;
-        currentNpcAbility = null;
     }
     
-    // NPC 따라오기 로직 업데이트
-    private void UpdateFollowing()
+    // 현재 상호작용 중인지 확인
+    public bool IsInteracting()
     {
-        if (isNpcFollowing && currentNpc != null && playerTransform != null)
-        {
-            float distance = Vector3.Distance(playerTransform.position, currentNpc.transform.position);
-            
-            // 일정 거리 이상 떨어지면 NPC가 플레이어를 향해 이동
-            if (distance > 3.0f)
-            {
-                // 플레이어 방향으로 이동하는 로직 (실제 이동은 Npc 클래스에서 구현)
-                Debug.Log($"{currentNpc.NpcName}이(가) 플레이어를 따라갑니다. 거리: {distance:F2}");
-            }
-        }
+        return isInteracting;
+    }
+    
+    // 현재 상호작용 중인 NPC 가져오기
+    public Npc GetCurrentNpc()
+    {
+        return currentNpc;
     }
 }
