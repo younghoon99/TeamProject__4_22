@@ -696,10 +696,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2daf7b430d700044090184bf60639f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionDistance: 3
-  interactionUI: {fileID: 1801578888}
-  uiPosition: {fileID: 8517266}
-  showDebugInfo: 0
+  interactionRange: 2
+  interactionKey: 102
+  promptOffset: {x: 0, y: 2, z: 0}
+  infoOffset: {x: 0, y: 2.5, z: 0}
+  interactionPrompt: {fileID: 0}
+  npcInfoPanel: {fileID: 0}
+  npcInfoText: {fileID: 0}
 --- !u!114 &51420562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,6 +715,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcdebd9fdce4d940b83d3f752435314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcData: {fileID: 0}
+  npcId: 
   moveSpeed: 1
   idleTimeMin: 2
   idleTimeMax: 5
@@ -719,6 +724,8 @@ MonoBehaviour:
   moveTimeMax: 3
   movementRange: 5
   facingleft: 1
+  healthBarPrefab: {fileID: 0}
+  healthBarOffset: {x: 0, y: 1.5, z: 0}
   animator: {fileID: 0}
 --- !u!1 &55376744
 GameObject:
@@ -2762,6 +2769,7 @@ MonoBehaviour:
   stoppingDistance: 1
   canMove: 1
   facingRight: 0
+  currentHealth: 100
 --- !u!1 &452673425
 GameObject:
   m_ObjectHideFlags: 0
@@ -8125,6 +8133,8 @@ MonoBehaviour:
   enemyTag: Enemy
   attackDelay: 0.2
   attackCooldown: 0.5
+  resourceTilemap: {fileID: 0}
+  resourceTileSpawner: {fileID: 0}
   animator: {fileID: 1442393167}
 --- !u!50 &1442393172
 Rigidbody2D:
@@ -30214,6 +30224,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1175662613}
     m_Modifications:
+    - target: {fileID: 846718474016397756, guid: 419378b134eda754c9a1e3bbae048765, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 846718474016397756, guid: 419378b134eda754c9a1e3bbae048765, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
       value: 0.49315068
