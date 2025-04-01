@@ -146,6 +146,7 @@
     <Compile Include="Assets\Asset\SPUM\SoonsoonData\SoonsoonData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
     <Compile Include="Assets\_YS\Package\Inventory System - Kinnly\Script\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\_YS\Scripts\UIManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HelpBoxIfAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\MovingPlatform.cs" />
     <Compile Include="Assets\_YS\Package\InventoryAsset\Inventory\InventoryItem\InventoryItemScript\DragItem.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PreviewMatchingList.cs" />
     <Compile Include="Assets\_YS\Scripts\GameManager.cs" />
     <Compile Include="Assets\_YS\Package\Inventory System - Kinnly\Script\Inventory\Utility\TrashCan.cs" />
+    <Compile Include="Assets\_YS\Scripts\PauseMenu.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideLabelAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Inventory System - Kinnly\Script\Objects\LoggingNode.cs" />
   </ItemGroup>
