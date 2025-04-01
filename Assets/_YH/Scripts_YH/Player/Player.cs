@@ -171,7 +171,27 @@ public class Player : MonoBehaviour
 
     private IEnumerator RemoveClosestTileAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < delay)
+        {
+            // 캐는 도중 움직임 감지
+            if (Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(rb.velocity.x) > 0.1f)
+            {
+                Debug.Log("캐는 도중 움직임이 감지되어 작업이 취소되었습니다.");
+
+                // 캐는 애니메이션 취소 트리거 설정
+                if (animator != null)
+                {
+                    animator.SetTrigger("CancelMining");
+                }
+
+                yield break; // 코루틴 종료
+            }
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
 
         if (resourceTilemap == null || resourceTileSpawner == null)
         {
@@ -183,9 +203,17 @@ public class Player : MonoBehaviour
         Vector3Int closestTilePosition = FindClosestTile();
         if (closestTilePosition != Vector3Int.zero)
         {
-            // 타일 제거
-            resourceTilemap.SetTile(closestTilePosition, null);
-            Debug.Log($"가장 가까운 타일 제거됨: {closestTilePosition}");
+            // ResourceTileSpawner에 타일 삭제 요청
+            resourceTileSpawner.RemoveTile(closestTilePosition);
+
+            // 캐는 작업 완료 후 애니메이션 트리거 설정
+            if (animator != null)
+            {
+                animator.SetTrigger("CancelMining");
+                Debug.Log("타일 캐기 애니메이션 재생: CancelMining");
+            }
+
+            Debug.Log("타일 캐기 완료!");
         }
         else
         {

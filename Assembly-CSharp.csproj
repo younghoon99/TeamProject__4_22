@@ -196,6 +196,7 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Enum.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\SpawnItem.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteSyncManager.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\ResourceTileSpawner.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\PropertyGroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\Chest.cs" />
     <Compile Include="Assets\_YS\Scripts\PlayerMove.cs" />
