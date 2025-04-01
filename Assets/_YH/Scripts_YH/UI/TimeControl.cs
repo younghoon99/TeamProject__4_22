@@ -12,6 +12,7 @@ public class TimeControl : MonoBehaviour
     public float timeOfDay = 0;                      // 시간 (0~1)
     public float cycleSpeed = 0.033f;                // 시간 흐름 속도 (30초 주기로 설정: 1/30 = 0.033)
     public bool autoUpdateTime = true;               // 자동 시간 업데이트 여부
+    private float initialTimeOfDay = 0;              // 초기 시간 값 저장 변수
 
     [Header("시간대 설정")]
     [Range(0, 1)] public float morningTime = 0f;     // 아침 시작 시간
@@ -45,9 +46,20 @@ public class TimeControl : MonoBehaviour
     private string lastTimeOfDay = "";               // 이전 시간대
     private float lastTimeOfDayValue = 0f;           // 이전 시간 값 (전환 감지용)
     private float previousIntensity = 1.5f;          // 이전 프레임의 빛 강도
+    private bool wasGamePaused = false;              // 이전 프레임의 게임 일시정지 상태
+    private float initialShaderTimeOfDay = 0;        // 초기 셰이더 시간 값
 
     private void Start()
     {
+        // 초기 시간 값 저장
+        initialTimeOfDay = timeOfDay;
+        
+        // 초기 셰이더 시간 값 저장
+        if (skyMaterial != null)
+        {
+            initialShaderTimeOfDay = skyMaterial.GetFloat("_TimeOfDay");
+        }
+        
         // 글로벌 라이트가 할당되지 않았다면 자동으로 찾기
         if (globalLight == null)
         {
@@ -86,7 +98,24 @@ public class TimeControl : MonoBehaviour
 
     private void Update()
     {
-        if (autoUpdateTime)
+        // 게임 일시정지 상태 확인
+        bool isGamePaused = Time.timeScale == 0;
+        
+        // 게임이 일시정지되었을 때 시간 초기화
+        if (isGamePaused && !wasGamePaused)
+        {
+            ResetTimeToInitial();
+        }
+        // 게임이 일시정지 상태에서 다시 시작될 때도 초기화
+        else if (!isGamePaused && wasGamePaused)
+        {
+            ResetTimeToInitial();
+        }
+        
+        // 현재 일시정지 상태 저장
+        wasGamePaused = isGamePaused;
+        
+        if (autoUpdateTime && !isGamePaused)
         {
             // 이전 시간 저장
             lastTimeOfDayValue = timeOfDay;
@@ -103,6 +132,96 @@ public class TimeControl : MonoBehaviour
             // 현재 시간대 업데이트 및 이벤트 발생
             UpdateTimeOfDayInfo();
         }
+    }
+
+    // 시간을 초기값으로 리셋하는 메서드
+    public void ResetTimeToInitial()
+    {
+        timeOfDay = initialTimeOfDay;
+        
+        // 셰이더 시간 직접 초기화
+        if (skyMaterial != null)
+        {
+            skyMaterial.SetFloat("_TimeOfDay", initialTimeOfDay);
+            
+            // 0.9~1.0 구간과 0.0~0.1 구간에서 전환 정보 초기화
+            float transitionValue = 0;
+            
+            if (initialTimeOfDay > 0.9f)
+            {
+                // 0.9~1.0 → 0~0.5 매핑
+                transitionValue = (initialTimeOfDay - 0.9f) * 5.0f; 
+            }
+            else if (initialTimeOfDay < 0.1f)
+            {
+                // 0.0~0.1 → 0.5~1.0 매핑
+                transitionValue = 0.5f + initialTimeOfDay * 5.0f;
+            }
+            
+            skyMaterial.SetFloat("_NightTransition", transitionValue);
+        }
+        
+        // 나머지 업데이트 수행
+        UpdateShaderTime();
+        UpdateGlobalLight();
+        UpdateTimeOfDayInfo();
+        Debug.Log("시간이 초기값으로 리셋되었습니다: " + timeOfDay);
+    }
+
+    // 게임이 종료될 때 호출
+    private void OnApplicationQuit()
+    {
+        // 게임 종료 시 시간 초기화
+        if (skyMaterial != null)
+        {
+            skyMaterial.SetFloat("_TimeOfDay", initialTimeOfDay);
+            
+            // 0.9~1.0 구간과 0.0~0.1 구간에서 전환 정보 초기화
+            float transitionValue = 0;
+            
+            if (initialTimeOfDay > 0.9f)
+            {
+                // 0.9~1.0 → 0~0.5 매핑
+                transitionValue = (initialTimeOfDay - 0.9f) * 5.0f; 
+            }
+            else if (initialTimeOfDay < 0.1f)
+            {
+                // 0.0~0.1 → 0.5~1.0 매핑
+                transitionValue = 0.5f + initialTimeOfDay * 5.0f;
+            }
+            
+            skyMaterial.SetFloat("_NightTransition", transitionValue);
+        }
+        
+        Debug.Log("게임 종료 시 시간 초기화: " + initialTimeOfDay);
+    }
+    
+    // 씬이 언로드될 때 호출
+    private void OnDestroy()
+    {
+        // 씬 언로드 시 시간 초기화
+        if (skyMaterial != null)
+        {
+            skyMaterial.SetFloat("_TimeOfDay", initialTimeOfDay);
+            
+            // 0.9~1.0 구간과 0.0~0.1 구간에서 전환 정보 초기화
+            float transitionValue = 0;
+            
+            if (initialTimeOfDay > 0.9f)
+            {
+                // 0.9~1.0 → 0~0.5 매핑
+                transitionValue = (initialTimeOfDay - 0.9f) * 5.0f; 
+            }
+            else if (initialTimeOfDay < 0.1f)
+            {
+                // 0.0~0.1 → 0.5~1.0 매핑
+                transitionValue = 0.5f + initialTimeOfDay * 5.0f;
+            }
+            
+            skyMaterial.SetFloat("_NightTransition", transitionValue);
+        }
+        
+        Debug.Log("씬 언로드 시 시간 초기화: " + initialTimeOfDay);
     }
 
     // Global Light 업데이트 메서드
@@ -289,4 +408,10 @@ public class TimeControl : MonoBehaviour
     public void SetToMorning() { SetTimeOfDay(morningTime + 0.01f); }
     public void SetToNoon() { SetTimeOfDay(noonTime + 0.01f); }
     public void SetToEvening() { SetTimeOfDay(eveningTime + 0.01f); }
+    
+    // 초기 시간 값 설정 메서드
+    public void SetInitialTimeOfDay(float time)
+    {
+        initialTimeOfDay = Mathf.Clamp01(time);
+    }
 }
