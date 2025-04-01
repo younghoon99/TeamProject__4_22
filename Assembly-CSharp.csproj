@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\BoundingPlatform.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\RequiredAttribute.cs" />
+    <Compile Include="Assets\_YS\Scripts\MobManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumTextureData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationPackagePanel.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideIfAttribute.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\MinAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationPreset.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HorizontalLineAttribute.cs" />
+    <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\MobManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\LabelTextAttribute.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Ysort.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\ToolbarItem.cs" />
