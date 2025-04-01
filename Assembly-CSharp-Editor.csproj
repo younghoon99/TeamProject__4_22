@@ -65,7 +65,6 @@
   <ItemGroup>
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\InspectorProperty\EditableInspectorProperty.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Experimental\TextFieldPopup.cs" />
-    <Compile Include="Assets\_YS\Package\InventoryAsset\Inventory\InventoryItem\InventoryItemScript\Editor\AddItemReact.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Editor\SPUM_MatchingListEditor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\LabelTextAttributeProcessor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\EditorColors.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\DisableInPlayModeAttributeProcessor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\HelpBoxAttributeProcessor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\InspectorProperty\InspectorProperty.cs" />
-    <Compile Include="Assets\_YS\Package\InventoryAsset\InventoryController\Editor\InventoryControllerReact.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\TabGroupAttributeProcessor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\HorizontalGroupAttributeProcessor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Experimental\SimpleTreeView.cs" />
@@ -94,7 +92,6 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\HideIfAttributeProcessor.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\LucidEditorGUI.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\ShowIfAttributeProcessor.cs" />
-    <Compile Include="Assets\_YS\Package\InventoryAsset\InventoryUI\InventoryUIScripts\Editor\InventoryUIReact.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Utils\ReflectionUtil.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\SerializeReferenceDropdown.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Editor\Attributes\ReadOnlyAttributeProcessor.cs" />

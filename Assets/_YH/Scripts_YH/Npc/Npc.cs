@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public enum NpcItemType
-{
-    None,
-    Axe,      // 도끼
-    Pickaxe,  // 곡괭이
-    Sword     // 검
-}
-
 public class Npc : MonoBehaviour
 {
     [Header("NPC 데이터")]
@@ -82,10 +74,7 @@ public class Npc : MonoBehaviour
     // 현재 작업
     private NpcTask currentTask = NpcTask.None;
 
-    // 장착 아이템
-    private NpcItemType equippedItem = NpcItemType.None;
-
-    // 아이템 및 작업 관련 변수
+    // 작업 관련 변수
     private Transform targetObject = null;
     private bool isReturningToBase = false;
     private Vector3 basePosition;
@@ -805,33 +794,26 @@ public class Npc : MonoBehaviour
         }
     }
     
-    // 아이템 장착 메서드
-    public void EquipItem(NpcItemType item)
+    // 현재 작업 중지
+    private void StopCurrentTask()
     {
-        equippedItem = item;
-        Debug.Log($"{NpcName}이(가) {item} 아이템을 장착했습니다.");
+        if (currentTask == NpcTask.None) return;
+        
+        Debug.Log($"{NpcName}의 현재 작업이 중지되었습니다.");
+        
+        // NPC 작업 초기화
+        SetTask(NpcTask.None);
     }
-    
-    // 장착된 아이템 가져오기
-    public NpcItemType GetEquippedItem()
-    {
-        return equippedItem;
-    }
-    
+
     // 작업 설정
     public void SetTask(NpcTask task)
     {
         currentTask = task;
         randomMovementActive = task == NpcTask.None;
         
-        Debug.Log($"{NpcName}에게 {task} 작업이 할당되었습니다.");
-        
-        // 작업이 할당되면 기지 위치 저장
         if (task != NpcTask.None)
         {
-            basePosition = transform.position;
-            isReturningToBase = false;
-            gatheredResources = 0;
+            Debug.Log($"{NpcName}이(가) {task} 작업을 시작합니다.");
         }
     }
 }
