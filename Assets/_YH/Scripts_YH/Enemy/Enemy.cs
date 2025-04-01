@@ -29,6 +29,9 @@ public class Enemy : MonoBehaviour
     // 스프라이트 렌더러
     private SpriteRenderer spriteRenderer;
 
+    // 현재 체력
+    public int currentHealth = 100;
+
     void Start()
     {
         // 시작할 때 플레이어 찾기
@@ -284,5 +287,32 @@ public class Enemy : MonoBehaviour
         // 정지 거리 표시 (녹색)
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, stoppingDistance);
+    }
+
+    // 데미지 받기 메서드
+    public void TakeDamage(int damage)
+    {
+        // 현재 체력에서 데미지 차감
+        currentHealth -= damage;
+        
+        // 데미지 로그 출력
+        Debug.Log($"{gameObject.name}이(가) {damage}의 데미지를 입었습니다. 남은 체력: {currentHealth}");
+        
+        // 체력이 0 이하면 사망 처리
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    
+    // 사망 처리 메서드
+    private void Die()
+    {
+        Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+        
+        // 사망 효과 또는 애니메이션 재생
+        
+        // 일정 시간 후 오브젝트 제거 또는 비활성화
+        Destroy(gameObject, 1f);
     }
 }
