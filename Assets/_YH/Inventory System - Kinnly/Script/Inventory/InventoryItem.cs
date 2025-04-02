@@ -200,6 +200,9 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     {
         if (playerInventory != null && !playerInventory.IsDragging)
         {
+            // 현재 부모 슬롯을 저장 (드래그 취소 시 돌아갈 위치)
+            originalSlot = transform.parent.gameObject;
+            
             // Player Inven UI 찾아서 그 아래로 이동
             Transform root = transform.root;
             Transform playerInvenUI = root.Find("Player Inven UI");
