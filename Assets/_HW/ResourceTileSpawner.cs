@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq; // For LINQ methods like Contains
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -133,5 +134,37 @@ public class ResourceTileSpawner : MonoBehaviour
         } while (!positionIsValid);
 
         return randomPosition;
+    }
+
+    private readonly object tileLock = new object(); // 동기화를 위한 lock 객체
+
+    // 타일 삭제 처리
+    public void RemoveTile(Vector3Int cellPosition)
+    {
+        lock (tileLock) // 동기화 블록
+        {
+            // 타일맵에서 타일 삭제
+            TileBase tile = tilemap.GetTile(cellPosition);
+            if (tile != null)
+            {
+                tilemap.SetTile(cellPosition, null); // 타일 삭제
+                tilemap.RefreshTile(cellPosition); // 타일맵 갱신
+
+                // 월드 좌표로 변환
+                Vector3 worldPosition = tilemap.CellToWorld(cellPosition);
+
+                // 리스트에서 삭제된 타일 위치 제거
+                if (spawnedWoodTilePositions.Contains(worldPosition))
+                {
+                    spawnedWoodTilePositions.Remove(worldPosition);
+                    Debug.Log($"Wood 타일 삭제됨: {cellPosition}");
+                }
+                else if (spawnedStoneTilePositions.Contains(worldPosition))
+                {
+                    spawnedStoneTilePositions.Remove(worldPosition);
+                    Debug.Log($"Stone 타일 삭제됨: {cellPosition}");
+                }
+            }
+        }
     }
 }
