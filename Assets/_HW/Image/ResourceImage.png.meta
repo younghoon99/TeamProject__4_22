@@ -1,0 +1,834 @@
+fileFormatVersion: 2
+guid: 2cbeb0be15f649e4293790a02c93744a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: TX Village Props Crate Large
+  - first:
+      213: 21300002
+    second: TX Village Props Crate Small
+  - first:
+      213: 21300004
+    second: TX Village Props Chest Wooden
+  - first:
+      213: 21300006
+    second: TX Village Props Chest Iron
+  - first:
+      213: 21300008
+    second: TX Village Props Barrel
+  - first:
+      213: 21300010
+    second: TX Village Props Pot A
+  - first:
+      213: 21300012
+    second: TX Village Props Pot B
+  - first:
+      213: 21300014
+    second: TX Village Props Pot C
+  - first:
+      213: 21300016
+    second: TX Village Props Road Lamp
+  - first:
+      213: 21300018
+    second: TX Village Props Road Lamp Light Off
+  - first:
+      213: 21300020
+    second: TX Village Props Road Lamp Light On
+  - first:
+      213: 21300022
+    second: TX Village Props Torch
+  - first:
+      213: 21300024
+    second: TX Village Props Fence A Pillar A
+  - first:
+      213: 21300026
+    second: TX Village Props Fence A Pillar B
+  - first:
+      213: 21300028
+    second: TX Village Props Fence A Pillar C
+  - first:
+      213: 21300030
+    second: TX Village Props Fence A Rail A
+  - first:
+      213: 21300032
+    second: TX Village Props Fence A Rail B
+  - first:
+      213: 21300034
+    second: TX Village Props Fence A Rail C
+  - first:
+      213: 21300036
+    second: TX Village Props Fence A Nail
+  - first:
+      213: 21300038
+    second: TX Village Props Fence B Pillar
+  - first:
+      213: 21300040
+    second: TX Village Props Fence B Rail
+  - first:
+      213: 21300042
+    second: TX Village Props Road Sign A
+  - first:
+      213: 21300044
+    second: TX Village Props Road Sign B
+  - first:
+      213: 21300046
+    second: TX Village Props Road Sign Text A
+  - first:
+      213: 21300048
+    second: TX Village Props Road Sign Text B
+  - first:
+      213: 21300050
+    second: TX Village Props Road Sign Text C
+  - first:
+      213: 21300052
+    second: TX Village Props Billboard
+  - first:
+      213: 21300054
+    second: TX Village Props Billboard Noti A
+  - first:
+      213: 21300056
+    second: TX Village Props Billboard Noti D
+  - first:
+      213: 21300058
+    second: TX Village Props Billboard Noti B
+  - first:
+      213: 21300060
+    second: TX Village Props Billboard Noti C
+  - first:
+      213: 21300062
+    second: TX Village Props Stump
+  - first:
+      213: 21300064
+    second: TX Village Props Axe
+  - first:
+      213: 21300066
+    second: TX Village Props Well
+  - first:
+      213: 21300068
+    second: TX Village Props Bucket
+  - first:
+      213: 21300070
+    second: TX Village Props Ladder T
+  - first:
+      213: 21300072
+    second: TX Village Props Ladder M
+  - first:
+      213: 21300074
+    second: TX Village Props Ladder B
+  - first:
+      213: 21300076
+    second: TX Village Props Hay Bale
+  - first:
+      213: 21300078
+    second: TX Village Props Hay Pile
+  - first:
+      213: 21300080
+    second: TX Village Props Hay Fork
+  - first:
+      213: 21300082
+    second: TX Village Props Scarecrow
+  - first:
+      213: 21300084
+    second: TX Village Props Anvil
+  - first:
+      213: 21300086
+    second: TX Village Props Gravestone A
+  - first:
+      213: 21300088
+    second: TX Village Props Gravestone B
+  - first:
+      213: 21300090
+    second: TX Village Props Gravestone C
+  - first:
+      213: 21300092
+    second: TX Village Props Gravestone D
+  - first:
+      213: 21300094
+    second: TX Village Props Grass A
+  - first:
+      213: 21300096
+    second: TX Village Props Grass B
+  - first:
+      213: 21300098
+    second: TX Village Props Grass C
+  - first:
+      213: 21300100
+    second: TX Village Props Flower A
+  - first:
+      213: 21300102
+    second: TX Village Props Grass D
+  - first:
+      213: 21300104
+    second: TX Village Props Grass E
+  - first:
+      213: 21300106
+    second: TX Village Props Grass F
+  - first:
+      213: 21300108
+    second: TX Village Props Flower B
+  - first:
+      213: 21300110
+    second: TX Village Props Bush A
+  - first:
+      213: 21300112
+    second: TX Village Props Bush B
+  - first:
+      213: 21300114
+    second: TX Village Props Bush C
+  - first:
+      213: 21300116
+    second: TX Village Props Wheelbarrow
+  - first:
+      213: 21300118
+    second: TX Village Props Wheelbarrow Wheel
+  - first:
+      213: 21300120
+    second: TX Village Props Tree A
+  - first:
+      213: 21300122
+    second: TX Village Props Banner Pillar
+  - first:
+      213: 21300124
+    second: TX Village Props Banner
+  - first:
+      213: 21300126
+    second: TX Village Props Wood Logs
+  - first:
+      213: 21300128
+    second: TX Village Props Campfire
+  - first:
+      213: 21300130
+    second: TX Village Props Gunny Bag A
+  - first:
+      213: 21300132
+    second: TX Village Props Gunny Bag B
+  - first:
+      213: 21300134
+    second: TX Village Props Rock A
+  - first:
+      213: 21300136
+    second: TX Village Props Rock B
+  - first:
+      213: 21300138
+    second: TX Village Props Rock C
+  - first:
+      213: 21300140
+    second: TX Village Props Wheat A
+  - first:
+      213: 21300142
+    second: TX Village Props Wheat B
+  - first:
+      213: 21300144
+    second: TX Village Props Wheat C
+  - first:
+      213: 21300146
+    second: TX Village Props Wheat D
+  - first:
+      213: 21300148
+    second: TX Village Props Wheat E
+  - first:
+      213: 21300150
+    second: TX Village Props Statue
+  - first:
+      213: 21300152
+    second: TX Village Props Statue Bouquet
+  - first:
+      213: 21300154
+    second: TX Village Props Archert Target
+  - first:
+      213: 21300156
+    second: TX Village Props Arrow
+  - first:
+      213: 21300158
+    second: TX Village Props Arrow Hit
+  - first:
+      213: 21300160
+    second: TX Village Props Brick Wall
+  - first:
+      213: 21300162
+    second: TX Village Props Weapon Rack
+  - first:
+      213: 21300164
+    second: TX Village Props Spear
+  - first:
+      213: 21300166
+    second: TX Village Props Sword
+  - first:
+      213: 21300168
+    second: TX Village Props Heavy Sword
+  - first:
+      213: 21300170
+    second: TX Village Props Log Bench
+  - first:
+      213: 21300172
+    second: TX Village Props Table
+  - first:
+      213: 21300174
+    second: TX Village Props Chair
+  - first:
+      213: 21300176
+    second: TX Village Props Wine Bottle
+  - first:
+      213: 21300178
+    second: TX Village Props Apple
+  - first:
+      213: 21300180
+    second: TX Village Props Cup
+  - first:
+      213: 21300182
+    second: TX Village Props Bread
+  - first:
+      213: 21300184
+    second: TX Village Props Training Dummy
+  - first:
+      213: 21300186
+    second: TX Village Props Hammer
+  - first:
+      213: 21300188
+    second: TX Village Props Stall Tent
+  - first:
+      213: 21300190
+    second: TX Village Props Stall Tent Pillar
+  - first:
+      213: 21300192
+    second: TX Village Props Hanging Bag
+  - first:
+      213: 21300194
+    second: TX Village Props Stall Table
+  - first:
+      213: 21300196
+    second: TX Village Props Basket
+  - first:
+      213: 21300198
+    second: TX Village Props Cauldron
+  - first:
+      213: 21300200
+    second: TX Village Props Grain Box
+  - first:
+      213: 21300202
+    second: TX Village Props Kettle
+  - first:
+      213: 21300204
+    second: TX Village Props White Bottle
+  - first:
+      213: 21300206
+    second: TX Village Props Stall Fruit A
+  - first:
+      213: 21300208
+    second: TX Village Props Stall Fruit B
+  - first:
+      213: 21300210
+    second: TX Village Props Stall Fruit C
+  - first:
+      213: 21300212
+    second: TX Village Props Stall Fruit D
+  - first:
+      213: 21300214
+    second: TX Village Props Barricade
+  - first:
+      213: 21300216
+    second: TX Village Props Platform S
+  - first:
+      213: 21300218
+    second: TX Village Props Platform W
+  - first:
+      213: 21300220
+    second: TX Village Props Platform L
+  - first:
+      213: 21300222
+    second: TX Village Props Platform M
+  - first:
+      213: 21300224
+    second: TX Village Props Platform R
+  - first:
+      213: 21300226
+    second: TX Village Props Tree B
+  - first:
+      213: 21300228
+    second: TX Village Props Spike
+  - first:
+      213: 21300230
+    second: TX Village Props Clother Hanger Pillar A
+  - first:
+      213: 21300232
+    second: TX Village Props Clother Hanger Pillar B
+  - first:
+      213: 21300234
+    second: TX Village Props Clother Hanger Rope A
+  - first:
+      213: 21300236
+    second: TX Village Props Cloth A
+  - first:
+      213: 21300238
+    second: TX Village Props Cloth B
+  - first:
+      213: 21300240
+    second: TX Village Props Cloth C
+  - first:
+      213: 21300242
+    second: TX Village Props Cloth D
+  - first:
+      213: 21300244
+    second: TX Village Props Clother Hanger Clip
+  - first:
+      213: 21300246
+    second: TX Village Props Clother Hanger Rope B
+  - first:
+      213: 21300248
+    second: TX Village Props Cloth E
+  - first:
+      213: 21300250
+    second: TX Village Props Cloth F
+  - first:
+      213: 21300252
+    second: TX Village Props Cloth G
+  - first:
+      213: 21300254
+    second: TX Village Props Cloth H
+  - first:
+      213: 21300256
+    second: TX Village Props Pumpkin A
+  - first:
+      213: 21300258
+    second: TX Village Props Pumpkin B
+  - first:
+      213: 21300260
+    second: TX Village Props Spike Ball
+  - first:
+      213: 21300262
+    second: TX Village Props Sunflower A
+  - first:
+      213: 21300264
+    second: TX Village Props Sunflower B
+  - first:
+      213: 21300266
+    second: TX Village Props Sunflower C
+  - first:
+      213: 21300268
+    second: TX Village Props Fire Bowl
+  - first:
+      213: -3806943691756881100
+    second: TX Village Props Platform E
+  - first:
+      213: 9202163618114184290
+    second: TX Village Props Ladder Side LT
+  - first:
+      213: 5803455356149086885
+    second: TX Village Props Ladder Side LM
+  - first:
+      213: 3325885465304735478
+    second: TX Village Props Ladder Side LB
+  - first:
+      213: -2052889030473512461
+    second: TX Village Props Ladder Side RT
+  - first:
+      213: -8353649271199622519
+    second: TX Village Props Ladder Side RM
+  - first:
+      213: -996102965649306420
+    second: TX Village Props Ladder Side RB
+  - first:
+      213: -8851566310641887263
+    second: TX Village Props Chest Silver
+  - first:
+      213: -2305204071527019509
+    second: TX Village Props Chest Golden
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ResourceStone
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 48
+        width: 21
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da947e3abe8bf4c48ad602855623df4a
+      internalID: 2144106767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ResourceWood
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 34
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f359e6549c79b39488a9a6325f522811
+      internalID: 676049287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 13a6e8642e5ca22428475a9f0dd602ba
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      ResourceStone: 2144106767
+      ResourceWood: 676049287
+      TX Village Props - Anvil: 21300084
+      TX Village Props - Apple: 21300178
+      TX Village Props - Archert Target: 21300154
+      TX Village Props - Arrow: 21300156
+      TX Village Props - Arrow Hit: 21300158
+      TX Village Props - Axe: 21300064
+      TX Village Props - Banner: 21300124
+      TX Village Props - Banner Pillar: 21300122
+      TX Village Props - Barrel: 21300008
+      TX Village Props - Barricade: 21300214
+      TX Village Props - Basket: 21300196
+      TX Village Props - Billboard: 21300052
+      TX Village Props - Billboard Noti 01: 21300054
+      TX Village Props - Billboard Noti 02: 21300058
+      TX Village Props - Billboard Noti 03: 21300060
+      TX Village Props - Billboard Noti 04: 21300056
+      TX Village Props - Bounding Platform 01: 1776929518
+      TX Village Props - Bounding Platform 01 Base: 1702573737
+      TX Village Props - Bread: 21300182
+      TX Village Props - Brick Wall: 21300160
+      TX Village Props - Bucket: 21300068
+      TX Village Props - Bush 01: 21300110
+      TX Village Props - Bush 02: 21300112
+      TX Village Props - Bush 03: 21300114
+      TX Village Props - Campfire: 21300128
+      TX Village Props - Cauldron: 21300198
+      TX Village Props - Chain 01: 404104737
+      TX Village Props - Chain 02: -1299380106
+      TX Village Props - Chair: 21300174
+      TX Village Props - Chest Golden: -2305204071527019509
+      TX Village Props - Chest Iron: 21300006
+      TX Village Props - Chest Silver: -8851566310641887263
+      TX Village Props - Chest Wooden: 21300004
+      TX Village Props - Cloth 01: 21300236
+      TX Village Props - Cloth 02: 21300238
+      TX Village Props - Cloth 03: 21300240
+      TX Village Props - Cloth 04: 21300242
+      TX Village Props - Cloth 05: 21300248
+      TX Village Props - Cloth 06: 21300250
+      TX Village Props - Cloth 07: 21300252
+      TX Village Props - Cloth 08: 21300254
+      TX Village Props - Clother Hanger Clip: 21300244
+      TX Village Props - Clother Hanger Pillar 01: 21300230
+      TX Village Props - Clother Hanger Pillar 02: 21300232
+      TX Village Props - Clother Hanger Rope 01: 21300234
+      TX Village Props - Clother Hanger Rope 02: 21300246
+      TX Village Props - Crate Large: 21300000
+      TX Village Props - Crate Small: 21300002
+      TX Village Props - Cup: 21300180
+      TX Village Props - Elevator  Pully: 295050240
+      TX Village Props - Elevator Platform: 730316092
+      TX Village Props - Fence 01 Nail: 21300036
+      TX Village Props - Fence 01 Pillar 01: 21300024
+      TX Village Props - Fence 01 Pillar 02: 21300026
+      TX Village Props - Fence 01 Pillar 03: 21300028
+      TX Village Props - Fence 01 Rail 01: 21300030
+      TX Village Props - Fence 01 Rail 02: 21300032
+      TX Village Props - Fence 01 Rail 03: 21300034
+      TX Village Props - Fence 02 Pillar: 21300038
+      TX Village Props - Fence 02 Rail: 21300040
+      TX Village Props - Fire Bowl: 21300268
+      TX Village Props - Flower 01: 21300100
+      TX Village Props - Flower 02: 21300108
+      TX Village Props - Grain Box: 21300200
+      TX Village Props - Grass 01: 21300094
+      TX Village Props - Grass 02: 21300096
+      TX Village Props - Grass 03: 21300098
+      TX Village Props - Grass 04: 21300102
+      TX Village Props - Grass 05: 21300104
+      TX Village Props - Grass 06: 21300106
+      TX Village Props - Grass 07: -1464565168
+      TX Village Props - Grass 08: 194385232
+      TX Village Props - Grass 09: 1451849220
+      TX Village Props - Gravestone 01: 21300086
+      TX Village Props - Gravestone 02: 21300088
+      TX Village Props - Gravestone 03: 21300090
+      TX Village Props - Gravestone 04: 21300092
+      TX Village Props - Gunny Bag 01: 21300130
+      TX Village Props - Gunny Bag 02: 21300132
+      TX Village Props - Hammer: 21300186
+      TX Village Props - Hanging Bag: 21300192
+      TX Village Props - Hay Bale: 21300076
+      TX Village Props - Hay Fork: 21300080
+      TX Village Props - Hay Pile: 21300078
+      TX Village Props - Heavy Sword: 21300168
+      TX Village Props - Jump Platform 01: -2001510239
+      TX Village Props - Kettle: 21300202
+      TX Village Props - Ladder 01 B: 21300074
+      TX Village Props - Ladder 01 M: 21300072
+      TX Village Props - Ladder 01 Side LB: -1557765816
+      TX Village Props - Ladder 01 Side LM 01: 5803455356149086885
+      TX Village Props - Ladder 01 Side LM 02: 3325885465304735478
+      TX Village Props - Ladder 01 Side LT: 9202163618114184290
+      TX Village Props - Ladder 01 Side RB: -1247775351
+      TX Village Props - Ladder 01 Side RM 01: -8353649271199622519
+      TX Village Props - Ladder 01 Side RM 02: -996102965649306420
+      TX Village Props - Ladder 01 Side RT: -2052889030473512461
+      TX Village Props - Ladder 01 T: 21300070
+      TX Village Props - Ladder 02 Nail: 1717805118
+      TX Village Props - Ladder 02 Pillar A: 1464868999
+      TX Village Props - Ladder 02 Pillar B: 1701354734
+      TX Village Props - Ladder 02 Pillar C: -877933732
+      TX Village Props - Ladder 02 Step A: -786919060
+      TX Village Props - Ladder 02 Step B: -218576498
+      TX Village Props - Ladder 02 Step C: 1130954146
+      TX Village Props - Log Bench: 21300170
+      TX Village Props - Obstacle Platform Large 01: -283455303
+      TX Village Props - Obstacle Platform Large 02: -1481907185
+      TX Village Props - Obstacle Platform X16: -384566106
+      TX Village Props - Obstacle Platform X24: 392201875
+      TX Village Props - Obstacle Platform X32: -494286757
+      TX Village Props - Obstacle Platform X40: -544336610
+      TX Village Props - Platform L 01: 21300220
+      TX Village Props - Platform L 02: 21300218
+      TX Village Props - Platform L 03: -3806943691756881100
+      TX Village Props - Platform M 01: 21300222
+      TX Village Props - Platform M 02: 21300216
+      TX Village Props - Platform R 01: 21300224
+      TX Village Props - Platform R 02: -962671683
+      TX Village Props - Platform R 03: 1368479137
+      TX Village Props - Pot 01: 21300010
+      TX Village Props - Pot 02: 21300012
+      TX Village Props - Pot 03: 21300014
+      TX Village Props - Pumpkin 01: 21300256
+      TX Village Props - Pumpkin 02: 21300258
+      TX Village Props - Road Lamp Light Off: 21300018
+      TX Village Props - Road Lamp Light On: 21300020
+      TX Village Props - Road Lamp Pillar: 21300016
+      TX Village Props - Road Lamp Support: 872410618
+      TX Village Props - Road Sign 01: 21300042
+      TX Village Props - Road Sign 02: 21300044
+      TX Village Props - Road Sign Text 01: 21300046
+      TX Village Props - Road Sign Text 02: 21300048
+      TX Village Props - Road Sign Text 03: 21300050
+      TX Village Props - Rock 01: 21300134
+      TX Village Props - Rock 02: 21300136
+      TX Village Props - Rock 03: 21300138
+      TX Village Props - Rope: 1037276444
+      TX Village Props - Scarecrow: 21300082
+      TX Village Props - Seesaw 01 Board: 2129404285
+      TX Village Props - Seesaw 01 Support: -144655111
+      TX Village Props - Sign 01: 363260238
+      TX Village Props - Sign Text 01: 2108454091
+      TX Village Props - Slope Platform 01: -1236855252
+      TX Village Props - Spear: 21300164
+      TX Village Props - Spike Ball: 21300260
+      TX Village Props - Spike Plate: 21300228
+      TX Village Props - Stairs X24: 2137388760
+      TX Village Props - Stairs X32: 1339358823
+      TX Village Props - Stairs X40: 1939162546
+      TX Village Props - Stairs X48: 426013397
+      TX Village Props - Stairs X64: -1183028556
+      TX Village Props - Stall Fruit 01: 21300206
+      TX Village Props - Stall Fruit 02: 21300208
+      TX Village Props - Stall Fruit 03: 21300210
+      TX Village Props - Stall Fruit 04: 21300212
+      TX Village Props - Stall Table: 21300194
+      TX Village Props - Stall Tent: 21300188
+      TX Village Props - Stall Tent Pillar: 21300190
+      TX Village Props - Statue: 21300150
+      TX Village Props - Statue Bouquet: 21300152
+      TX Village Props - Stone of Recall: -1758970209
+      TX Village Props - Stone of Recall - Glow: -1796461765
+      TX Village Props - Stump: 21300062
+      TX Village Props - Sunflower 01: 21300262
+      TX Village Props - Sunflower 02: 21300264
+      TX Village Props - Sunflower 03: 21300266
+      TX Village Props - Sword: 21300166
+      TX Village Props - Table: 21300172
+      TX Village Props - Torch: 21300022
+      TX Village Props - Training Dummy: 21300184
+      TX Village Props - Tree 01: 21300120
+      TX Village Props - Tree 02: 21300226
+      TX Village Props - Weapon Rack: 21300162
+      TX Village Props - Well: 21300066
+      TX Village Props - Wheat 01: 21300140
+      TX Village Props - Wheat 02: 21300142
+      TX Village Props - Wheat 03: 21300144
+      TX Village Props - Wheat 04: 21300146
+      TX Village Props - Wheat 05: 21300148
+      TX Village Props - Wheelbarrow: 21300116
+      TX Village Props - Wheelbarrow Wheel: 21300118
+      TX Village Props - White Bottle: 21300204
+      TX Village Props - Wine Bottle: 21300176
+      TX Village Props - Wood Log 01: 109800182
+      TX Village Props - Wood Logs: 21300126
+      TX Village Props - Wooden Bridge Part 01: 2023208554
+      TX Village Props - Wooden Bridge Part 02: 1761022905
+      TX Village Props - Wooden Bridge Part 03: 1352905878
+      TX Village Props - Wooden Bridge Part 04: 1792859017
+      TX Village Props - Wooden Bridge Part 05: -446960186
+      TX Village Props - Wooden Bridge Rope: 1919939598
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
