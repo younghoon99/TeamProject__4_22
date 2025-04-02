@@ -14,6 +14,8 @@ public class ResourceTileSpawner : MonoBehaviour
     [SerializeField] private int maxWoodTiles = 10; // Maximum number of wood tiles
     [SerializeField] private int maxStoneTiles = 10; // Maximum number of stone tiles
     [SerializeField] private float spawnInterval = 5f; // Time interval for spawn attempts
+    [SerializeField] private GameObject woodPrefab; // Wood 타일 제거 시 생성할 오브젝트
+    [SerializeField] private GameObject stonePrefab; // Stone 타일 제거 시 생성할 오브젝트
 
     private List<Vector3> spawnedWoodTilePositions = new List<Vector3>();
     private List<Vector3> spawnedStoneTilePositions = new List<Vector3>();
@@ -147,23 +149,41 @@ public class ResourceTileSpawner : MonoBehaviour
             TileBase tile = tilemap.GetTile(cellPosition);
             if (tile != null)
             {
-                tilemap.SetTile(cellPosition, null); // 타일 삭제
-                tilemap.RefreshTile(cellPosition); // 타일맵 갱신
-
                 // 월드 좌표로 변환
                 Vector3 worldPosition = tilemap.CellToWorld(cellPosition);
 
-                // 리스트에서 삭제된 타일 위치 제거
+                // Wood 타일 제거 처리
                 if (spawnedWoodTilePositions.Contains(worldPosition))
                 {
+                    // Wood 타일 위치에 오브젝트 생성
+                    if (woodPrefab != null)
+                    {
+                        Instantiate(woodPrefab, worldPosition, Quaternion.identity);
+                        Debug.Log($"Wood 오브젝트 생성됨: {worldPosition}");
+                    }
+
+                    // Wood 타일 제거
                     spawnedWoodTilePositions.Remove(worldPosition);
                     Debug.Log($"Wood 타일 삭제됨: {cellPosition}");
                 }
+                // Stone 타일 제거 처리
                 else if (spawnedStoneTilePositions.Contains(worldPosition))
                 {
+                    // Stone 타일 위치에 오브젝트 생성
+                    if (stonePrefab != null)
+                    {
+                        Instantiate(stonePrefab, worldPosition, Quaternion.identity);
+                        Debug.Log($"Stone 오브젝트 생성됨: {worldPosition}");
+                    }
+
+                    // Stone 타일 제거
                     spawnedStoneTilePositions.Remove(worldPosition);
                     Debug.Log($"Stone 타일 삭제됨: {cellPosition}");
                 }
+
+                // 타일맵에서 타일 삭제
+                tilemap.SetTile(cellPosition, null);
+                tilemap.RefreshTile(cellPosition); // 타일맵 갱신
             }
         }
     }

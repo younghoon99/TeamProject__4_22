@@ -237,7 +237,7 @@ public class Player : MonoBehaviour
                 Vector3 worldPosition = resourceTilemap.CellToWorld(position);
                 float distance = Vector3.Distance(transform.position, worldPosition);
 
-                // 플레이어의 상호작용 거리 내에 있는 타일만 고려
+                // 플레이어의 상호작용 거리(`interactionDistance`) 내에 있는 타일만 고려
                 if (distance <= interactionDistance && distance < closestDistance)
                 {
                     closestDistance = distance;
