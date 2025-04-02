@@ -200,12 +200,15 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     {
         if (playerInventory != null && !playerInventory.IsDragging)
         {
-            // 처음 부모 저장
-            Transform oldParent = transform.parent;
-            originalSlot = oldParent.gameObject;
+            // Player Inven UI 찾아서 그 아래로 이동
+            Transform root = transform.root;
+            Transform playerInvenUI = root.Find("Player Inven UI");
+            if (playerInvenUI != null)
+            {
+                transform.SetParent(playerInvenUI);
+                Debug.Log("아이템이 Player Inven UI 아래로 이동했습니다.");
+            }
 
-            // 캔버스 루트로 이동
-            transform.SetParent(transform.root);
 
             // 레이캐스트 타겟 비활성화 (아래 UI 요소와 상호작용 가능하게)
             image.raycastTarget = false;
