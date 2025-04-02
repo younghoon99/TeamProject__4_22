@@ -47,7 +47,7 @@ namespace Kinnly
 
             // 인벤토리 슬롯 번호 초기화
             InitializeInventorySlotNumbers();
-            
+
             // 인벤토리 UI 항상 활성화
             if (inventoryUI != null)
             {

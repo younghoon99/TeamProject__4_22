@@ -11,7 +11,7 @@ public class NPCInventory : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     [SerializeField] Kinnly.PlayerInventory playerInventory; // 연결된 플레이어 인벤토리 참조
 
-   
+
 
     [SerializeField] Image slotImage; // 슬롯 이미지 (선택 시 색상 변경용)
 
@@ -35,7 +35,7 @@ public class NPCInventory : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     void Update()
     {
-       
+
     }
 
     // 마우스가 슬롯 위에 들어왔을 때 호출됨
@@ -52,5 +52,5 @@ public class NPCInventory : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         playerInventory.CurrentlyHoveredInventorySlot = null;
     }
 
-    
+
 }
