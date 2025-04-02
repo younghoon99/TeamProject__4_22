@@ -1356,7 +1356,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 1, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17.4, y: -4.13}
+  m_AnchoredPosition: {x: -19.93, y: -4.09}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2084592096341008902
@@ -4445,10 +4445,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
-  healthBarImage: {fileID: 0}
+  healthBarImage: {fileID: 4630984910888183509}
   smoothSpeed: 5
-  floatingDamageTextPrefab: {fileID: 0}
-  worldCanvas: {fileID: 0}
+  floatingDamageTextPrefab: {fileID: 6530424911363250766}
+  worldCanvas: {fileID: 8550108979994364330}
   healthBarOffset: {x: 0, y: 1.5, z: 0}
   invincibilityTime: 0.5
   blinkRate: 0.1
