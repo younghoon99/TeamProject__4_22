@@ -114,11 +114,11 @@ public class Player : MonoBehaviour
         CheckIsGrounded();
 
         // 점프 입력 처리
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        /*if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Debug.Log("점프 입력 감지됨");
             Jump();
-        }
+        } */
 
         // 마우스 위치에 따른 플레이어 방향 설정
         FlipBasedOnMousePosition();
@@ -171,7 +171,27 @@ public class Player : MonoBehaviour
 
     private IEnumerator RemoveClosestTileAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < delay)
+        {
+            // 캐는 도중 움직임 감지
+            if (Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(rb.velocity.x) > 0.1f)
+            {
+                Debug.Log("캐는 도중 움직임이 감지되어 작업이 취소되었습니다.");
+
+                // 캐는 애니메이션 취소 트리거 설정
+                if (animator != null)
+                {
+                    animator.SetTrigger("CancelMining");
+                }
+
+                yield break; // 코루틴 종료
+            }
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
 
         if (resourceTilemap == null || resourceTileSpawner == null)
         {
@@ -183,9 +203,17 @@ public class Player : MonoBehaviour
         Vector3Int closestTilePosition = FindClosestTile();
         if (closestTilePosition != Vector3Int.zero)
         {
-            // 타일 제거
-            resourceTilemap.SetTile(closestTilePosition, null);
-            Debug.Log($"가장 가까운 타일 제거됨: {closestTilePosition}");
+            // ResourceTileSpawner에 타일 삭제 요청
+            resourceTileSpawner.RemoveTile(closestTilePosition);
+
+            // 캐는 작업 완료 후 애니메이션 트리거 설정
+            if (animator != null)
+            {
+                animator.SetTrigger("CancelMining");
+                Debug.Log("타일 캐기 애니메이션 재생: CancelMining");
+            }
+
+            Debug.Log("타일 캐기 완료!");
         }
         else
         {
@@ -209,7 +237,7 @@ public class Player : MonoBehaviour
                 Vector3 worldPosition = resourceTilemap.CellToWorld(position);
                 float distance = Vector3.Distance(transform.position, worldPosition);
 
-                // 플레이어의 상호작용 거리 내에 있는 타일만 고려
+                // 플레이어의 상호작용 거리(`interactionDistance`) 내에 있는 타일만 고려
                 if (distance <= interactionDistance && distance < closestDistance)
                 {
                     closestDistance = distance;
@@ -415,7 +443,7 @@ public class Player : MonoBehaviour
 
         // 공격 지점 위치 조정 (플레이어가 바라보는 방향으로)
         if (attackPoint != null)
-        {
+        {   
             Vector3 attackPos = attackPoint.localPosition;
             attackPos.x = Mathf.Abs(attackPos.x) * (isFacingRight ? 1 : -1);
             attackPoint.localPosition = attackPos;

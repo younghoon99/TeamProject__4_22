@@ -42,13 +42,13 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         {
             // 태그로 찾기
             player = GameObject.FindGameObjectWithTag("Player");
-            
+
             // 태그로 찾지 못했다면 이름으로 찾기
             if (player == null)
             {
                 player = GameObject.Find("Player");
             }
-            
+
             if (player != null)
             {
                 playerInventory = player.GetComponent<Kinnly.PlayerInventory>();
@@ -112,14 +112,14 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         {
             // 태그로 플레이어 찾기
             player = GameObject.FindGameObjectWithTag("Player");
-            
+
             // 태그로 찾지 못하면 이름으로 찾기
             if (player == null)
             {
-                player = GameObject.Find("Player"); 
+                player = GameObject.Find("Player");
             }
         }
-        
+
         if (player != null)
         {
             playerInventory = player.GetComponent<Kinnly.PlayerInventory>();
@@ -200,26 +200,32 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     {
         if (playerInventory != null && !playerInventory.IsDragging)
         {
-            // 처음 부모 저장
-            Transform oldParent = transform.parent;
-            originalSlot = oldParent.gameObject;
+            // 현재 부모 슬롯을 저장 (드래그 취소 시 돌아갈 위치)
+            originalSlot = transform.parent.gameObject;
             
-            // 캔버스 루트로 이동
-            transform.SetParent(transform.root);
-            
+            // Player Inven UI 찾아서 그 아래로 이동
+            Transform root = transform.root;
+            Transform playerInvenUI = root.Find("Player Inven UI");
+            if (playerInvenUI != null)
+            {
+                transform.SetParent(playerInvenUI);
+                Debug.Log("아이템이 Player Inven UI 아래로 이동했습니다.");
+            }
+
+
             // 레이캐스트 타겟 비활성화 (아래 UI 요소와 상호작용 가능하게)
             image.raycastTarget = false;
-            
+
             // 드래그 상태 설정
             IsDragging = true;
             playerInventory.IsDragging = true;
-            
+
             // 현재 선택된 인벤토리 아이템으로 설정
             playerInventory.CurrentlySelectedInventoryItem = this;
 
             // Z오더를 최상위로 설정
             transform.SetAsLastSibling();
-            
+
             Debug.Log(Item.name + " 드래그 시작");
         }
     }
@@ -230,7 +236,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         if (IsDragging)
         {
             Debug.Log(Item.name + " 드래그 취소");
-            
+
             // 원래 슬롯으로 돌아감
             if (originalSlot != null)
             {
@@ -258,14 +264,14 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     private void HandleItemDrop()
     {
         if (playerInventory == null) return;
-        
+
         if (playerInventory.IsClicking)
         {
             return;
         }
 
         Debug.Log("아이템 드롭 처리 중: " + Item.name);
-        
+
         // 슬롯 위에 드롭한 경우
         if (playerInventory.CurrentlyHoveredInventorySlot != null)
         {
@@ -333,12 +339,12 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
 
         // 호버된 아이템의 부모 저장
         Transform hoveredParent = hoveredItem.transform.parent;
-        
+
         // 현재 아이템을 호버된 슬롯으로 이동
         transform.SetParent(hoveredParent);
         rectTransform.localPosition = Vector3.zero;
         image.raycastTarget = true;
-        
+
         // 호버된 아이템을 원래 슬롯으로 이동
         hoveredItem.transform.SetParent(originalSlot.transform);
         hoveredItem.transform.localPosition = Vector3.zero;
@@ -347,7 +353,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         // 드래그 상태 초기화
         IsDragging = false;
         playerInventory.IsDragging = false;
-        
+
         Debug.Log("아이템 교환 완료");
     }
 
