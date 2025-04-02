@@ -182,6 +182,7 @@
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\Item\ItemDrop.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PaginationManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SPUM_SpriteEditManager.cs" />
+    <Compile Include="Assets\_YS\Scripts\MobBehavior.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\BlockquoteAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\Item\Item.cs" />
