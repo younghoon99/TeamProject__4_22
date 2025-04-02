@@ -32,5 +32,6 @@ namespace Kinnly
         public bool isTools;
         public bool isAxe;
         public bool isPickaxe;
+        public bool isSword;
     }
 }
