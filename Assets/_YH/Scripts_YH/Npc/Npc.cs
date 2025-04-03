@@ -36,7 +36,7 @@ public class Npc : MonoBehaviour
     [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0); // 체력바 위치 오프셋
 
     [Header("컴포넌트 참조")]
-    [SerializeField] private Animator animator;              // 애니메이터 참조
+    [SerializeField] public Animator animator;              // 애니메이터 참조
 
     // 내부 상태 변수
     private Vector3 initialPosition;                         // 초기 위치 저장
@@ -85,6 +85,8 @@ public class Npc : MonoBehaviour
     private float resourceGatheringTimer = 0f;
     private int gatheredResources = 0;
 
+
+
     // 시작 시 호출됨
     private void Start()
     {
@@ -121,13 +123,13 @@ public class Npc : MonoBehaviour
         // NPC ID로 데이터 항목 가져오기
         if (npcData != null)
         {
-            
+
             if (!string.IsNullOrEmpty(npcId))
             {
                 npcEntry = npcData.GetNpcById(npcId);
-                
+
             }
-           
+
 
             // ID로 찾지 못한 경우 랜덤 NPC 생성
             if (npcEntry == null)
@@ -666,6 +668,14 @@ public class Npc : MonoBehaviour
             }
         }
 
+        // 자원 위치가 초기화되어 있는지 확인 (작업 중단 후 재시작 시)
+        if (currentResourcePosition == Vector3.zero && isWoodcutting)
+        {
+            Debug.Log($"{NpcName}: 나무 작업이 중단되었습니다. 자원 위치가 초기화되어 있습니다.");
+            isWoodcutting = false; // 작업 상태 초기화
+            resourceTimer = 0f;
+        }
+
         // 이미 채굴 중이면 채굴 진행
         if (isWoodcutting)
         {
@@ -677,7 +687,6 @@ public class Npc : MonoBehaviour
                 // 채굴 완료 후 애니메이션 상태 초기화
                 if (animator != null)
                 {
-                    animator.SetBool("6_Other", false);
                     animator.SetTrigger("CancelMining");
                 }
                 isResourceAnimationPlaying = false;
@@ -700,6 +709,7 @@ public class Npc : MonoBehaviour
 
         // 가장 가까운 나무 타일 위치 찾기
         Vector3 nearestWoodPosition = resourceTileSpawner.GetNearestWoodTilePosition(transform.position);
+        Debug.Log($"{NpcName}이(가) 가장 가까운 나무를 찾았습니다: {nearestWoodPosition}");
 
         // 나무가 없는 경우
         if (nearestWoodPosition == Vector3.zero)
@@ -723,7 +733,7 @@ public class Npc : MonoBehaviour
             if (animator != null)
             {
                 animator.SetBool("1_Move", true);
-                animator.SetBool("6_Other", false); // 이동 시에는 채집 애니메이션 비활성화
+
             }
 
             // 방향 설정
@@ -739,12 +749,13 @@ public class Npc : MonoBehaviour
             if (animator != null)
             {
                 animator.SetBool("1_Move", false);
-                animator.SetBool("6_Other", true); // 채굴 애니메이션 시작
+                animator.SetTrigger("6_Other");
                 isResourceAnimationPlaying = true; // 채집 애니메이션 재생 상태 표시
             }
 
             // 현재 자원 위치 저장
             currentResourcePosition = nearestWoodPosition;
+            Debug.Log($"{NpcName}이(가) 현재 나무 위치를 저장했습니다: {currentResourcePosition}");
 
             // 채굴 상태 설정
             isWoodcutting = true;
@@ -770,6 +781,14 @@ public class Npc : MonoBehaviour
             }
         }
 
+        // 자원 위치가 초기화되어 있는지 확인 (작업 중단 후 재시작 시)
+        if (currentResourcePosition == Vector3.zero && isMining)
+        {
+            Debug.Log($"{NpcName}: 채광 작업이 중단되었습니다. 자원 위치가 초기화되어 있습니다.");
+            isMining = false; // 작업 상태 초기화
+            resourceTimer = 0f;
+        }
+
         // 이미 채굴 중이면 채굴 진행
         if (isMining)
         {
@@ -781,7 +800,6 @@ public class Npc : MonoBehaviour
                 // 채굴 완료 후 애니메이션 상태 초기화
                 if (animator != null)
                 {
-                    animator.SetBool("6_Other", false);
                     animator.SetTrigger("CancelMining");
                 }
                 isResourceAnimationPlaying = false;
@@ -804,6 +822,7 @@ public class Npc : MonoBehaviour
 
         // 가장 가까운 돌 타일 위치 찾기
         Vector3 nearestStonePosition = resourceTileSpawner.GetNearestStoneTilePosition(transform.position);
+        Debug.Log($"{NpcName}이(가) 가장 가까운 돌을 찾았습니다: {nearestStonePosition}");
 
         // 돌이 없는 경우
         if (nearestStonePosition == Vector3.zero)
@@ -827,7 +846,7 @@ public class Npc : MonoBehaviour
             if (animator != null)
             {
                 animator.SetBool("1_Move", true);
-                animator.SetBool("6_Other", false); // 이동 시에는 채집 애니메이션 비활성화
+
             }
 
             // 방향 설정
@@ -843,12 +862,13 @@ public class Npc : MonoBehaviour
             if (animator != null)
             {
                 animator.SetBool("1_Move", false);
-                animator.SetBool("6_Other", true); // 채굴 애니메이션 시작
+                animator.SetTrigger("6_Other");
                 isResourceAnimationPlaying = true; // 채집 애니메이션 재생 상태 표시
             }
 
             // 현재 자원 위치 저장
             currentResourcePosition = nearestStonePosition;
+            Debug.Log($"{NpcName}이(가) 현재 돌 위치를 저장했습니다: {currentResourcePosition}");
 
             // 채굴 상태 설정
             isMining = true;
@@ -933,12 +953,33 @@ public class Npc : MonoBehaviour
         }
     }
 
+    // 작업 상태 초기화를 위한 공통 메서드
+    private void ResetTaskState()
+    {
+        // 채집 애니메이션 중지
+        if (animator != null)
+        {
+            // animator.SetTrigger("CancelMining");
+            
+        }
+
+        // 채집 상태 초기화
+        isWoodcutting = false;
+        isMining = false;
+        resourceTimer = 0f;
+        isResourceAnimationPlaying = false;
+
+        // 자원 위치 초기화 - 이렇게 하면 다음에 작업을 시작할 때 가장 가까운 자원을 다시 찾게 됨
+        currentResourcePosition = Vector3.zero;
+    }
+
     // 현재 작업 중지
-    private void StopCurrentTask()
+    public void StopCurrentTask()
     {
         if (currentTask == NpcTask.None) return;
 
-        Debug.Log($"{NpcName}의 현재 작업이 중지되었습니다.");
+        // 작업 상태 초기화
+        ResetTaskState();
 
         // NPC 작업 초기화
         SetTask(NpcTask.None);
@@ -949,6 +990,10 @@ public class Npc : MonoBehaviour
 
     public void SetTask(NpcTask task)
     {
+        // 작업 상태 초기화
+        ResetTaskState();
+
+        // 새 작업 설정
         currentTask = task;
 
         if (task != NpcTask.None)
@@ -976,12 +1021,12 @@ public class Npc : MonoBehaviour
                 rb.velocity = direction * moveSpeed;
 
                 // 애니메이션 업데이트
-                if (animator != null) 
+                if (animator != null)
                 {
-                    animator.SetTrigger("CancelMining");
+
                     animator.SetBool("1_Move", true);
                 }
-                
+
                 // 방향 설정
                 UpdateDirection(direction);
                 Debug.Log($"{NpcName}이(가) 초기 위치로 돌아가는 중입니다.");

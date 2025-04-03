@@ -189,6 +189,7 @@ public class NPCInventory : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             Debug.LogError("PlayerInventory가 null입니다. 인벤토리를 확인하세요.");
             return;
         }
+        npc.animator.SetTrigger("CancelMining");
 
         string itemName = currentItem.name; // 아이템 이름 미리 저장
         playerInventory.AddItem(currentItem, 1); // 플레이어 인벤토리에 아이템 추가

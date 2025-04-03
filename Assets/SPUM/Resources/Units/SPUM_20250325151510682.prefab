@@ -1399,11 +1399,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6327121517875762957}
   - component: {fileID: 4168996272990395409}
-  - component: {fileID: 4619906928435966514}
-  - component: {fileID: 7277914936992058174}
-  - component: {fileID: 1583503108656582687}
-  - component: {fileID: 7177850822289284157}
   - component: {fileID: 6426711021709808526}
+  - component: {fileID: 4020578073489955436}
+  - component: {fileID: 8935683710431324764}
+  - component: {fileID: 2418676329816569770}
+  - component: {fileID: 6541971557857956727}
+  - component: {fileID: 3713453252665525810}
   m_Layer: 5
   m_Name: SPUM_20250325151510682
   m_TagString: Player
@@ -4502,129 +4503,6 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 4c70df3312bb83346a1bf065b30d3467, type: 2}
   - {fileID: 7400000, guid: 1ef525d53ae254f7d82ef364ced85490, type: 2}
   - {fileID: 7400000, guid: fabe4f140fdb9cb448bc941c7c93e8b6, type: 2}
---- !u!61 &4619906928435966514
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1664843709120716066}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.61, y: 0.83}
-  m_EdgeRadius: 0
---- !u!50 &7277914936992058174
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1664843709120716066}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &1583503108656582687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1664843709120716066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5e310e191f8124199584b0b5e2320c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 10
-  isFacingRight: 0
-  groundCheck: {fileID: 233613799494022050}
-  groundCheckRadius: 0.31
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  interactionDistance: 1.15
-  attackDamage: 20
-  attackRange: 0.96
-  attackPoint: {fileID: 7297720824934199302}
-  enemyTag: Enemy
-  attackDelay: 0.2
-  attackCooldown: 0.5
-  resourceTilemap: {fileID: 0}
-  resourceTileSpawner: {fileID: 0}
-  animator: {fileID: 3012572870030998247}
---- !u!114 &7177850822289284157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1664843709120716066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a38b3baca0a84b4688b4c37cf97e91d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthBarImage: {fileID: 0}
-  smoothSpeed: 5
-  useFlashEffect: 1
-  damageFlashImage: {fileID: 0}
-  flashSpeed: 5
-  blinkDuration: 1
-  blinkRate: 0.1
-  invincibilityTime: 1
 --- !u!82 &6426711021709808526
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4721,6 +4599,163 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &4020578073489955436
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664843709120716066}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.4}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.61, y: 0.83}
+  m_EdgeRadius: 0
+--- !u!50 &8935683710431324764
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664843709120716066}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &2418676329816569770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664843709120716066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5e310e191f8124199584b0b5e2320c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForce: 10
+  isFacingRight: 0
+  groundCheck: {fileID: 233613799494022050}
+  groundCheckRadius: 0.31
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  interactionDistance: 1.15
+  attackDamage: 20
+  attackRange: 0.96
+  attackPoint: {fileID: 7297720824934199302}
+  enemyTag: Enemy
+  attackDelay: 0.2
+  attackCooldown: 0.5
+  resourceTilemap: {fileID: 0}
+  resourceTileSpawner: {fileID: 0}
+  animator: {fileID: 3012572870030998247}
+--- !u!114 &6541971557857956727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664843709120716066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a38b3baca0a84b4688b4c37cf97e91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  healthBarImage: {fileID: 0}
+  smoothSpeed: 5
+  useFlashEffect: 1
+  damageFlashImage: {fileID: 0}
+  flashSpeed: 5
+  blinkDuration: 1
+  blinkRate: 0.1
+  invincibilityTime: 1
+--- !u!114 &3713453252665525810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664843709120716066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed7af91da47542c458089699868ab419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 0}
+  inventorySlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  inventoryItem: {fileID: 2899700805568611129, guid: 361058cee52059c4b9671dff39a9cdb9, type: 3}
+  itemDrop: {fileID: 8030692452532231761, guid: 010ed6940c062e740b75c65f0e7aea74, type: 3}
+  MaxAmount: 999
+  CurrentlyHoveredInventorySlot: {fileID: 0}
+  CurrentlySelectedInventoryItem: {fileID: 0}
+  CurrentlySelectedInventorySlot: 0
+  IsHoveringDropBox: 0
+  IsHoveringTrashcan: 0
+  IsDragging: 0
+  IsClicking: 0
 --- !u!1 &1835109652683354211
 GameObject:
   m_ObjectHideFlags: 0

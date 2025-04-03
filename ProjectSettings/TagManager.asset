@@ -12,6 +12,8 @@ TagManager:
   - ItemDrop
   - Slot
   - HQ
+  - Undefined
+  - Resource
   layers:
   - Default
   - TransparentFX
