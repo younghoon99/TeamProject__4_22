@@ -11,9 +11,10 @@ public class Enemy : MonoBehaviour
     private float nextAttackTime = 0f;     // 다음 공격 가능 시간
 
     [Header("탐지 설정")]
-    public float detectionRange = 5f;      // 플레이어 탐지 범위
-    private Transform player;              // 플레이어 트랜스폼
-    public string targetTag = "Player";    // 추적할 대상의 태그 (기본값: Player)
+    public float detectionRange = 5f;      // 대상 탐지 범위
+    private Transform currentTarget;       // 현재 타겟 트랜스폼
+    public string[] targetTags = {"Player", "NPC"};  // 추적할 대상의 태그 배열 (우선순위 순서대로)
+    public bool prioritizeNPC = true;      // NPC를 우선적으로 공격할지 여부
 
     [Header("이동 설정")]
     public float moveSpeed = 2f;           // 이동 속도
@@ -34,9 +35,6 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        // 시작할 때 플레이어 찾기
-        player = GameObject.FindGameObjectWithTag(targetTag)?.transform;
-
         // 애니메이터 컴포넌트 가져오기 (자식 객체에 있을 경우를 위해 GetComponentInChildren 사용)
         animator = GetComponentInChildren<Animator>();
 
@@ -61,11 +59,14 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogWarning(gameObject.name + "에 Animator 컴포넌트가 없습니다.");
         }
+        
+        // 시작할 때 타겟 찾기
+        FindTarget();
 
-        // 플레이어를 찾지 못했을 경우 경고 메시지
-        if (player == null)
+        // 타겟을 찾지 못했을 경우 경고 메시지
+        if (currentTarget == null)
         {
-            Debug.LogWarning(gameObject.name + "이(가) '" + targetTag + "' 태그를 가진 대상을 찾을 수 없습니다.");
+            Debug.LogWarning(gameObject.name + "이(가) 타겟을 찾을 수 없습니다.");
         }
 
         // 다른 Enemy 및 NPC와의 충돌 무시 설정
@@ -109,24 +110,31 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        // 플레이어가 없으면 다시 찾기 시도
-        if (player == null)
+        // 주기적으로 타겟 재탐색 (매 프레임마다 하면 성능 저하 가능성 있음)
+        if (Time.frameCount % 30 == 0) // 약 0.5초마다 타겟 재탐색
         {
-            player = GameObject.FindGameObjectWithTag(targetTag)?.transform;
-            if (player == null) return; // 여전히 없으면 함수 종료
+            FindTarget();
         }
 
-        // 플레이어와의 거리 계산
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        // 타겟이 없으면 동작하지 않음
+        if (currentTarget == null)
+        {
+            // 타겟 재탐색 시도
+            FindTarget();
+            if (currentTarget == null) return; // 여전히 없으면 함수 종료
+        }
+
+        // 타겟과의 거리 계산
+        float distanceToTarget = Vector2.Distance(transform.position, currentTarget.position);
 
         // 탐지 범위 내에 있는지 확인
-        if (distanceToPlayer <= detectionRange)
+        if (distanceToTarget <= detectionRange)
         {
-            // 플레이어 방향 바라보기
-            LookAtPlayer();
+            // 타겟 방향 바라보기
+            LookAtTarget();
 
             // 공격 범위 내에 있고 공격 쿨다운이 지났는지 확인
-            if (distanceToPlayer <= attackRange && Time.time >= nextAttackTime)
+            if (distanceToTarget <= attackRange && Time.time >= nextAttackTime)
             {
                 // 공격 실행
                 Attack();
@@ -135,10 +143,10 @@ public class Enemy : MonoBehaviour
                 nextAttackTime = Time.time + attackCooldown;
             }
 
-            // 공격 범위 밖이고 정지 거리보다 멀리 있다면 플레이어에게 이동
-            else if (distanceToPlayer > stoppingDistance && canMove)
+            // 공격 범위 밖이고 정지 거리보다 멀리 있다면 타겟에게 이동
+            else if (distanceToTarget > stoppingDistance && canMove)
             {
-                MoveTowardsPlayer();
+                MoveTowardsTarget();
 
                 // 움직임 애니메이션 재생 (있다면)
                 if (animator != null)
@@ -171,13 +179,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // 플레이어 쪽으로 이동
-    private void MoveTowardsPlayer()
+    // 타겟 쪽으로 이동
+    private void MoveTowardsTarget()
     {
-        if (player == null || rb == null) return;
+        if (currentTarget == null || rb == null) return;
 
-        // 플레이어 방향으로 향하는 벡터 계산
-        Vector2 direction = (player.position - transform.position).normalized;
+        // 타겟 방향으로 향하는 벡터 계산
+        Vector2 direction = (currentTarget.position - transform.position).normalized;
 
         // 이동 속도 적용
         rb.velocity = direction * moveSpeed;
@@ -192,16 +200,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // 플레이어 방향 바라보기 (2D 게임용)
-    private void LookAtPlayer()
+    // 타겟 방향 바라보기 (2D 게임용)
+    private void LookAtTarget()
     {
-        if (player == null) return;
+        if (currentTarget == null) return;
 
-        // 플레이어가 적의 오른쪽에 있는지 왼쪽에 있는지 확인
-        bool playerIsOnRight = player.position.x > transform.position.x;
+        // 타겟이 적의 오른쪽에 있는지 왼쪽에 있는지 확인
+        bool targetIsOnRight = currentTarget.position.x > transform.position.x;
 
         // 적 캐릭터의 방향 설정 (transform.localScale로 뒤집기)
-        if ((playerIsOnRight && !facingRight) || (!playerIsOnRight && facingRight))
+        if ((targetIsOnRight && !facingRight) || (!targetIsOnRight && facingRight))
         {
             // 현재 방향 반전
             facingRight = !facingRight;
@@ -247,29 +255,94 @@ public class Enemy : MonoBehaviour
         // 공격 범위 내 모든 오브젝트 탐지
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
 
-        // 감지된 콜라이더 중 Player 태그를 가진 것 찾기
-        bool hitPlayer = false;
-        foreach (Collider2D hitCollider in hitColliders)
+        // 감지된 콜라이더 중 타겟 태그를 가진 것 찾기
+        bool hitTarget = false;
+        
+        // 우선 NPC 검색 (우선순위가 높음)
+        if (prioritizeNPC)
         {
-            if (hitCollider.CompareTag(targetTag))
+            foreach (Collider2D hitCollider in hitColliders)
             {
-                hitPlayer = true;
-                Debug.Log("플레이어 히트: " + hitCollider.name);
-
-                // PlayerHealth 컴포넌트 확인
-                PlayerHealth playerHealth = hitCollider.GetComponent<PlayerHealth>();
-                if (playerHealth != null)
+                if (hitCollider.CompareTag("NPC"))
                 {
-                    // 데미지 적용
-                    playerHealth.TakeDamage(attackDamage);
-                    Debug.Log(gameObject.name + "이(가) 플레이어에게 " + attackDamage + " 데미지를 입혔습니다.");
+                    hitTarget = true;
+                    ApplyDamageToTarget(hitCollider);
+                    break; // 하나의 NPC만 공격
                 }
             }
         }
+        
+        // NPC를 못 찾았거나 우선순위가 아니면 다른 태그 검색
+        if (!hitTarget)
+        {
+            foreach (string tag in targetTags)
+            {
+                foreach (Collider2D hitCollider in hitColliders)
+                {
+                    if (hitCollider.CompareTag(tag))
+                    {
+                        hitTarget = true;
+                        ApplyDamageToTarget(hitCollider);
+                        break; // 하나의 타겟만 공격
+                    }
+                }
+                
+                if (hitTarget) break; // 타겟을 찾았으면 반복 중단
+            }
+        }
 
-        if (!hitPlayer)
+        if (!hitTarget)
         {
             Debug.Log(gameObject.name + "의 공격이 대상에게 닿지 않았습니다.");
+        }
+    }
+    
+    // 타겟에 데미지 적용 함수
+    private void ApplyDamageToTarget(Collider2D targetCollider)
+    {
+        string targetType = targetCollider.tag;
+        
+        Debug.Log(targetType + " 히트: " + targetCollider.name);
+        
+        // 플레이어인 경우
+        if (targetType == "Player")
+        {
+            // PlayerHealth 컴포넌트 확인
+            Player player = targetCollider.GetComponent<Player>();
+            if (player != null)
+            {
+                // 데미지 적용 (Player 클래스에 TakeDamage 메서드 호출)
+                player.TakeDamage((int)attackDamage);
+                Debug.Log(gameObject.name + "이(가) 플레이어에게 " + attackDamage + " 데미지를 입혔습니다.");
+            }
+            
+            // EnemyHealth 컴포넌트 확인 (플레이어에게 EnemyHealth 컴포넌트가 있을 수 있음)
+            EnemyHealth playerHealth = targetCollider.GetComponent<EnemyHealth>();
+            if (playerHealth != null)
+            {
+                // 데미지 적용
+                playerHealth.TakeDamage(attackDamage, (Vector2)transform.position);
+            }
+        }
+        // NPC인 경우
+        else if (targetType == "NPC")
+        {
+            // Npc 컴포넌트 확인
+            Npc npc = targetCollider.GetComponent<Npc>();
+            if (npc != null)
+            {
+                // 데미지 적용 (Npc 클래스에 TakeDamage 메서드가 있다고 가정)
+                npc.TakeDamage((int)attackDamage);
+                Debug.Log(gameObject.name + "이(가) NPC에게 " + attackDamage + " 데미지를 입혔습니다.");
+            }
+            
+            // EnemyHealth 컴포넌트 확인 (NPC에게 EnemyHealth 컴포넌트가 있을 수 있음)
+            EnemyHealth npcHealth = targetCollider.GetComponent<EnemyHealth>();
+            if (npcHealth != null)
+            {
+                // 데미지 적용
+                npcHealth.TakeDamage(attackDamage, (Vector2)transform.position);
+            }
         }
     }
 
@@ -311,8 +384,66 @@ public class Enemy : MonoBehaviour
         Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
         
         // 사망 효과 또는 애니메이션 재생
+        animator.SetTrigger("4_Death");
         
         // 일정 시간 후 오브젝트 제거 또는 비활성화
         Destroy(gameObject, 1f);
+    }
+    
+    // 타겟 찾기 함수
+    private void FindTarget()
+    {
+        // 우선 NPC를 찾을지 확인
+        if (prioritizeNPC)
+        {
+            GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+            Transform closestNpc = FindClosestTarget(npcs);
+            
+            if (closestNpc != null)
+            {
+                currentTarget = closestNpc;
+                return;
+            }
+        }
+        
+        // NPC를 찾지 못했거나 우선순위가 아니면 다른 태그 검색
+        foreach (string tag in targetTags)
+        {
+            GameObject[] targets = GameObject.FindGameObjectsWithTag(tag);
+            Transform closestTarget = FindClosestTarget(targets);
+            
+            if (closestTarget != null)
+            {
+                currentTarget = closestTarget;
+                return;
+            }
+        }
+        
+        // 타겟을 찾지 못한 경우
+        currentTarget = null;
+    }
+    
+    // 가장 가까운 타겟 찾기
+    private Transform FindClosestTarget(GameObject[] targets)
+    {
+        Transform closest = null;
+        float closestDistance = float.MaxValue;
+        
+        foreach (GameObject target in targets)
+        {
+            // 자기 자신은 제외
+            if (target == gameObject) continue;
+            
+            float distance = Vector2.Distance(transform.position, target.transform.position);
+            
+            // 탐지 범위 내에 있고 현재까지 발견한 것보다 가까우면 갱신
+            if (distance <= detectionRange && distance < closestDistance)
+            {
+                closest = target.transform;
+                closestDistance = distance;
+            }
+        }
+        
+        return closest;
     }
 }

@@ -143,7 +143,7 @@ public class NpcData : ScriptableObject
         return newNpc;
     }
     
-    // 다이나믹한 능력치 분배 - 최소 1점만 보장하고 나머지는 완전 랜덤 분배
+    // 다이나믹한 능력치 분배 - 최소 1점만 보장하고 나머지는 가중치 기반 랜덤 분배
     private void DistributeDynamicStats(NpcEntry npc, int totalPoints)
     {
         // 각 능력치 초기화
@@ -152,11 +152,18 @@ public class NpcData : ScriptableObject
         npc.miningPower = 0;
         npc.moveSpeed = 0;
         
-        // 최소 1점씩 할당하기 위한 플래그
-        bool hasAttack = false;
-        bool hasHealth = false;
-        bool hasMining = false;
-        bool hasSpeed = false;
+        // 최소 1점은 반드시 할당
+        int remainingPoints = totalPoints;
+        
+        // 각 능력치에 최소 1점씩 할당
+        npc.attack = 1;
+        npc.health = 1;
+        npc.miningPower = 1;
+        npc.moveSpeed = 1;
+        remainingPoints -= 4;
+        
+        // 남은 포인트가 없으면 여기서 종료
+        if (remainingPoints <= 0) return;
         
         // 각 능력치별 가중치 (특성을 강하게 만들기 위한 확률 조정)
         int attackWeight = Random.Range(1, 10);  // 공격력 가중치
@@ -164,74 +171,46 @@ public class NpcData : ScriptableObject
         int miningWeight = Random.Range(1, 10);  // 채굴력 가중치
         int speedWeight = Random.Range(1, 10);   // 이동속도 가중치
         
-        // 남은 포인트 랜덤 분배
-        for (int i = 0; i < totalPoints; i++)
+        // 남은 포인트 가중치 기반으로 랜덤 분배
+        for (int i = 0; i < remainingPoints; i++)
         {
-            // 모든 능력치가 최소 1점 이상 가지도록 우선 분배
-            if (npc.attack == 0 && npc.health == 0 && npc.miningPower == 0 && npc.moveSpeed == 0 && i >= totalPoints - 4)
-            {
-                // 마지막 4개 포인트는 각 능력치에 1점씩 할당
-                npc.attack = 1;
-                npc.health = 1;
-                npc.miningPower = 1;
-                npc.moveSpeed = 1;
-                break;
-            }
+            // 가중치 총합 계산
+            int totalWeight = attackWeight + healthWeight + miningWeight + speedWeight;
             
-            // 가중치에 따른 랜덤 분배
-            int totalWeight = 0;
-            if (!hasAttack) totalWeight += attackWeight * 2; // 아직 할당되지 않은 능력치에 우선권
-            else totalWeight += attackWeight;
-            
-            if (!hasHealth) totalWeight += healthWeight * 2;
-            else totalWeight += healthWeight;
-            
-            if (!hasMining) totalWeight += miningWeight * 2;
-            else totalWeight += miningWeight;
-            
-            if (!hasSpeed) totalWeight += speedWeight * 2;
-            else totalWeight += speedWeight;
-            
+            // 0~totalWeight 사이의 랜덤 값 생성
             int roll = Random.Range(0, totalWeight);
             int runningTotal = 0;
             
             // 공격력에 포인트 할당
-            runningTotal += !hasAttack ? attackWeight * 2 : attackWeight;
+            runningTotal += attackWeight;
             if (roll < runningTotal)
             {
                 npc.attack++;
-                if (npc.attack == 1) hasAttack = true;
                 continue;
             }
             
             // 체력에 포인트 할당
-            runningTotal += !hasHealth ? healthWeight * 2 : healthWeight;
+            runningTotal += healthWeight;
             if (roll < runningTotal)
             {
                 npc.health++;
-                if (npc.health == 1) hasHealth = true;
                 continue;
             }
             
             // 채굴력에 포인트 할당
-            runningTotal += !hasMining ? miningWeight * 2 : miningWeight;
+            runningTotal += miningWeight;
             if (roll < runningTotal)
             {
                 npc.miningPower++;
-                if (npc.miningPower == 1) hasMining = true;
                 continue;
             }
             
             // 이동속도에 포인트 할당
             npc.moveSpeed++;
-            if (npc.moveSpeed == 1) hasSpeed = true;
         }
         
-        // 능력치가 0인 경우 최소 1로 설정
-        if (npc.attack == 0) npc.attack = 1;
-        if (npc.health == 0) npc.health = 1;
-        if (npc.miningPower == 0) npc.miningPower = 1;
-        if (npc.moveSpeed == 0) npc.moveSpeed = 1;
+        // 디버그 로그
+        Debug.Log($"NPC 능력치 분배 결과: 공격력-{npc.attack}, 체력-{npc.health}, 채굴력-{npc.miningPower}, 이동속도-{npc.moveSpeed}");
     }
     
     // 기존 메서드들은 유지

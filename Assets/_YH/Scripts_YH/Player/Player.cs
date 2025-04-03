@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI; // UI 관련 기능 사용
 
 public class Player : MonoBehaviour
 {
@@ -35,6 +36,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float attackDelay = 0.2f;      // 공격 애니메이션 후 데미지 적용 지연 시간
     [SerializeField] private float attackCooldown = 1f;   // 공격 쿨다운 시간 (애니메이션 종료 후 다시 공격 가능한 시간)
     private bool isAttacking = false;                       // 현재 공격 중인지 여부
+    
+    // 체력 관련 설정
+    [Header("체력 설정")]
+    [SerializeField] private int maxHealth = 100;           // 최대 체력
+    [SerializeField] private int currentHealth;             // 현재 체력
+    [SerializeField] private GameObject healthBarPrefab;     // 체력바 프리팹
+    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0); // 체력바 위치 오프셋
+    private GameObject healthBarObject;                     // 체력바 오브젝트
+    private Slider healthSlider;                           // 체력바 슬라이더
 
     // 타일맵 관련 변수
     [Header("타일맵 설정")]
@@ -58,6 +68,12 @@ public class Player : MonoBehaviour
         // 컴포넌트 초기화
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        
+        // 체력 초기화
+        currentHealth = maxHealth;
+        
+        // 체력바 생성
+        CreateHealthBar();
 
         // Rigidbody2D 관성 제거
         if (rb != null)
@@ -481,6 +497,79 @@ public class Player : MonoBehaviour
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        }
+    }
+
+    // 데미지를 받는 메서드
+    public void TakeDamage(int damage)
+    {
+        // 체력 감소
+        currentHealth -= damage;
+        
+        // 체력바 업데이트
+        UpdateHealthBar();
+        
+        // 데미지 받는 애니메이션 재생 (있다면)
+        if (animator != null)
+        {
+            // animator.SetTrigger("Hit");
+        }
+        
+        // 데미지 로그 출력
+        Debug.Log($"{gameObject.name}이(가) {damage}의 데미지를 받았습니다. 남은 체력: {currentHealth}/{maxHealth}");
+        
+        // 체력이 0 이하면 사망 처리
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    
+    // 사망 처리 메서드
+    private void Die()
+    {
+        Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+        
+        // 사망 애니메이션 재생 (있다면)
+        if (animator != null)
+        {
+            // animator.SetTrigger("Die");
+        }
+        
+        // 필요한 사망 처리 로직 추가
+        // 예: 게임 오버 화면 표시, 리스폰 등
+    }
+    
+    // 체력바 생성 메서드
+    private void CreateHealthBar()
+    {
+        // 체력바 프리팹이 없으면 생성하지 않음
+        if (healthBarPrefab == null)
+        {
+            Debug.LogWarning("체력바 프리팹이 없습니다.");
+            return;
+        }
+        
+        // 체력바 오브젝트 생성
+        healthBarObject = Instantiate(healthBarPrefab, transform.position + healthBarOffset, Quaternion.identity);
+        healthBarObject.transform.SetParent(transform); // 플레이어의 자식으로 설정
+        
+        // 체력바 슬라이더 컴포넌트 가져오기
+        healthSlider = healthBarObject.GetComponentInChildren<Slider>();
+        if (healthSlider != null)
+        {
+            // 체력바 초기화
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = currentHealth;
+        }
+    }
+    
+    // 체력바 업데이트 메서드
+    private void UpdateHealthBar()
+    {
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
         }
     }
 }

@@ -3,10 +3,10 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
-public class EnemyHealth : MonoBehaviour
+public class NpcHealth : MonoBehaviour
 {
     [Header("체력 설정")]
-    [SerializeField] private float maxHealth = 100f;      // 최대 체력
+    [SerializeField] private float maxHealth = 100f;      // 최대 체력 (초기값, NpcData에서 재정의됨)
     [SerializeField] private float currentHealth;         // 현재 체력
     
     [Header("UI 설정")]
@@ -26,6 +26,7 @@ public class EnemyHealth : MonoBehaviour
     private Animator animator;
     private SpriteRenderer[] spriteRenderers;
     private Rigidbody2D rb;
+    private Npc npcScript;
     
     // 원래 색상 저장용 딕셔너리
     private Dictionary<SpriteRenderer, Color> originalColors = new Dictionary<SpriteRenderer, Color>();
@@ -35,20 +36,52 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
-        // 초기 체력을 최대 체력으로 설정
-        currentHealth = maxHealth;
-        targetFill = 1f;
-        
         // 컴포넌트 참조 가져오기
         animator = GetComponentInChildren<Animator>();
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        npcScript = GetComponent<Npc>();
+        
+        // 잠시 대기하여 Npc 컴포넌트가 초기화될 시간 제공
+        Invoke("InitializeHealth", 0.1f);
         
         // 각 스프라이트 렌더러의 원래 색상 저장
         SaveOriginalColors();
         
         // 월드 캔버스가 없으면 생성
         SetupWorldCanvas();
+    }
+    
+    // 초기 체력 설정 함수
+    private void InitializeHealth()
+    {
+        // NpcData에서 체력 값 가져오기
+        if (npcScript != null && npcScript.NpcEntry != null)
+        {
+            // NpcData에서 설정한 체력 값 가져오기 (health * 10)
+            maxHealth = npcScript.NpcEntry.health * 10f;
+            
+            // 체력이 0 이하인 경우 최소값 10으로 설정 (health=1 * 10)
+            if (maxHealth <= 0)
+            {
+                maxHealth = 10f; // 최소 체력은 10 (health=1 * 10)
+                Debug.LogWarning($"NPC {npcScript.NpcName}의 체력이 0 이하였습니다. 최소값 10으로 설정합니다.");
+            }
+            else
+            {
+                Debug.Log($"NPC {npcScript.NpcName}의 최대 체력을 {maxHealth}로 설정했습니다.");
+            }
+        }
+        else
+        {
+            // NpcData가 없는 경우 기본값 사용
+            Debug.LogWarning("NPC 데이터를 찾을 수 없습니다. 기본 체력을 사용합니다.");
+            maxHealth = 10f; // 최소 체력은 10 (health=1 * 10)
+        }
+        
+        // 초기 체력을 최대 체력으로 설정
+        currentHealth = maxHealth;
+        targetFill = 1f;
         
         // 체력바 초기화
         UpdateHealthBar();
@@ -77,11 +110,11 @@ public class EnemyHealth : MonoBehaviour
         {
             healthBarImage.fillAmount = Mathf.Lerp(healthBarImage.fillAmount, targetFill, Time.deltaTime * smoothSpeed);
             
-            // 체력바가 적의 머리 위를 따라다니도록 설정
+            // 체력바가 NPC의 머리 위를 따라다니도록 설정
             Transform healthBarTransform = healthBarImage.transform.parent;
             if (healthBarTransform != null)
             {
-                // 적 머리 위에 위치하도록 설정
+                // NPC 머리 위에 위치하도록 설정
                 healthBarTransform.position = transform.position + healthBarOffset;
                 
                 // 체력바가 항상 카메라를 향하도록 설정 (빌보드 효과)
@@ -121,8 +154,15 @@ public class EnemyHealth : MonoBehaviour
             StartCoroutine(InvincibilityCoroutine());
         }
         
+        // NPC 이름 가져오기
+        string npcName = "NPC";
+        if (npcScript != null)
+        {
+            npcName = npcScript.NpcName;
+        }
+        
         // 디버그 출력
-        Debug.Log(gameObject.name + "이(가) " + damage + " 데미지를 받았습니다. 남은 체력: " + currentHealth);
+        Debug.Log($"NPC {npcName}이(가) {damage}의 피해를 입었습니다. 현재 체력: {currentHealth}/{maxHealth}");
         
         // 체력이 0이 되면 사망 처리
         if (currentHealth <= 0 && !isDead)
@@ -214,12 +254,12 @@ public class EnemyHealth : MonoBehaviour
         {
             animator.SetTrigger("4_Death");
             // 애니메이션 재생 시간을 고려하여 오브젝트 제거 지연
-            Invoke("DestroyEnemy", 1f);
+            Invoke("DestroyNpc", 1f);
         }
         else
         {
             // 애니메이터가 없으면 바로 제거
-            DestroyEnemy();
+            DestroyNpc();
         }
         
         // 컴포넌트 비활성화 (충돌 등)
@@ -228,37 +268,50 @@ public class EnemyHealth : MonoBehaviour
             GetComponent<Collider2D>().enabled = false;
         }
         
-        // Enemy 스크립트 비활성화
-        Enemy enemyScript = GetComponent<Enemy>();
-        if (enemyScript != null)
+        // Npc 스크립트 비활성화
+        if (npcScript != null)
         {
-            enemyScript.enabled = false;
+            npcScript.enabled = false;
+        }
+        
+        // NPC 이름 가져오기
+        string npcName = "NPC";
+        if (npcScript != null)
+        {
+            npcName = npcScript.NpcName;
         }
         
         // 디버그 출력
-        Debug.Log(gameObject.name + "이(가) 사망했습니다.");
+        Debug.Log($"NPC {npcName}이(가) 사망했습니다.");
     }
     
-    // 적 오브젝트 제거 함수
-    private void DestroyEnemy()
+    // NPC 오브젝트 제거 함수
+    private void DestroyNpc()
     {
         Destroy(gameObject);
     }
 
     // 체력바 업데이트 함수
-    // EnemyHealth.cs의 UpdateHealthBar() 함수를 수정
     private void UpdateHealthBar()
     {
         if (healthBarImage != null)
         {
-            targetFill = currentHealth / maxHealth;
-            // 즉시 업데이트 추가 (테스트용)
+            // 0으로 나누기 방지 (NaN 오류 방지)
+            if (maxHealth <= 0)
+            {
+                Debug.LogError($"최대 체력이 0 이하입니다: {maxHealth}. 최소값으로 재설정합니다.");
+                maxHealth = 10f; // 최소 체력은 10 (health=1 * 10)
+                currentHealth = maxHealth;
+            }
+            
+            targetFill = Mathf.Clamp01(currentHealth / maxHealth);
+            // 즉시 업데이트 추가
             healthBarImage.fillAmount = targetFill;
             Debug.Log($"체력바 업데이트: {targetFill} (현재 체력: {currentHealth}/{maxHealth})");
         }
         else
         {
-            Debug.LogError("체력바 이미지가 없습니다!");
+            Debug.LogWarning("체력바 이미지가 없습니다!");
         }
     }
 
@@ -267,8 +320,12 @@ public class EnemyHealth : MonoBehaviour
     {
         if (floatingDamageTextPrefab != null && worldCanvas != null)
         {
-            // 적 머리 위에 데미지 텍스트 생성
-            GameObject damageTextObj = Instantiate(floatingDamageTextPrefab, transform.position + Vector3.up * 1.2f, Quaternion.identity, worldCanvas.transform);
+            // 월드 좌표를 스크린 좌표로 변환
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1.2f);
+            
+            // NPC 머리 위에 데미지 텍스트 생성 (월드 캔버스의 자식으로)
+            GameObject damageTextObj = Instantiate(floatingDamageTextPrefab, worldCanvas.transform);
+            damageTextObj.transform.position = screenPos;
             
             // TextMeshProUGUI 컴포넌트 검색
             TextMeshProUGUI damageText = damageTextObj.GetComponent<TextMeshProUGUI>();
@@ -280,6 +337,7 @@ public class EnemyHealth : MonoBehaviour
                 {
                     textMesh.text = damage.ToString("0");
                     textMesh.color = Color.red;
+                    textMesh.fontSize = 16; // 글자 크기 조정
                 }
                 else
                 {
@@ -288,6 +346,7 @@ public class EnemyHealth : MonoBehaviour
                     {
                         uiText.text = damage.ToString("0");
                         uiText.color = Color.red;
+                        uiText.fontSize = 16; // 글자 크기 조정
                     }
                 }
             }
@@ -296,6 +355,7 @@ public class EnemyHealth : MonoBehaviour
                 // TextMeshProUGUI 구성
                 damageText.text = damage.ToString("0");
                 damageText.color = Color.red;
+                damageText.fontSize = 16f; // 글자 크기 조정
             }
             
             // 데미지 텍스트 애니메이션
@@ -308,21 +368,15 @@ public class EnemyHealth : MonoBehaviour
     {
         float duration = 1.0f;
         float startTime = Time.time;
-        Vector3 startOffset = Vector3.up * 1.2f;
+        Vector3 startPosition = textObj.transform.position;
         
-        // 2초 동안 위로 움직이면서 페이드아웃
+        // 1초 동안 위로 움직이면서 페이드아웃
         while (Time.time < startTime + duration)
         {
             float progress = (Time.time - startTime) / duration;
             
-            // 적 위치를 계속 추적하면서 점점 위로 올라가는 효과 적용
-            textObj.transform.position = transform.position + startOffset + Vector3.up * progress * 0.5f;
-            
-            // UI가 항상 카메라를 향하도록 설정 (빌보드 효과)
-            if (Camera.main != null)
-            {
-                textObj.transform.LookAt(textObj.transform.position + Camera.main.transform.forward);
-            }
+            // 스크린 좌표에서 위로 올라가는 효과 적용
+            textObj.transform.position = startPosition + Vector3.up * progress * 50f;
             
             // 텍스트 컴포넌트 찾아서 알파값 조절
             TextMeshProUGUI tmpText = textObj.GetComponent<TextMeshProUGUI>();
@@ -388,9 +442,6 @@ public class EnemyHealth : MonoBehaviour
                 CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
                 scaler.dynamicPixelsPerUnit = 100f;
                 
-                // 캔버스가 항상 카메라를 향하도록 빌보드 효과 추가
-                canvasObj.AddComponent<Billboard>();
-                
                 Debug.Log("월드 캔버스가 자동 생성되었습니다.");
             }
         }
@@ -404,37 +455,52 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
         UpdateHealthBar();
         
-        Debug.Log(gameObject.name + "이(가) " + amount + " 만큼 체력을 회복했습니다. 현재 체력: " + currentHealth);
+        // NPC 이름 가져오기
+        string npcName = "NPC";
+        if (npcScript != null)
+        {
+            npcName = npcScript.NpcName;
+        }
+        
+        Debug.Log($"NPC {npcName}이(가) {amount}만큼 회복되었습니다. 현재 체력: {currentHealth}/{maxHealth}");
     }
     
-    // 현재 체력 비율 반환 함수 (0-1 사이 값)
-    public float GetHealthPercent()
+    // 체력 설정 함수
+    public void SetHealth(float health)
+    {
+        currentHealth = Mathf.Clamp(health, 0, maxHealth);
+        UpdateHealthBar();
+    }
+    
+    // 최대 체력 설정 함수
+    public void SetMaxHealth(float health)
+    {
+        maxHealth = Mathf.Max(1, health);
+        currentHealth = Mathf.Min(currentHealth, maxHealth);
+        UpdateHealthBar();
+    }
+    
+    // 현재 체력 반환
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+    
+    // 최대 체력 반환
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+    
+    // 체력 비율 반환 (0~1)
+    public float GetHealthRatio()
     {
         return currentHealth / maxHealth;
     }
     
-    // 죽었는지 여부 반환
-    public bool IsDead()
-    {
-        return isDead;
-    }
+    // 체력 관련 속성 공개
+    public float MaxHealth => maxHealth;
+    public float CurrentHealth => currentHealth;
 }
 
-// 항상 카메라를 향하게 하는 빌보드 클래스
-public class Billboard : MonoBehaviour
-{
-    private Camera mainCamera;
-    
-    void Start()
-    {
-        mainCamera = Camera.main;
-    }
-    
-    void LateUpdate()
-    {
-        if (mainCamera != null)
-        {
-            transform.LookAt(transform.position + mainCamera.transform.forward);
-        }
-    }
-}
+// Billboard 클래스는 다른 파일에 이미 정의되어 있으므로 제거합니다.

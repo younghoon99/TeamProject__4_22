@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI; // UI 관련 기능 사용
 using TMPro;
 
 public class Npc : MonoBehaviour
@@ -31,9 +32,8 @@ public class Npc : MonoBehaviour
     [Header("방향 설정")]
     [SerializeField] private bool facingleft = true;        // NPC의 초기 방향 (true: 왼쪽, false: 오른쪽)
 
-    [Header("UI 설정")]
-    [SerializeField] private GameObject healthBarPrefab;     // 체력바 프리팹
-    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0); // 체력바 위치 오프셋
+    // NpcHealth 컴포넌트 참조 (체력 관리를 위해 사용)
+    private NpcHealth npcHealth;
 
     [Header("컴포넌트 참조")]
     [SerializeField] public Animator animator;              // 애니메이터 참조
@@ -96,6 +96,14 @@ public class Npc : MonoBehaviour
         // 컴포넌트 초기화
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        // NpcHealth 컴포넌트 참조 가져오기
+        npcHealth = GetComponent<NpcHealth>();
+
+        // NpcHealth 컴포넌트가 없으면 경고
+        if (npcHealth == null)
+        {
+            Debug.LogWarning($"NPC {gameObject.name}에 NpcHealth 컴포넌트가 없습니다. 추가해주세요.");
+        }
 
         if (animator == null)
             animator = GetComponent<Animator>();
@@ -154,9 +162,6 @@ public class Npc : MonoBehaviour
 
             // 먼저 데이터 초기화
             InitializeFromData();
-
-            // 데이터 초기화 후 체력바 생성
-            CreateHealthBar();
         }
         else
         {
@@ -202,8 +207,6 @@ public class Npc : MonoBehaviour
 
                 // 애니메이션 업데이트
                 UpdateAnimation();
-                // 체력바 위치 업데이트
-                UpdateHealthBarPosition();
                 return;
             }
             else
@@ -216,8 +219,6 @@ public class Npc : MonoBehaviour
 
                 // 애니메이션 업데이트
                 UpdateAnimation();
-                // 체력바 위치 업데이트
-                UpdateHealthBarPosition();
                 return;
             }
         }
@@ -243,37 +244,9 @@ public class Npc : MonoBehaviour
 
         // 애니메이션 업데이트
         UpdateAnimation();
-
-        // 체력바 위치 업데이트
-        UpdateHealthBarPosition();
     }
 
-    // 체력바 생성
-    private void CreateHealthBar()
-    {
-        if (healthBarPrefab == null)
-        {
-            Debug.LogWarning("체력바 프리팹이 없습니다.");
-            return;
-        }
 
-        // 체력바 생성
-        healthBarObject = Instantiate(healthBarPrefab, transform.position + healthBarOffset, Quaternion.identity);
-        healthBarObject.transform.SetParent(transform);
-
-        // 이름 텍스트 및 체력 텍스트 찾기
-        nameText = healthBarObject.transform.Find("NameText")?.GetComponent<TextMeshProUGUI>();
-        healthText = healthBarObject.transform.Find("HealthText")?.GetComponent<TextMeshProUGUI>();
-        healthBarTransform = healthBarObject.transform;
-
-        // 텍스트 설정
-        if (nameText != null)
-        {
-            nameText.text = GetColoredRarityName();
-        }
-
-        UpdateHealthUI();
-    }
 
     // 등급에 따른 색상 이름 반환
     private string GetColoredRarityName()
@@ -305,32 +278,16 @@ public class Npc : MonoBehaviour
         return $"<color={colorCode}>{npcEntry.npcName}</color>";
     }
 
-    // 체력 UI 업데이트
-    private void UpdateHealthUI()
-    {
-        if (healthText != null)
-        {
-            // 유효한 체력 값인지 확인
-            if (currentHealth <= 0 || maxHealth <= 0)
-            {
-                currentHealth = (currentHealth <= 0) ? 10 : currentHealth;
-                maxHealth = (maxHealth <= 0) ? 10 : maxHealth;
-                Debug.LogWarning($"{npcEntry.npcName}의 체력이 유효하지 않아 기본값으로 설정했습니다.");
-            }
 
-            healthText.text = $"{currentHealth}/{maxHealth}";
-        }
-    }
+    
 
-    // 체력바 위치 업데이트
-    private void UpdateHealthBarPosition()
-    {
-        if (healthBarTransform != null)
-        {
-            healthBarTransform.position = transform.position + healthBarOffset;
-        }
-    }
+    
 
+    
+
+
+
+    
     // NPC 데이터로부터 초기화
     public void InitializeFromData()
     {
@@ -340,19 +297,22 @@ public class Npc : MonoBehaviour
             return;
         }
 
-        // 기본 스탯 설정
-        maxHealth = npcEntry.health * 10; // 체력을 10배로 늘림
-        currentHealth = maxHealth;        // 현재 체력도 최대 체력으로 설정
+        // 기본 스탯 설정 (체력 관련 설정은 NpcHealth에서 처리하도록 수정)
         attackPower = npcEntry.attack;
         miningPower = npcEntry.miningPower;
         moveSpeedStat = npcEntry.moveSpeed;
 
         // 능력치가 0이하인 경우 최소값으로 설정 (데이터 누락 방지)
-        if (currentHealth <= 0) currentHealth = 100; // 최소 체력도 10배로 늘림
-        if (maxHealth <= 0) maxHealth = 100;        // 최소 체력도 10배로 늘림
         if (attackPower <= 0) attackPower = 1;
         if (miningPower <= 0) miningPower = 1;
         if (moveSpeedStat <= 0) moveSpeedStat = 1;
+        
+        // 체력 초기화는 NpcHealth 컴포넌트에서 처리하도록 변경
+        // 만약 NpcHealth 컴포넌트가 없는 경우 경고 출력
+        if (npcHealth == null)
+        {
+            Debug.LogError($"{npcEntry.npcName} NPC에 NpcHealth 컴포넌트가 없습니다!");
+        }
 
         // 이동 설정 적용
         moveSpeed = 0.5f + (moveSpeedStat * 0.1f); // 이동 속도는 기본 0.5 + 스탯의 10%
@@ -361,7 +321,7 @@ public class Npc : MonoBehaviour
         moveTimeMin = npcEntry.moveTimeMin;
         moveTimeMax = npcEntry.moveTimeMax;
 
-        Debug.Log($"{npcEntry.npcName} NPC가 초기화되었습니다: 등급-{npcEntry.rarity}, 체력-{maxHealth}, 공격력-{attackPower}, 채굴력-{miningPower}, 이동속도-{moveSpeedStat}");
+        Debug.Log($"{npcEntry.npcName} NPC가 초기화되었습니다: 등급-{npcEntry.rarity}, 체력-{npcEntry.health * 10}, 공격력-{attackPower}, 채굴력-{miningPower}, 이동속도-{moveSpeedStat}");
     }
 
     // Enemy 오브젝트들과의 충돌 무시 설정
@@ -549,66 +509,35 @@ public class Npc : MonoBehaviour
         Debug.Log($"NPC {NpcName}이(가) 플레이어와의 상호작용을 종료했습니다");
     }
 
-    // 데미지 받기
+    // 데미지 받기 (Enemy 클래스에서 호출)
     public void TakeDamage(int damage)
     {
-        if (damage <= 0) return;
-
-        currentHealth -= damage;
-
-        // 체력 최소 0으로 제한
-        if (currentHealth < 0)
-            currentHealth = 0;
-
-        // 체력 UI 업데이트
-        UpdateHealthUI();
-
-        Debug.Log($"NPC {NpcName}이(가) {damage}의 피해를 입었습니다. 현재 체력: {currentHealth}/{maxHealth}");
-
-        // 사망 처리
-        if (currentHealth <= 0)
+        // NpcHealth 컴포넌트가 있으면 그쪽으로 데미지 전달
+        if (npcHealth != null)
         {
-            Die();
+            npcHealth.TakeDamage(damage);
+        }
+        else
+        {
+            Debug.LogWarning($"NPC {NpcName}에 NpcHealth 컴포넌트가 없습니다.");
         }
     }
 
     // 체력 회복
     public void Heal(int healAmount)
     {
-        if (healAmount <= 0) return;
-
-        currentHealth += healAmount;
-
-        // 최대 체력 제한
-        if (currentHealth > maxHealth)
-            currentHealth = maxHealth;
-
-        // 체력 UI 업데이트
-        UpdateHealthUI();
-
-        Debug.Log($"NPC {NpcName}이(가) {healAmount}만큼 회복되었습니다. 현재 체력: {currentHealth}/{maxHealth}");
-    }
-
-    // 사망 처리
-    private void Die()
-    {
-        Debug.Log($"NPC {NpcName}이(가) 사망했습니다.");
-
-        // 사망 애니메이션 호출 (있는 경우)
-        if (animator != null && animator.HasState(0, Animator.StringToHash("Death")))
+        // NpcHealth 컴포넌트가 있으면 그쪽으로 회복 요청 전달
+        if (npcHealth != null)
         {
-            animator.SetTrigger("Death");
+            npcHealth.Heal(healAmount);
         }
         else
         {
-            // 애니메이션이 없는 경우 즉시 파괴
-            Destroy(gameObject, 0.1f);
+            Debug.LogWarning($"NPC {NpcName}에 NpcHealth 컴포넌트가 없습니다.");
         }
-
-        // 이동 정지
-        canMove = false;
-        rb.velocity = Vector2.zero;
     }
+
+
 
     // NPC 정보 반환 (상호작용 UI용)
     public string GetNpcInfoText()
@@ -616,15 +545,15 @@ public class Npc : MonoBehaviour
         if (npcEntry == null) return "NPC 정보가 없습니다.";
 
         string coloredName = GetColoredRarityName();
-        string statInfo = $"<b>공격력:</b> {attackPower}\n<b>체력:</b> {currentHealth}/{maxHealth}\n<b>채굴능력:</b> {miningPower}\n<b>이동속도:</b> {moveSpeedStat}";
+        string statInfo = $"<b>공격력:</b> {attackPower}\n<b>체력:</b> {GetCurrentHealth()}/{GetMaxHealth()}\n<b>채굴능력:</b> {miningPower}\n<b>이동속도:</b> {moveSpeedStat}";
 
         return $"{coloredName}\n\n<b>[등급 {npcEntry.rarity}]</b>\n\n{statInfo}\n\n{npcEntry.description}";
     }
 
     // 능력치 값들 반환 메서드
     public int GetAttackPower() => attackPower;
-    public int GetMaxHealth() => maxHealth;
-    public int GetCurrentHealth() => currentHealth;
+    public int GetMaxHealth() => npcHealth != null ? (int)npcHealth.MaxHealth : 0;
+    public int GetCurrentHealth() => npcHealth != null ? (int)npcHealth.CurrentHealth : 0;
     public int GetMiningPower() => miningPower;
     public int GetMoveSpeedStat() => moveSpeedStat;
     public NpcData.NpcRarity GetRarity() => npcEntry != null ? npcEntry.rarity : NpcData.NpcRarity.노말;
@@ -878,17 +807,30 @@ public class Npc : MonoBehaviour
         }
     }
 
-    // 전투 처리 - 적에게 이동만 구현
+    // 전투 관련 변수
+    private bool isAttacking = false;
+    private float attackCooldown = 1.5f;
+    private float attackRange = 1.5f;
+    private int attackDamage;
+    private GameObject currentTarget;
+
+    // 전투 처리 - 적에게 이동 및 공격 구현
     private void HandleCombatTask()
     {
+        // 이미 공격 중이면 처리하지 않음
+        if (isAttacking)
+            return;
+
         // 적 찾기 및 이동 로직
         GameObject nearestEnemy = FindNearestObjectWithTag("Enemy");
         if (nearestEnemy != null)
         {
+            currentTarget = nearestEnemy;
+            
             // 적으로 이동
             float distanceToEnemy = Vector3.Distance(transform.position, nearestEnemy.transform.position);
 
-            if (distanceToEnemy > 1.0f)
+            if (distanceToEnemy > attackRange)
             {
                 // 적에게 이동
                 Vector3 direction = (nearestEnemy.transform.position - transform.position).normalized;
@@ -903,19 +845,103 @@ public class Npc : MonoBehaviour
             }
             else
             {
-                // 적 근처에 도착하면 정지
+                // 적 근처에 도착하면 정지 후 공격
                 rb.velocity = Vector2.zero;
                 if (animator != null) animator.SetBool("1_Move", false);
-                Debug.Log($"{NpcName}이(가) 적에게 도착했습니다.");
+                
+                // 공격 실행
+                AttackEnemy();
             }
         }
         else
         {
             // 적이 없는 경우 정지
+            currentTarget = null;
             rb.velocity = Vector2.zero;
             if (animator != null) animator.SetBool("1_Move", false);
             Debug.Log($"{NpcName}: 근처에 적이 없습니다.");
         }
+    }
+
+    // 적 공격 함수
+    private void AttackEnemy()
+    {
+        // 이미 공격 중이면 무시
+        if (isAttacking)
+            return;
+
+        // 공격 상태로 설정
+        isAttacking = true;
+
+        // 애니메이션 재생 (최우선 처리)
+        if (animator != null)
+        {
+            // 다른 애니메이션 즉시 중단하고 공격 애니메이션 재생
+            animator.ResetTrigger("2_Attack"); // 기존 트리거 초기화
+            animator.SetTrigger("2_Attack");
+        }
+
+        // NpcData에서 공격력 가져오기
+        attackDamage = npcEntry != null ? npcEntry.attack : 1;
+
+        // 공격 데미지 처리
+        StartCoroutine(ApplyAttackDamage());
+
+        // 공격 쿨다운 시작
+        StartCoroutine(AttackCooldown());
+
+        Debug.Log($"{NpcName}이(가) {attackDamage}의 데미지로 공격합니다.");
+    }
+
+    // 공격 데미지 적용 코루틴
+    private IEnumerator ApplyAttackDamage()
+    {
+        // 공격 애니메이션이 데미지를 입히는 시점까지 대기 (약 0.3초)
+        yield return new WaitForSeconds(0.3f);
+
+        // 타겟이 여전히 존재하고 공격 범위 내에 있는지 확인
+        if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.transform.position) <= attackRange)
+        {
+            // 적에게 데미지 적용
+            Enemy enemy = currentTarget.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                // Enemy 컴포넌트의 TakeDamage 호출
+                enemy.TakeDamage(attackDamage);
+                
+                // EnemyHealth 컴포넌트도 찾아서 호출
+                EnemyHealth enemyHealth = currentTarget.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage(attackDamage, (Vector2)transform.position);
+                }
+                
+                Debug.Log($"{NpcName}이(가) {enemy.name}에게 {attackDamage} 데미지를 입혔습니다.");
+            }
+            else
+            {
+                // Enemy 컴포넌트가 없는 경우 플레이어일 수 있음
+                Player player = currentTarget.GetComponent<Player>();
+                if (player != null)
+                {
+                    // 플레이어의 EnemyHealth 컴포넌트 확인 (플레이어에게 데미지를 입히는 방법)
+                    EnemyHealth playerHealth = player.GetComponent<EnemyHealth>();
+                    if (playerHealth != null)
+                    {
+                        playerHealth.TakeDamage(attackDamage, (Vector2)transform.position);
+                        Debug.Log($"{NpcName}이(가) 플레이어에게 {attackDamage} 데미지를 입혔습니다.");
+                    }
+                }
+            }
+        }
+    }
+
+    // 공격 쿨다운 코루틴
+    private IEnumerator AttackCooldown()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
+        Debug.Log($"{NpcName}의 공격 쿨다운이 끝났습니다.");
     }
 
     // 태그로 가장 가까운 오브젝트 찾기
