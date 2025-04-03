@@ -10,10 +10,14 @@ public class MobManager : MonoBehaviour
     private List<GameObject> activeMobs = new List<GameObject>(); // 활성화된 몹 리스트
     private const int maxMobs = 20; // 최대 몹 수
     public Transform playerTransform; // 기존 플레이어 Transform
+    public Transform hqTransform; // HQ Transform
+    public Transform[] wallTransforms; // Wall Transform 배열
     public GameObject[] itemPrefabs; // 아이템 프리펩 배열
     private List<GameObject> spawnedItems = new List<GameObject>(); // 스폰된 아이템 리스트
     private int destroyedMobCount = 0; // 파괴된 몹 수
     private bool isCooldownActive = false; // 쿨다운 활성화 여부
+    public Transform leftWallTransform; // 좌측 Wall Transform
+    public Transform rightWallTransform; // 우측 Wall Transform
 
     private void Start()
     {
@@ -21,6 +25,33 @@ public class MobManager : MonoBehaviour
         {
             Debug.LogError("Player Transform not assigned in MobManager!");
             return;
+        }
+
+        // Wall 콜라이더를 트리거로 설정
+        if (wallTransforms != null)
+        {
+            foreach (var wallTransform in wallTransforms)
+            {
+                Collider wallCollider = wallTransform.GetComponent<Collider>();
+                if (wallCollider != null)
+                {
+                    wallCollider.isTrigger = true;
+                }
+            }
+        }
+
+        // Wall 콜라이더와 플레이어 콜라이더 간 충돌 무시 설정
+        if (wallTransforms != null && playerTransform != null)
+        {
+            foreach (var wallTransform in wallTransforms)
+            {
+                Collider wallCollider = wallTransform.GetComponent<Collider>();
+                Collider playerCollider = playerTransform.GetComponent<Collider>();
+                if (wallCollider != null && playerCollider != null)
+                {
+                    Physics.IgnoreCollision(wallCollider, playerCollider);
+                }
+            }
         }
 
         StartCoroutine(DelayedStart());
@@ -70,7 +101,7 @@ public class MobManager : MonoBehaviour
 
             // MobBehavior 컴포넌트 추가 및 초기화
             MobBehavior mobBehavior = mob.AddComponent<MobBehavior>();
-            mobBehavior.Initialize(playerTransform);
+            mobBehavior.Initialize(playerTransform, hqTransform, wallTransforms, leftWallTransform, rightWallTransform);
 
             // 활성화된 몹 리스트에 추가
             activeMobs.Add(mob);
