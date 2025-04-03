@@ -10,6 +10,9 @@ public class Npc : MonoBehaviour
     [SerializeField] private string npcId;     // NPC ID
     private NpcData.NpcEntry npcEntry;         // 현재 NPC의 데이터 항목
 
+    // ResourceTileSpawner 참조 추가
+    private ResourceTileSpawner resourceTileSpawner;
+
     // 외부에서 NPC 데이터 접근용 프로퍼티
     public NpcData.NpcEntry NpcEntry => npcEntry;
 
@@ -94,6 +97,20 @@ public class Npc : MonoBehaviour
         // 초기 위치 저장
         initialPosition = transform.position;
 
+        // ResourceTileSpawner 찾기
+        if (resourceTileSpawner == null)
+        {
+            resourceTileSpawner = FindObjectOfType<ResourceTileSpawner>();
+            if (resourceTileSpawner == null)
+            {
+                Debug.LogWarning($"{NpcName}: Start에서 ResourceTileSpawner를 찾을 수 없습니다. 나무/광물 채집 작업이 제대로 동작하지 않을 수 있습니다.");
+            }
+            else
+            {
+                Debug.Log($"{NpcName}: ResourceTileSpawner를 성공적으로 찾았습니다.");
+            }
+        }
+
         // 다른 에너미 오브젝트와의 충돌 무시 설정
         IgnoreCollisionsWithEnemies();
 
@@ -104,14 +121,14 @@ public class Npc : MonoBehaviour
             {
                 npcEntry = npcData.GetNpcById(npcId);
             }
-            
+
             // ID로 찾지 못한 경우 랜덤 NPC 생성
             if (npcEntry == null)
             {
                 // 등급별 확률 계산 (노말 60%, 레어 25%, 영웅 10%, 전설 5%)
                 float rarityRoll = Random.Range(0f, 1f);
                 NpcData.NpcRarity rarity;
-                
+
                 if (rarityRoll < 0.05f)
                     rarity = NpcData.NpcRarity.전설;
                 else if (rarityRoll < 0.15f)
@@ -120,14 +137,14 @@ public class Npc : MonoBehaviour
                     rarity = NpcData.NpcRarity.레어;
                 else
                     rarity = NpcData.NpcRarity.노말;
-                
+
                 npcEntry = npcData.GenerateRandomNpc(rarity);
                 npcId = npcEntry.npcId;
             }
-            
+
             // 먼저 데이터 초기화
             InitializeFromData();
-            
+
             // 데이터 초기화 후 체력바 생성
             CreateHealthBar();
         }
@@ -144,13 +161,61 @@ public class Npc : MonoBehaviour
     private void Update()
     {
         // 상호작용 중이거나 움직임이 비활성화된 경우 움직이지 않음
-        if (!canMove || currentState == NpcState.Interacting || !randomMovementActive)
+        if (!canMove || currentState == NpcState.Interacting)
         {
             // 움직이지 않을 때는 속도를 0으로 설정
             if (rb != null) rb.velocity = Vector2.zero;
 
             // 움직임 애니메이션 비활성화
             if (animator != null) animator.SetBool("1_Move", false);
+            return;
+        }
+        
+        // 초기 위치로 돌아가는 중인 경우 우선 처리
+        if (returningToInitialPosition)
+        {
+            // 초기 위치와의 거리 계산
+            float distanceFromStart = Vector3.Distance(transform.position, initialPosition);
+            
+            // 초기 위치에 근접했는지 확인
+            if (distanceFromStart <= movementRange * 0.3f) // 조금 더 작은 범위로 설정
+            {
+                // 초기 위치에 도착했으니 랜덤 이동 모드로 전환
+                returningToInitialPosition = false;
+                randomMovementActive = true;
+                rb.velocity = Vector2.zero;
+                if (animator != null) animator.SetBool("1_Move", false);
+                currentState = NpcState.Idle;
+                isMoving = false;
+                Debug.Log($"{NpcName}이(가) 초기 위치에 도착하여 랜덤 이동 모드로 전환합니다.");
+                DecideNextAction();
+                
+                // 애니메이션 업데이트
+                UpdateAnimation();
+                // 체력바 위치 업데이트
+                UpdateHealthBarPosition();
+                return;
+            }
+            else
+            {
+                // 계속 초기 위치로 이동
+                Vector3 direction = (initialPosition - transform.position).normalized;
+                rb.velocity = direction * moveSpeed;
+                UpdateDirection(direction);
+                if (animator != null) animator.SetBool("1_Move", true);
+                
+                // 애니메이션 업데이트
+                UpdateAnimation();
+                // 체력바 위치 업데이트
+                UpdateHealthBarPosition();
+                return;
+            }
+        }
+
+        // 작업이 있는 경우 랜덤 이동을 하지 않음
+        if (currentTask != NpcTask.None)
+        {
+            HandleTask();
             return;
         }
 
@@ -168,15 +233,9 @@ public class Npc : MonoBehaviour
 
         // 애니메이션 업데이트
         UpdateAnimation();
-        
+
         // 체력바 위치 업데이트
         UpdateHealthBarPosition();
-        
-        // 작업 처리
-        if (currentTask != NpcTask.None)
-        {
-            HandleTask();
-        }
     }
 
     // 체력바 생성
@@ -191,28 +250,28 @@ public class Npc : MonoBehaviour
         // 체력바 생성
         healthBarObject = Instantiate(healthBarPrefab, transform.position + healthBarOffset, Quaternion.identity);
         healthBarObject.transform.SetParent(transform);
-        
+
         // 이름 텍스트 및 체력 텍스트 찾기
         nameText = healthBarObject.transform.Find("NameText")?.GetComponent<TextMeshProUGUI>();
         healthText = healthBarObject.transform.Find("HealthText")?.GetComponent<TextMeshProUGUI>();
         healthBarTransform = healthBarObject.transform;
-        
+
         // 텍스트 설정
         if (nameText != null)
         {
             nameText.text = GetColoredRarityName();
         }
-        
+
         UpdateHealthUI();
     }
-    
+
     // 등급에 따른 색상 이름 반환
     private string GetColoredRarityName()
     {
         if (npcEntry == null) return gameObject.name;
-        
+
         string colorCode;
-        
+
         switch (npcEntry.rarity)
         {
             case NpcData.NpcRarity.노말:
@@ -231,11 +290,11 @@ public class Npc : MonoBehaviour
                 colorCode = "white";
                 break;
         }
-        
+
         // ID 대신 이름만 표시
         return $"<color={colorCode}>{npcEntry.npcName}</color>";
     }
-    
+
     // 체력 UI 업데이트
     private void UpdateHealthUI()
     {
@@ -248,11 +307,11 @@ public class Npc : MonoBehaviour
                 maxHealth = (maxHealth <= 0) ? 10 : maxHealth;
                 Debug.LogWarning($"{npcEntry.npcName}의 체력이 유효하지 않아 기본값으로 설정했습니다.");
             }
-            
+
             healthText.text = $"{currentHealth}/{maxHealth}";
         }
     }
-    
+
     // 체력바 위치 업데이트
     private void UpdateHealthBarPosition()
     {
@@ -265,7 +324,7 @@ public class Npc : MonoBehaviour
     // NPC 데이터로부터 초기화
     public void InitializeFromData()
     {
-        if (npcEntry == null) 
+        if (npcEntry == null)
         {
             Debug.LogError("NPC 데이터 항목이 null입니다.");
             return;
@@ -277,7 +336,7 @@ public class Npc : MonoBehaviour
         attackPower = npcEntry.attack;
         miningPower = npcEntry.miningPower;
         moveSpeedStat = npcEntry.moveSpeed;
-        
+
         // 능력치가 0이하인 경우 최소값으로 설정 (데이터 누락 방지)
         if (currentHealth <= 0) currentHealth = 100; // 최소 체력도 10배로 늘림
         if (maxHealth <= 0) maxHealth = 100;        // 최소 체력도 10배로 늘림
@@ -390,6 +449,12 @@ public class Npc : MonoBehaviour
             // 반대 방향으로 전환
             moveDirection = -moveDirection;
             Debug.Log($"NPC {NpcName}이(가) 이동 범위 한계에 도달하여 방향을 바꿨습니다");
+            
+            // 방향을 바꾸고 즉시 이동하도록 설정
+            rb.velocity = moveDirection * moveSpeed;
+            
+            // 방향 업데이트
+            UpdateDirection(moveDirection);
         }
 
         // 이동 시간이 지나면 정지 상태로 전환
@@ -478,47 +543,47 @@ public class Npc : MonoBehaviour
     public void TakeDamage(int damage)
     {
         if (damage <= 0) return;
-        
+
         currentHealth -= damage;
-        
+
         // 체력 최소 0으로 제한
         if (currentHealth < 0)
             currentHealth = 0;
-            
+
         // 체력 UI 업데이트
         UpdateHealthUI();
-        
+
         Debug.Log($"NPC {NpcName}이(가) {damage}의 피해를 입었습니다. 현재 체력: {currentHealth}/{maxHealth}");
-        
+
         // 사망 처리
         if (currentHealth <= 0)
         {
             Die();
         }
     }
-    
+
     // 체력 회복
     public void Heal(int healAmount)
     {
         if (healAmount <= 0) return;
-        
+
         currentHealth += healAmount;
-        
+
         // 최대 체력 제한
         if (currentHealth > maxHealth)
             currentHealth = maxHealth;
-            
+
         // 체력 UI 업데이트
         UpdateHealthUI();
-        
+
         Debug.Log($"NPC {NpcName}이(가) {healAmount}만큼 회복되었습니다. 현재 체력: {currentHealth}/{maxHealth}");
     }
-    
+
     // 사망 처리
     private void Die()
     {
         Debug.Log($"NPC {NpcName}이(가) 사망했습니다.");
-        
+
         // 사망 애니메이션 호출 (있는 경우)
         if (animator != null && animator.HasState(0, Animator.StringToHash("Death")))
         {
@@ -529,23 +594,23 @@ public class Npc : MonoBehaviour
             // 애니메이션이 없는 경우 즉시 파괴
             Destroy(gameObject, 0.1f);
         }
-        
+
         // 이동 정지
         canMove = false;
         rb.velocity = Vector2.zero;
     }
-    
+
     // NPC 정보 반환 (상호작용 UI용)
     public string GetNpcInfoText()
     {
         if (npcEntry == null) return "NPC 정보가 없습니다.";
-        
+
         string coloredName = GetColoredRarityName();
         string statInfo = $"<b>공격력:</b> {attackPower}\n<b>체력:</b> {currentHealth}/{maxHealth}\n<b>채굴능력:</b> {miningPower}\n<b>이동속도:</b> {moveSpeedStat}";
-        
+
         return $"{coloredName}\n\n<b>[등급 {npcEntry.rarity}]</b>\n\n{statInfo}\n\n{npcEntry.description}";
     }
-    
+
     // 능력치 값들 반환 메서드
     public int GetAttackPower() => attackPower;
     public int GetMaxHealth() => maxHealth;
@@ -570,202 +635,159 @@ public class Npc : MonoBehaviour
                 break;
         }
     }
-    
-    // 나무 채집 처리
+
+    // 나무 채집 처리 - 나무로 이동만 구현
     private void HandleWoodcuttingTask()
     {
-        // 나무 찾기 및 채집 로직
-        GameObject nearestTree = FindNearestObjectWithTag("Tree");
-        if (nearestTree != null)
+        // ResourceTileSpawner가 없는 경우 처리
+        if (resourceTileSpawner == null)
+        {
+            resourceTileSpawner = FindObjectOfType<ResourceTileSpawner>();
+            if (resourceTileSpawner == null)
+            {
+                Debug.LogWarning($"{NpcName}: ResourceTileSpawner를 찾을 수 없습니다.");
+                DecideNextAction();
+                return;
+            }
+        }
+
+        // 가장 가까운 나무 타일 위치 찾기
+        Vector3 nearestWoodPosition = resourceTileSpawner.GetNearestWoodTilePosition(transform.position);
+
+        // 나무가 없는 경우
+        if (nearestWoodPosition == Vector3.zero)
+        {
+            Debug.Log($"{NpcName}: 근처에 나무가 없습니다.");
+            rb.velocity = Vector2.zero;
+            if (animator != null) animator.SetBool("1_Move", false);
+            return;
+        }
+
+        // 나무로 이동
+        float distanceToWood = Vector3.Distance(transform.position, nearestWoodPosition);
+
+        if (distanceToWood > 1.5f)
         {
             // 나무로 이동
-            float distanceToTree = Vector3.Distance(transform.position, nearestTree.transform.position);
-            
-            if (distanceToTree > 1.5f)
-            {
-                // 나무로 이동
-                Vector3 direction = (nearestTree.transform.position - transform.position).normalized;
-                rb.velocity = direction * moveSpeed;
-                
-                // 애니메이션 업데이트
-                if (animator != null) animator.SetBool("1_Move", true);
-                
-                // 방향 설정
-                UpdateDirection(direction);
-            }
-            else
-            {
-                // 나무 근처에 도착하면 채집 시작
-                rb.velocity = Vector2.zero;
-                if (animator != null) animator.SetBool("1_Move", false);
-                
-                // 채집 애니메이션이나 효과 표시 (예: 나무 흔들기)
-                if (Random.Range(0, 100) < 5) // 5% 확률로 자원 획득
-                {
-                    Debug.Log($"{NpcName}이(가) 나무를 획득했습니다.");
-                    gatheredResources++;
-                    
-                    // 일정량 이상 모았으면 기지로 귀환
-                    if (gatheredResources >= 5)
-                    {
-                        isReturningToBase = true;
-                    }
-                }
-            }
-        }
-        else if (isReturningToBase)
-        {
-            // 기지로 귀환
-            float distanceToBase = Vector3.Distance(transform.position, basePosition);
-            
-            if (distanceToBase > 1.0f)
-            {
-                // 기지로 이동
-                Vector3 direction = (basePosition - transform.position).normalized;
-                rb.velocity = direction * moveSpeed;
-                
-                // 애니메이션 업데이트
-                if (animator != null) animator.SetBool("1_Move", true);
-                
-                // 방향 설정
-                UpdateDirection(direction);
-            }
-            else
-            {
-                // 기지 도착
-                Debug.Log($"{NpcName}이(가) {gatheredResources}개의 나무를 기지에 전달했습니다.");
-                gatheredResources = 0;
-                isReturningToBase = false;
-            }
+            Vector3 direction = (nearestWoodPosition - transform.position).normalized;
+            rb.velocity = direction * moveSpeed;
+
+            // 애니메이션 업데이트
+            if (animator != null) animator.SetBool("1_Move", true);
+
+            // 방향 설정
+            UpdateDirection(direction);
+            Debug.Log($"{NpcName}이(가) 나무를 향해 이동 중입니다.");
         }
         else
         {
-            // 나무가 없는 경우 임의 이동
-            DecideNextAction();
+            // 나무 근처에 도착하면 정지
+            rb.velocity = Vector2.zero;
+            if (animator != null) animator.SetBool("1_Move", false);
+            Debug.Log($"{NpcName}이(가) 나무에 도착했습니다.");
         }
     }
-    
-    // 광물 채집 처리
+
+    // 광물 채집 처리 - 돌로 이동만 구현
     private void HandleMiningTask()
     {
-        // 광물 찾기 및 채집 로직 (나무 채집과 유사하게 구현)
-        GameObject nearestOre = FindNearestObjectWithTag("Ore");
-        if (nearestOre != null)
+        // ResourceTileSpawner가 없는 경우 처리
+        if (resourceTileSpawner == null)
         {
-            // 광물로 이동
-            float distanceToOre = Vector3.Distance(transform.position, nearestOre.transform.position);
-            
-            if (distanceToOre > 1.5f)
+            resourceTileSpawner = FindObjectOfType<ResourceTileSpawner>();
+            if (resourceTileSpawner == null)
             {
-                // 광물로 이동
-                Vector3 direction = (nearestOre.transform.position - transform.position).normalized;
-                rb.velocity = direction * moveSpeed;
-                
-                // 애니메이션 업데이트
-                if (animator != null) animator.SetBool("1_Move", true);
-                
-                // 방향 설정
-                UpdateDirection(direction);
-            }
-            else
-            {
-                // 광물 근처에 도착하면 채집 시작
+                Debug.LogWarning($"{NpcName}: ResourceTileSpawner를 찾을 수 없습니다.");
                 rb.velocity = Vector2.zero;
                 if (animator != null) animator.SetBool("1_Move", false);
-                
-                // 채집 애니메이션이나 효과 표시
-                if (Random.Range(0, 100) < 3) // 3% 확률로 자원 획득 (광물은 더 귀함)
-                {
-                    Debug.Log($"{NpcName}이(가) 광물을 획득했습니다.");
-                    gatheredResources++;
-                    
-                    // 일정량 이상 모았으면 기지로 귀환
-                    if (gatheredResources >= 3)
-                    {
-                        isReturningToBase = true;
-                    }
-                }
+                return;
             }
         }
-        else if (isReturningToBase)
+
+        // 가장 가까운 돌 타일 위치 찾기
+        Vector3 nearestStonePosition = resourceTileSpawner.GetNearestStoneTilePosition(transform.position);
+
+        // 돌이 없는 경우
+        if (nearestStonePosition == Vector3.zero)
         {
-            // 기지로 귀환 (나무 채집과 동일)
-            float distanceToBase = Vector3.Distance(transform.position, basePosition);
-            
-            if (distanceToBase > 1.0f)
-            {
-                Vector3 direction = (basePosition - transform.position).normalized;
-                rb.velocity = direction * moveSpeed;
-                if (animator != null) animator.SetBool("1_Move", true);
-                UpdateDirection(direction);
-            }
-            else
-            {
-                Debug.Log($"{NpcName}이(가) {gatheredResources}개의 광물을 기지에 전달했습니다.");
-                gatheredResources = 0;
-                isReturningToBase = false;
-            }
+            Debug.Log($"{NpcName}: 근처에 돌이 없습니다.");
+            rb.velocity = Vector2.zero;
+            if (animator != null) animator.SetBool("1_Move", false);
+            return;
+        }
+
+        // 돌로 이동
+        float distanceToStone = Vector3.Distance(transform.position, nearestStonePosition);
+
+        if (distanceToStone > 1.5f)
+        {
+            // 돌로 이동
+            Vector3 direction = (nearestStonePosition - transform.position).normalized;
+            rb.velocity = direction * moveSpeed;
+
+            // 애니메이션 업데이트
+            if (animator != null) animator.SetBool("1_Move", true);
+
+            // 방향 설정
+            UpdateDirection(direction);
+            Debug.Log($"{NpcName}이(가) 돌을 향해 이동 중입니다.");
         }
         else
         {
-            // 광물이 없는 경우 임의 이동
-            DecideNextAction();
+            // 돌 근처에 도착하면 정지
+            rb.velocity = Vector2.zero;
+            if (animator != null) animator.SetBool("1_Move", false);
+            Debug.Log($"{NpcName}이(가) 돌에 도착했습니다.");
         }
     }
-    
-    // 전투 처리
+
+    // 전투 처리 - 적에게 이동만 구현
     private void HandleCombatTask()
     {
-        // 적 찾기 및 전투 로직
+        // 적 찾기 및 이동 로직
         GameObject nearestEnemy = FindNearestObjectWithTag("Enemy");
         if (nearestEnemy != null)
         {
             // 적으로 이동
             float distanceToEnemy = Vector3.Distance(transform.position, nearestEnemy.transform.position);
-            
+
             if (distanceToEnemy > 1.0f)
             {
                 // 적에게 이동
                 Vector3 direction = (nearestEnemy.transform.position - transform.position).normalized;
                 rb.velocity = direction * moveSpeed;
-                
+
                 // 애니메이션 업데이트
                 if (animator != null) animator.SetBool("1_Move", true);
-                
+
                 // 방향 설정
                 UpdateDirection(direction);
+                Debug.Log($"{NpcName}이(가) 적을 향해 이동 중입니다.");
             }
             else
             {
-                // 적 근처에 도착하면 공격 시작
+                // 적 근처에 도착하면 정지
                 rb.velocity = Vector2.zero;
                 if (animator != null) animator.SetBool("1_Move", false);
-                
-                // 공격 애니메이션이나 효과 표시
-                Debug.Log($"{NpcName}이(가) 적을 공격합니다. 공격력: {attackPower}");
-                
-                // 적 데미지 주기 (적 체력 시스템이 있다면)
-                Enemy enemy = nearestEnemy.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(attackPower);
-                }
+                Debug.Log($"{NpcName}이(가) 적에게 도착했습니다.");
             }
         }
         else
         {
-            // 적이 없는 경우 임의 이동
-            DecideNextAction();
+            // 적이 없는 경우 정지
+            rb.velocity = Vector2.zero;
+            if (animator != null) animator.SetBool("1_Move", false);
+            Debug.Log($"{NpcName}: 근처에 적이 없습니다.");
         }
     }
-    
+
     // 태그로 가장 가까운 오브젝트 찾기
     private GameObject FindNearestObjectWithTag(string tag)
     {
         GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
         GameObject nearest = null;
         float minDistance = float.MaxValue;
-        
+
         foreach (GameObject obj in objects)
         {
             float distance = Vector3.Distance(transform.position, obj.transform.position);
@@ -775,10 +797,10 @@ public class Npc : MonoBehaviour
                 nearest = obj;
             }
         }
-        
+
         return nearest;
     }
-    
+
     // 방향 업데이트
     private void UpdateDirection(Vector3 direction)
     {
@@ -793,27 +815,71 @@ public class Npc : MonoBehaviour
             facingleft = true;
         }
     }
-    
+
     // 현재 작업 중지
     private void StopCurrentTask()
     {
         if (currentTask == NpcTask.None) return;
-        
+
         Debug.Log($"{NpcName}의 현재 작업이 중지되었습니다.");
-        
+
         // NPC 작업 초기화
         SetTask(NpcTask.None);
     }
 
     // 작업 설정
+    private bool returningToInitialPosition = false; // 초기 위치로 돌아가는 중인지 표시
+    
     public void SetTask(NpcTask task)
     {
         currentTask = task;
-        randomMovementActive = task == NpcTask.None;
         
         if (task != NpcTask.None)
         {
+            // 새로운 작업이 설정되면 초기 위치로 돌아가는 상태 초기화
+            returningToInitialPosition = false;
+            randomMovementActive = false;
             Debug.Log($"{NpcName}이(가) {task} 작업을 시작합니다.");
+        }
+        else
+        {
+            // 작업이 초기화되면 NPC를 초기 위치 근처로 이동시키고 랜덤 이동 상태로 설정
+            Debug.Log($"{NpcName}이(가) 작업을 중지하고 랜덤 이동 모드로 전환합니다.");
+
+            // 현재 위치가 초기 위치에서 멀어졌다면 초기 위치 근처로 이동
+            float distanceFromStart = Vector3.Distance(transform.position, initialPosition);
+            if (distanceFromStart > movementRange * 0.5f)
+            {
+                // 초기 위치로 돌아가는 상태로 설정
+                returningToInitialPosition = true;
+                randomMovementActive = false; // 랜덤 이동 비활성화
+                
+                // 초기 위치 방향으로 이동하는 로직 추가
+                Vector3 direction = (initialPosition - transform.position).normalized;
+                rb.velocity = direction * moveSpeed;
+
+                // 애니메이션 업데이트
+                if (animator != null) animator.SetBool("1_Move", true);
+
+                // 방향 설정
+                UpdateDirection(direction);
+                Debug.Log($"{NpcName}이(가) 초기 위치로 돌아가는 중입니다.");
+
+                // 상태 변경
+                currentState = NpcState.Moving;
+                isMoving = true;
+            }
+            else
+            {
+                // 초기 위치 근처에 있는 경우 정지 후 다음 행동 결정
+                returningToInitialPosition = false;
+                randomMovementActive = true; // 랜덤 이동 활성화
+                rb.velocity = Vector2.zero;
+                if (animator != null) animator.SetBool("1_Move", false);
+                currentState = NpcState.Idle;
+                isMoving = false;
+                DecideNextAction();
+            }
         }
     }
 }

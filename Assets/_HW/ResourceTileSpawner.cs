@@ -17,16 +17,62 @@ public class ResourceTileSpawner : MonoBehaviour
     [SerializeField] private GameObject woodPrefab; // Wood 타일 제거 시 생성할 오브젝트
     [SerializeField] private GameObject stonePrefab; // Stone 타일 제거 시 생성할 오브젝트
 
-    private List<Vector3> spawnedWoodTilePositions = new List<Vector3>();
-    private List<Vector3> spawnedStoneTilePositions = new List<Vector3>();
+    // 외부에서 접근 가능하도록 public으로 변경
+    public List<Vector3> spawnedWoodTilePositions = new List<Vector3>();
+    public List<Vector3> spawnedStoneTilePositions = new List<Vector3>();
 
     public Tile[] GetWoodTiles()
     {
         return woodTiles;
     }
-     public Tile[] GetStoneTiles()
+    
+    public Tile[] GetStoneTiles()
     {
         return stoneTiles;
+    }
+    
+    // 가장 가까운 나무 타일 위치 반환
+    public Vector3 GetNearestWoodTilePosition(Vector3 fromPosition)
+    {
+        if (spawnedWoodTilePositions.Count == 0)
+            return Vector3.zero;
+            
+        Vector3 nearestPosition = Vector3.zero;
+        float minDistance = float.MaxValue;
+        
+        foreach (Vector3 position in spawnedWoodTilePositions)
+        {
+            float distance = Vector3.Distance(fromPosition, position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestPosition = position;
+            }
+        }
+        
+        return nearestPosition;
+    }
+    
+    // 가장 가까운 돌 타일 위치 반환
+    public Vector3 GetNearestStoneTilePosition(Vector3 fromPosition)
+    {
+        if (spawnedStoneTilePositions.Count == 0)
+            return Vector3.zero;
+            
+        Vector3 nearestPosition = Vector3.zero;
+        float minDistance = float.MaxValue;
+        
+        foreach (Vector3 position in spawnedStoneTilePositions)
+        {
+            float distance = Vector3.Distance(fromPosition, position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestPosition = position;
+            }
+        }
+        
+        return nearestPosition;
     }
 
     private void Start()

@@ -29,12 +29,11 @@ public class ItemDrop : MonoBehaviour
         if (playerObject == null)
         {
             playerObject = GameObject.FindGameObjectWithTag("Player");
-            Debug.Log("Start: 플레이어 태그로 찾기 " + (playerObject != null ? "성공" : "실패"));
+           
 
             if (playerObject == null)
             {
                 playerObject = GameObject.Find("Player");
-                Debug.Log("Start: 플레이어 이름으로 찾기 " + (playerObject != null ? "성공" : "실패"));
             }
         }
 
@@ -42,7 +41,6 @@ public class ItemDrop : MonoBehaviour
         {
             // 플레이어 인벤토리 컴포넌트 직접 찾기
             playerInventory = playerObject.GetComponent<PlayerInventory>();
-            Debug.Log("Start: PlayerInventory 컴포넌트 찾기 " + (playerInventory != null ? "성공" : "실패"));
         }
 
         if (item == null)
@@ -72,12 +70,10 @@ public class ItemDrop : MonoBehaviour
                 if (playerObject == null)
                 {
                     playerObject = GameObject.FindGameObjectWithTag("Player");
-                    Debug.Log("Update: 플레이어 태그로 찾기 " + (playerObject != null ? "성공" : "실패"));
 
                     if (playerObject == null)
                     {
                         playerObject = GameObject.Find("Player");
-                        Debug.Log("Update: 플레이어 이름으로 찾기 " + (playerObject != null ? "성공" : "실패"));
                     }
                 }
 
@@ -85,7 +81,6 @@ public class ItemDrop : MonoBehaviour
                 {
                     // 플레이어 인벤토리 컴포넌트 직접 찾기
                     playerInventory = playerObject.GetComponent<PlayerInventory>();
-                    Debug.Log("Update: PlayerInventory 컴포넌트 찾기 " + (playerInventory != null ? "성공" : "실패"));
                 }
 
                 if (playerInventory == null) return; // 플레이어 인벤토리를 찾지 못하면 건너뛰기
@@ -94,22 +89,21 @@ public class ItemDrop : MonoBehaviour
             CheckDistance();
             if (isNear)
             {
-                Debug.Log("플레이어 근처에 있음: 거리 체크 성공");
+                
                 CheckSlotAvailability();
                 if (isSlotAvailable)
                 {
-                    Debug.Log("인벤토리 슬롯 사용 가능");
                     MovingtoTarget();
                     AddingItem();
                 }
                 else
                 {
-                    Debug.Log("인벤토리 슬롯 사용 불가능");
+                    
                 }
             }
             else
             {
-                Debug.Log("플레이어와의 거리: " + Vector2.Distance(this.transform.position, playerObject.transform.position));
+               
             }
         }
     }
@@ -138,7 +132,7 @@ public class ItemDrop : MonoBehaviour
     {
         if (playerObject == null)
         {
-            Debug.Log("CheckDistance: 플레이어가 null입니다");
+           
             return;
         }
 
@@ -157,64 +151,54 @@ public class ItemDrop : MonoBehaviour
     {
         if (playerInventory == null)
         {
-            Debug.Log("CheckSlotAvailability: 플레이어 인벤토리가 null입니다");
             return;
         }
-
-        Debug.Log("CheckSlotAvailability: 인벤토리 컴포넌트 확인됨");
 
         if (playerInventory.IsSlotAvailable(item, amount))
         {
             isSlotAvailable = true;
-            Debug.Log("CheckSlotAvailability: 슬롯 사용 가능");
         }
         else
         {
             isDelay = false;
             isNear = false;
             delay = 1f;
-            Debug.Log("CheckSlotAvailability: 슬롯 사용 불가능, 딜레이 재설정");
         }
     }
 
     private void MovingtoTarget()
+{
+    if (playerObject == null)
     {
-        if (playerObject == null)
-        {
-            Debug.Log("MovingtoTarget: 플레이어가 null입니다");
-            return;
-        }
+        return;
+    }
 
-        Vector3 direction = playerObject.transform.position - transform.position;
-        direction.Normalize();
+    Vector3 direction = playerObject.transform.position - transform.position;
+    direction.Normalize();
         transform.Translate(direction * speed * Time.deltaTime);
         speed += 20f * Time.deltaTime;
-        Debug.Log("MovingtoTarget: 플레이어 방향으로 이동 중 (속도: " + speed + ")");
+      
     }
 
     private void AddingItem()
     {
-        Debug.Log("아이템 추가 실행 시도");
+        
         if (playerObject == null || playerInventory == null)
         {
-            Debug.Log("AddingItem: 플레이어 또는 인벤토리가 null입니다");
+         
             return;
         }
 
         float distance = Vector2.Distance(this.transform.position, playerObject.transform.position);
-        Debug.Log("AddingItem: 플레이어와의 거리: " + distance);
 
         if (distance <= 0.5f)
         {
-            Debug.Log("AddingItem: 습득 거리 도달 (거리: " + distance + ")");
-            Debug.Log("AddingItem: 인벤토리에 아이템 추가 시도 - " + item.name + " x" + amount);
             playerInventory.AddItem(item, amount);
-            Debug.Log("AddingItem: 아이템 객체 파괴 직전");
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("AddingItem: 아직 습득 거리에 도달하지 않음 (거리: " + distance + ")");
+        
         }
     }
 }
