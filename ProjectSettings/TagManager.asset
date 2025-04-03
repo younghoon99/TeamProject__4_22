@@ -9,6 +9,9 @@ TagManager:
   - Enemy
   - NPC
   - Wall
+  - ItemDrop
+  - Slot
+  - HQ
   layers:
   - Default
   - TransparentFX
