@@ -155,7 +155,7 @@ public class Player : MonoBehaviour
         {
             if (hitCollider.CompareTag("Resource"))
             {
-                // Money 획득 애니메이션 재생
+                // Resource 획득 애니메이션 재생
                 animator.SetTrigger("6_Other");
                 
 

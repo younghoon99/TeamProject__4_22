@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using TMPro;
 
 public class Npc : MonoBehaviour
@@ -8,7 +9,7 @@ public class Npc : MonoBehaviour
     [Header("NPC 데이터")]
     [SerializeField] private NpcData npcData;  // NPC 데이터 참조
     [SerializeField] private string npcId;     // NPC ID
-    private NpcData.NpcEntry npcEntry;         // 현재 NPC의 데이터 항목
+    private NpcData.NpcEntry npcEntry = null;         // 현재 NPC의 데이터 항목
 
     // ResourceTileSpawner 참조 추가
     private ResourceTileSpawner resourceTileSpawner;
@@ -87,6 +88,9 @@ public class Npc : MonoBehaviour
     // 시작 시 호출됨
     private void Start()
     {
+        npcEntry = null; //테스트용 npcEntry 
+
+
         // 컴포넌트 초기화
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -117,14 +121,18 @@ public class Npc : MonoBehaviour
         // NPC ID로 데이터 항목 가져오기
         if (npcData != null)
         {
+            Debug.Log($"1. npcEntry: {npcEntry}");
             if (!string.IsNullOrEmpty(npcId))
             {
                 npcEntry = npcData.GetNpcById(npcId);
+                Debug.Log($"2. npcEntry: {npcEntry}");
             }
+            Debug.Log($"3. npcEntry: {npcEntry}");
 
             // ID로 찾지 못한 경우 랜덤 NPC 생성
             if (npcEntry == null)
             {
+                Debug.Log($"{NpcName}: ID로 NPC를 찾을 수 없습니다. 랜덤 NPC를 생성합니다.");
                 // 등급별 확률 계산 (노말 60%, 레어 25%, 영웅 10%, 전설 5%)
                 float rarityRoll = Random.Range(0f, 1f);
                 NpcData.NpcRarity rarity;
@@ -170,13 +178,13 @@ public class Npc : MonoBehaviour
             if (animator != null) animator.SetBool("1_Move", false);
             return;
         }
-        
+
         // 초기 위치로 돌아가는 중인 경우 우선 처리
         if (returningToInitialPosition)
         {
             // 초기 위치와의 거리 계산
             float distanceFromStart = Vector3.Distance(transform.position, initialPosition);
-            
+
             // 초기 위치에 근접했는지 확인
             if (distanceFromStart <= movementRange * 0.3f) // 조금 더 작은 범위로 설정
             {
@@ -189,7 +197,7 @@ public class Npc : MonoBehaviour
                 isMoving = false;
                 Debug.Log($"{NpcName}이(가) 초기 위치에 도착하여 랜덤 이동 모드로 전환합니다.");
                 DecideNextAction();
-                
+
                 // 애니메이션 업데이트
                 UpdateAnimation();
                 // 체력바 위치 업데이트
@@ -203,7 +211,7 @@ public class Npc : MonoBehaviour
                 rb.velocity = direction * moveSpeed;
                 UpdateDirection(direction);
                 if (animator != null) animator.SetBool("1_Move", true);
-                
+
                 // 애니메이션 업데이트
                 UpdateAnimation();
                 // 체력바 위치 업데이트
@@ -449,10 +457,10 @@ public class Npc : MonoBehaviour
             // 반대 방향으로 전환
             moveDirection = -moveDirection;
             Debug.Log($"NPC {NpcName}이(가) 이동 범위 한계에 도달하여 방향을 바꿨습니다");
-            
+
             // 방향을 바꾸고 즉시 이동하도록 설정
             rb.velocity = moveDirection * moveSpeed;
-            
+
             // 방향 업데이트
             UpdateDirection(moveDirection);
         }
@@ -636,7 +644,14 @@ public class Npc : MonoBehaviour
         }
     }
 
-    // 나무 채집 처리 - 나무로 이동만 구현
+    // 자원 채굴 관련 변수
+    private bool isWoodcutting = false;
+    private bool isMining = false;
+    private float resourceTimer = 0f;
+    private Vector3 currentResourcePosition;
+    private float resourceGatheringDuration = 3f; // 채굴 시간
+    private bool isResourceAnimationPlaying = false; // 채집 애니메이션 재생 여부 - 현재 사용하지 않음
+
     private void HandleWoodcuttingTask()
     {
         // ResourceTileSpawner가 없는 경우 처리
@@ -649,6 +664,38 @@ public class Npc : MonoBehaviour
                 DecideNextAction();
                 return;
             }
+        }
+
+        // 이미 채굴 중이면 채굴 진행
+        if (isWoodcutting)
+        {
+            resourceTimer += Time.deltaTime;
+
+            // 채굴 완료
+            if (resourceTimer >= resourceGatheringDuration)
+            {
+                // 채굴 완료 후 애니메이션 상태 초기화
+                if (animator != null)
+                {
+                    animator.SetBool("6_Other", false);
+                    animator.SetTrigger("CancelMining");
+                }
+                isResourceAnimationPlaying = false;
+
+                // 타일 제거
+                Tilemap tilemap = resourceTileSpawner.GetComponent<Tilemap>();
+                if (tilemap != null)
+                {
+                    Vector3Int cellPosition = tilemap.WorldToCell(currentResourcePosition);
+                    resourceTileSpawner.RemoveTile(cellPosition);
+                    Debug.Log($"{NpcName}이(가) 나무 채굴을 완료했습니다.");
+                }
+
+                // 채굴 상태 초기화
+                isWoodcutting = false;
+                resourceTimer = 0f;
+            }
+            return;
         }
 
         // 가장 가까운 나무 타일 위치 찾기
@@ -666,14 +713,18 @@ public class Npc : MonoBehaviour
         // 나무로 이동
         float distanceToWood = Vector3.Distance(transform.position, nearestWoodPosition);
 
-        if (distanceToWood > 1.5f)
+        if (distanceToWood > 0.8f) // 더 가까이 접근하도록 거리 조정
         {
             // 나무로 이동
             Vector3 direction = (nearestWoodPosition - transform.position).normalized;
             rb.velocity = direction * moveSpeed;
 
-            // 애니메이션 업데이트
-            if (animator != null) animator.SetBool("1_Move", true);
+            // 애니메이션 업데이트 - 이동 시 반드시 1_Move 애니메이션만 활성화
+            if (animator != null)
+            {
+                animator.SetBool("1_Move", true);
+                animator.SetBool("6_Other", false); // 이동 시에는 채집 애니메이션 비활성화
+            }
 
             // 방향 설정
             UpdateDirection(direction);
@@ -681,14 +732,29 @@ public class Npc : MonoBehaviour
         }
         else
         {
-            // 나무 근처에 도착하면 정지
+            // 나무 근처에 도착하면 채굴 시작
             rb.velocity = Vector2.zero;
-            if (animator != null) animator.SetBool("1_Move", false);
-            Debug.Log($"{NpcName}이(가) 나무에 도착했습니다.");
+
+            // 애니메이션 업데이트 (이동 중지, 채굴 시작)
+            if (animator != null)
+            {
+                animator.SetBool("1_Move", false);
+                animator.SetBool("6_Other", true); // 채굴 애니메이션 시작
+                isResourceAnimationPlaying = true; // 채집 애니메이션 재생 상태 표시
+            }
+
+            // 현재 자원 위치 저장
+            currentResourcePosition = nearestWoodPosition;
+
+            // 채굴 상태 설정
+            isWoodcutting = true;
+            resourceTimer = 0f;
+
+            Debug.Log($"{NpcName}이(가) 나무 채굴을 시작합니다.");
         }
     }
 
-    // 광물 채집 처리 - 돌로 이동만 구현
+    // 광물 채집 처리
     private void HandleMiningTask()
     {
         // ResourceTileSpawner가 없는 경우 처리
@@ -702,6 +768,38 @@ public class Npc : MonoBehaviour
                 if (animator != null) animator.SetBool("1_Move", false);
                 return;
             }
+        }
+
+        // 이미 채굴 중이면 채굴 진행
+        if (isMining)
+        {
+            resourceTimer += Time.deltaTime;
+
+            // 채굴 완료
+            if (resourceTimer >= resourceGatheringDuration)
+            {
+                // 채굴 완료 후 애니메이션 상태 초기화
+                if (animator != null)
+                {
+                    animator.SetBool("6_Other", false);
+                    animator.SetTrigger("CancelMining");
+                }
+                isResourceAnimationPlaying = false;
+
+                // 타일 제거
+                Tilemap tilemap = resourceTileSpawner.GetComponent<Tilemap>();
+                if (tilemap != null)
+                {
+                    Vector3Int cellPosition = tilemap.WorldToCell(currentResourcePosition);
+                    resourceTileSpawner.RemoveTile(cellPosition);
+                    Debug.Log($"{NpcName}이(가) 돌 채굴을 완료했습니다.");
+                }
+
+                // 채굴 상태 초기화
+                isMining = false;
+                resourceTimer = 0f;
+            }
+            return;
         }
 
         // 가장 가까운 돌 타일 위치 찾기
@@ -719,14 +817,18 @@ public class Npc : MonoBehaviour
         // 돌로 이동
         float distanceToStone = Vector3.Distance(transform.position, nearestStonePosition);
 
-        if (distanceToStone > 1.5f)
+        if (distanceToStone > 0.8f) // 더 가까이 접근하도록 거리 조정
         {
             // 돌로 이동
             Vector3 direction = (nearestStonePosition - transform.position).normalized;
             rb.velocity = direction * moveSpeed;
 
-            // 애니메이션 업데이트
-            if (animator != null) animator.SetBool("1_Move", true);
+            // 애니메이션 업데이트 - 이동 시 반드시 1_Move 애니메이션만 활성화
+            if (animator != null)
+            {
+                animator.SetBool("1_Move", true);
+                animator.SetBool("6_Other", false); // 이동 시에는 채집 애니메이션 비활성화
+            }
 
             // 방향 설정
             UpdateDirection(direction);
@@ -734,10 +836,25 @@ public class Npc : MonoBehaviour
         }
         else
         {
-            // 돌 근처에 도착하면 정지
+            // 돌 근처에 도착하면 채굴 시작
             rb.velocity = Vector2.zero;
-            if (animator != null) animator.SetBool("1_Move", false);
-            Debug.Log($"{NpcName}이(가) 돌에 도착했습니다.");
+
+            // 애니메이션 업데이트 (이동 중지, 채굴 시작)
+            if (animator != null)
+            {
+                animator.SetBool("1_Move", false);
+                animator.SetBool("6_Other", true); // 채굴 애니메이션 시작
+                isResourceAnimationPlaying = true; // 채집 애니메이션 재생 상태 표시
+            }
+
+            // 현재 자원 위치 저장
+            currentResourcePosition = nearestStonePosition;
+
+            // 채굴 상태 설정
+            isMining = true;
+            resourceTimer = 0f;
+
+            Debug.Log($"{NpcName}이(가) 돌 채굴을 시작합니다.");
         }
     }
 
@@ -829,11 +946,11 @@ public class Npc : MonoBehaviour
 
     // 작업 설정
     private bool returningToInitialPosition = false; // 초기 위치로 돌아가는 중인지 표시
-    
+
     public void SetTask(NpcTask task)
     {
         currentTask = task;
-        
+
         if (task != NpcTask.None)
         {
             // 새로운 작업이 설정되면 초기 위치로 돌아가는 상태 초기화
@@ -853,14 +970,18 @@ public class Npc : MonoBehaviour
                 // 초기 위치로 돌아가는 상태로 설정
                 returningToInitialPosition = true;
                 randomMovementActive = false; // 랜덤 이동 비활성화
-                
+
                 // 초기 위치 방향으로 이동하는 로직 추가
                 Vector3 direction = (initialPosition - transform.position).normalized;
                 rb.velocity = direction * moveSpeed;
 
                 // 애니메이션 업데이트
-                if (animator != null) animator.SetBool("1_Move", true);
-
+                if (animator != null) 
+                {
+                    animator.SetTrigger("CancelMining");
+                    animator.SetBool("1_Move", true);
+                }
+                
                 // 방향 설정
                 UpdateDirection(direction);
                 Debug.Log($"{NpcName}이(가) 초기 위치로 돌아가는 중입니다.");

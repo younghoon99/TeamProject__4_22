@@ -137,7 +137,7 @@ public class ItemDrop : MonoBehaviour
         }
 
         float distance = Vector2.Distance(this.transform.position, playerObject.transform.position);
-        if (distance <= 5f)
+        if (distance <= 2f)
         {
             isNear = true;
         }
