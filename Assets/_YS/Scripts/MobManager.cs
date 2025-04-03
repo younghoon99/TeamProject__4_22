@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MobManager : MonoBehaviour
 {
+    public AudioClip attackSound; // 몹 공격 사운드
     public GameObject[] mobPrefabs; // 몹 프리펩 배열
     public Transform[] spawnPoints; // 스폰 위치 배열
     public float spawnInterval = 2f;
@@ -14,6 +15,7 @@ public class MobManager : MonoBehaviour
     public Transform[] wallTransforms; // Wall Transform 배열
     public GameObject[] itemPrefabs; // 아이템 프리펩 배열
     private List<GameObject> spawnedItems = new List<GameObject>(); // 스폰된 아이템 리스트
+    public List<GameObject> SpawnedItems => spawnedItems; // Public getter for spawnedItems
     private int destroyedMobCount = 0; // 파괴된 몹 수
     private bool isCooldownActive = false; // 쿨다운 활성화 여부
     public Transform leftWallTransform; // 좌측 Wall Transform
@@ -59,7 +61,7 @@ public class MobManager : MonoBehaviour
 
     private IEnumerator DelayedStart()
     {
-        yield return new WaitForSeconds(60f); // 게임 시작 후 60초 대기
+        yield return new WaitForSeconds(1f); // 게임 시작 후 60초 대기(테스트용 바로 나타나기 적용중 추후 60f로 수정요망)
         StartCoroutine(SpawnMobs());
     }
 
@@ -139,6 +141,7 @@ public class MobManager : MonoBehaviour
 
         // 아이템의 수명 관리
         StartCoroutine(HandleItemLifetime(item));
+
     }
 
     private IEnumerator HandleItemLifetime(GameObject item)

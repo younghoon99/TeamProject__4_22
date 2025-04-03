@@ -3,17 +3,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class WallHealth : MonoBehaviour
+public class HQHealth : MonoBehaviour
 {
     [Header("체력 설정")]
     public float maxHealth = 100f; // 최대 체력
     private float currentHealth;
 
     [Header("UI 설정")]
+
     public Image healthBarImage; // 체력바 이미지 (Fill 방식)
     public float smoothSpeed = 5f; // 체력바 변화 속도
     public GameObject floatingDamageTextPrefab; // 데미지 텍스트 프리팹
     public Vector3 healthBarOffset = new Vector3(0, 2f, 0); // 체력바 위치 오프셋
+    public GameObject exitPanel; // Exit Panel 오브젝트
     private float targetFill;
 
     [Header("피격 효과")]
@@ -22,7 +24,7 @@ public class WallHealth : MonoBehaviour
     public float flashSpeed = 5f; // 플래시 사라지는 속도
     private Color flashColor;
 
-    private bool isDestroyed = false; // Wall 파괴 여부
+    private bool isDestroyed = false; // HQ 파괴 여부
 
     void Start()
     {
@@ -40,6 +42,12 @@ public class WallHealth : MonoBehaviour
 
         // 체력바 초기화
         UpdateHealthBar();
+
+        // Exit Panel 비활성화
+        if (exitPanel != null)
+        {
+            exitPanel.SetActive(false);
+        }
     }
 
     void Update()
@@ -88,12 +96,12 @@ public class WallHealth : MonoBehaviour
         // 데미지 텍스트 표시
         ShowDamageText(damage);
 
-        Debug.Log("Wall이 " + damage + "의 데미지를 입었습니다. 남은 체력: " + currentHealth);
+        Debug.Log("HQ가 " + damage + "의 데미지를 입었습니다. 남은 체력: " + currentHealth);
 
         // 파괴 확인
         if (currentHealth <= 0)
         {
-            DestroyWall();
+            DestroyHQ();
         }
     }
 
@@ -114,7 +122,7 @@ public class WallHealth : MonoBehaviour
     {
         if (floatingDamageTextPrefab != null)
         {
-            // Wall 위에 데미지 텍스트 생성
+            // HQ 위에 데미지 텍스트 생성
             GameObject damageTextObj = Instantiate(floatingDamageTextPrefab, transform.position + healthBarOffset, Quaternion.identity);
 
             // TextMeshProUGUI 컴포넌트 설정
@@ -158,12 +166,23 @@ public class WallHealth : MonoBehaviour
         Destroy(textObj);
     }
 
-    private void DestroyWall()
+    private void DestroyHQ()
     {
         if (isDestroyed) return;
 
         isDestroyed = true;
-        Debug.Log("Wall 파괴됨");
+        Debug.Log("HQ 파괴됨");
+
+        // ExitPanel 활성화 (UI 레이어 안에 있는 오브젝트로 처리)
+        if (exitPanel != null && exitPanel.layer == LayerMask.NameToLayer("UI"))
+        {
+            exitPanel.SetActive(true);
+            Time.timeScale = 0; // 게임 일시정지
+        }
+        else
+        {
+            Debug.LogWarning("ExitPanel 태그를 가진 UI 레이어의 GameObject를 찾을 수 없습니다.");
+        }
 
         // 체력바와 관련 UI 요소 비활성화
         if (healthBarImage != null)
@@ -171,7 +190,7 @@ public class WallHealth : MonoBehaviour
             healthBarImage.transform.parent.gameObject.SetActive(false);
         }
 
-        // Wall 오브젝트 제거
+        // HQ 오브젝트 제거
         Destroy(gameObject);
     }
 }
