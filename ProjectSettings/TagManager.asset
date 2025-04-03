@@ -4,13 +4,19 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Resource
+  - BackGroundImage
+  - Money
   - Enemy
+  - NPC
+  - Wall
+  - ItemDrop
+  - Slot
+  - HQ
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - ground
+  - 
   - Water
   - UI
   - 

@@ -22549,6 +22549,8 @@ MonoBehaviour:
   maxWoodTiles: 10
   maxStoneTiles: 10
   spawnInterval: 0.5
+  woodPrefab: {fileID: 7124918242175078301, guid: 009b4ec4101ef524b9598893711f1127, type: 3}
+  stonePrefab: {fileID: 4991525617993481455, guid: 7814b8ac9b4c91c4eac796ee4642d466, type: 3}
   minX: -140
   maxX: 140
   minDistanceBetweenTiles: 6
