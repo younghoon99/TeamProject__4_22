@@ -121,13 +121,13 @@ public class Npc : MonoBehaviour
         // NPC ID로 데이터 항목 가져오기
         if (npcData != null)
         {
-            Debug.Log($"1. npcEntry: {npcEntry}");
+            
             if (!string.IsNullOrEmpty(npcId))
             {
                 npcEntry = npcData.GetNpcById(npcId);
-                Debug.Log($"2. npcEntry: {npcEntry}");
+                
             }
-            Debug.Log($"3. npcEntry: {npcEntry}");
+           
 
             // ID로 찾지 못한 경우 랜덤 NPC 생성
             if (npcEntry == null)
