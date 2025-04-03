@@ -202,7 +202,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         {
             // 현재 부모 슬롯을 저장 (드래그 취소 시 돌아갈 위치)
             originalSlot = transform.parent.gameObject;
-            
+
             // Player Inven UI 찾아서 그 아래로 이동
             Transform root = transform.root;
             Transform playerInvenUI = root.Find("Player Inven UI");
@@ -276,6 +276,39 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         if (playerInventory.CurrentlyHoveredInventorySlot != null)
         {
             Debug.Log("슬롯 위에 드롭: " + playerInventory.CurrentlyHoveredInventorySlot.name);
+
+            // NPC 인벤토리 슬롯인지 확인
+            NPCInventory npcInventory = playerInventory.CurrentlyHoveredInventorySlot.GetComponent<NPCInventory>();
+            if (npcInventory != null)
+            {
+                Debug.Log("NPC 인벤토리에 아이템 드롭 시도: " + Item.name);
+
+                // 현재 NPC 인벤토리에 아이템이 있는지 확인
+                Item existingItem = npcInventory.GetCurrentItem();
+
+                if (existingItem != null)
+                {
+                    Debug.Log("NPC 인벤토리에 이미 아이템이 있음: " + existingItem.name);
+
+                    // 기존 아이템을 플레이어 인벤토리로 이동
+                    playerInventory.AddItem(existingItem, 1);
+
+                    // 기존 아이템 제거
+                    npcInventory.RemoveItem();
+                }
+
+                // 새 아이템을 NPC 인벤토리에 추가
+                npcInventory.AddItem(Item);
+
+                // 현재 드래그 중인 아이템 제거
+                Destroy(this.gameObject);
+                playerInventory.IsDragging = false;
+                Debug.Log("NPC 인벤토리에 아이템 추가 완료: " + Item.name);
+                playerInventory.IsClicking = true;
+                return;
+            }
+
+            // 일반 인벤토리 슬롯인 경우
             InventoryItem hoveredItem = playerInventory.CurrentlyHoveredInventorySlot.GetComponentInChildren<InventoryItem>();
 
             if (hoveredItem != null)

@@ -155,9 +155,9 @@ public class Player : MonoBehaviour
         {
             if (hitCollider.CompareTag("Resource"))
             {
-                // Money 획득 애니메이션 재생
+                // Resource 획득 애니메이션 재생
                 animator.SetTrigger("6_Other");
-                Debug.Log("Money 오브젝트 상호작용: 6_Other 애니메이션 재생");
+                
 
                 // 3초 후 가장 가까운 타일 제거
                 StartCoroutine(RemoveClosestTileAfterDelay(3f));
@@ -166,7 +166,7 @@ public class Player : MonoBehaviour
         }
 
         // 범위 내에 Money가 없을 경우 메시지 출력
-        Debug.Log("상호작용 가능한 Money가 범위 내에 없습니다.");
+       
     }
 
     private IEnumerator RemoveClosestTileAfterDelay(float delay)
@@ -281,11 +281,9 @@ public class Player : MonoBehaviour
             // 다른 애니메이션 즉시 중단하고 공격 애니메이션 재생
             animator.ResetTrigger("2_Attack"); // 기존 트리거 초기화
             animator.SetTrigger("2_Attack");
-
+            
             // 공격 애니메이션 파라미터 우선순위 높이기 (선택사항)
             animator.SetLayerWeight(animator.GetLayerIndex("Base Layer"), 1);
-
-            Debug.Log("공격 애니메이션 즉시 재생");
         }
 
         // 공격 데미지 처리
@@ -388,22 +386,22 @@ public class Player : MonoBehaviour
         // 현재 y속도는 0으로 설정하고 jumpForce만큼 위로 힘 가함
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        Debug.Log("점프: " + jumpForce + " 힘 적용됨");
+        
     }
 
     // 지면 체크 함수
     private void CheckIsGrounded()
     {
         // 원형 캐스트로 지면 체크
-        Debug.Log("지면 체크 중...");
+        
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         if (isGrounded)
         {
-            Debug.Log("지면에 닿음");
+           
         }
         else
         {
-            Debug.Log("지면에 닿지 않음");
+            
         }
     }
 
