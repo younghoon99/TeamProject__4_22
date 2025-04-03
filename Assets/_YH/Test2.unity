@@ -7468,8 +7468,8 @@ MonoBehaviour:
   enemyTag: Enemy
   attackDelay: 0.2
   attackCooldown: 0.5
-  resourceTilemap: {fileID: 0}
-  resourceTileSpawner: {fileID: 0}
+  resourceTilemap: {fileID: 1818279832}
+  resourceTileSpawner: {fileID: 1818279833}
   animator: {fileID: 1442393167}
 --- !u!50 &1442393172
 Rigidbody2D:
@@ -26970,7 +26970,7 @@ GameObject:
   - component: {fileID: 1818279834}
   m_Layer: 0
   m_Name: Resource
-  m_TagString: Money
+  m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27156,8 +27156,8 @@ MonoBehaviour:
   maxWoodTiles: 10
   maxStoneTiles: 10
   spawnInterval: 0.5
-  woodPrefab: {fileID: 0}
-  stonePrefab: {fileID: 0}
+  woodPrefab: {fileID: 7124918242175078301, guid: 009b4ec4101ef524b9598893711f1127, type: 3}
+  stonePrefab: {fileID: 4991525617993481455, guid: 7814b8ac9b4c91c4eac796ee4642d466, type: 3}
   minX: -50
   maxX: 50
   minDistanceBetweenTiles: 3
