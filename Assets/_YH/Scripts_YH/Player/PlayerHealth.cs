@@ -100,8 +100,6 @@ public class PlayerHealth : MonoBehaviour
             animator.SetTrigger("3_Damaged");
         }
 
-        Debug.Log("플레이어가 " + damage + "의 데미지를 입었습니다. 남은 체력: " + currentHealth);
-
         // 사망 확인
         if (currentHealth <= 0)
         {
@@ -124,8 +122,6 @@ public class PlayerHealth : MonoBehaviour
 
         // 체력바 업데이트
         UpdateHealthBar();
-
-        Debug.Log("플레이어가 " + amount + "의 체력을 회복했습니다. 현재 체력: " + currentHealth);
     }
 
     // 체력바 업데이트
@@ -141,7 +137,6 @@ public class PlayerHealth : MonoBehaviour
         if (uiHealthSlider != null)
         {
             uiHealthSlider.value = currentHealth;
-            Debug.Log($"UI 체력바 업데이트: {currentHealth}/{maxHealth}");
         }
         else
         {
@@ -166,7 +161,6 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
-        Debug.Log("플레이어 사망");
 
         // 사망 애니메이션 재생
         if (animator != null)
@@ -253,12 +247,9 @@ public class PlayerHealth : MonoBehaviour
                 {
                     uiHealthSlider.maxValue = maxHealth;
                     uiHealthSlider.value = currentHealth;
-                    Debug.Log("UI 체력바를 찾았습니다: " + uiHealthSlider.gameObject.name);
                     return;
                 }
             }
         }
-        
-        Debug.LogWarning("UI 체력바를 찾을 수 없습니다. UI 캔버스에 체력바 슬라이더가 있는지 확인하세요.");
     }
 }

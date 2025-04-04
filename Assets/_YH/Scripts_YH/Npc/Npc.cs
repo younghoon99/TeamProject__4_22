@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI; // UI 관련 기능 사용
+using UnityEngine.UI;
 using TMPro;
 
 public class Npc : MonoBehaviour
@@ -87,11 +87,9 @@ public class Npc : MonoBehaviour
 
 
 
-    // 시작 시 호출됨
     private void Start()
     {
-        npcEntry = null; //테스트용 npcEntry 
-
+        npcEntry = null;
 
         // 컴포넌트 초기화
         rb = GetComponent<Rigidbody2D>();
@@ -99,7 +97,7 @@ public class Npc : MonoBehaviour
         // NpcHealth 컴포넌트 참조 가져오기
         npcHealth = GetComponent<NpcHealth>();
 
-        // NpcHealth 컴포넌트가 없으면 경고
+        // NpcHealth 컴포넌트가 없으면 추가
         if (npcHealth == null)
         {
             Debug.LogWarning($"NPC {gameObject.name}에 NpcHealth 컴포넌트가 없습니다. 추가해주세요.");
@@ -1027,12 +1025,10 @@ public class Npc : MonoBehaviour
             // 새로운 작업이 설정되면 초기 위치로 돌아가는 상태 초기화
             returningToInitialPosition = false;
             randomMovementActive = false;
-            Debug.Log($"{NpcName}이(가) {task} 작업을 시작합니다.");
         }
         else
         {
             // 작업이 초기화되면 NPC를 초기 위치 근처로 이동시키고 랜덤 이동 상태로 설정
-            Debug.Log($"{NpcName}이(가) 작업을 중지하고 랜덤 이동 모드로 전환합니다.");
 
             // 현재 위치가 초기 위치에서 멀어졌다면 초기 위치 근처로 이동
             float distanceFromStart = Vector3.Distance(transform.position, initialPosition);
@@ -1055,7 +1051,6 @@ public class Npc : MonoBehaviour
 
                 // 방향 설정
                 UpdateDirection(direction);
-                Debug.Log($"{NpcName}이(가) 초기 위치로 돌아가는 중입니다.");
 
                 // 상태 변경
                 currentState = NpcState.Moving;

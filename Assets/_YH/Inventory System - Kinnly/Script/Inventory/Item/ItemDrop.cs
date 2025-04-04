@@ -22,15 +22,11 @@ public class ItemDrop : MonoBehaviour
     float speed;
     float delay;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // 플레이어를 태그로 찾기
         if (playerObject == null)
         {
             playerObject = GameObject.FindGameObjectWithTag("Player");
-           
-
             if (playerObject == null)
             {
                 playerObject = GameObject.Find("Player");
@@ -54,7 +50,6 @@ public class ItemDrop : MonoBehaviour
         spriteRenderer.sprite = item.image;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isDelay)
@@ -63,47 +58,27 @@ public class ItemDrop : MonoBehaviour
         }
         else
         {
-            // 플레이어 인벤토리가 없을 경우 다시 찾기 시도
             if (playerInventory == null)
             {
-                // 플레이어를 태그로 찾기
                 if (playerObject == null)
                 {
                     playerObject = GameObject.FindGameObjectWithTag("Player");
-
-                    if (playerObject == null)
-                    {
-                        playerObject = GameObject.Find("Player");
-                    }
+                    if (playerObject == null) playerObject = GameObject.Find("Player");
                 }
 
-                if (playerObject != null)
-                {
-                    // 플레이어 인벤토리 컴포넌트 직접 찾기
-                    playerInventory = playerObject.GetComponent<PlayerInventory>();
-                }
-
-                if (playerInventory == null) return; // 플레이어 인벤토리를 찾지 못하면 건너뛰기
+                if (playerObject != null) playerInventory = playerObject.GetComponent<PlayerInventory>();
+                if (playerInventory == null) return;
             }
 
             CheckDistance();
             if (isNear)
             {
-                
                 CheckSlotAvailability();
                 if (isSlotAvailable)
                 {
                     MovingtoTarget();
                     AddingItem();
                 }
-                else
-                {
-                    
-                }
-            }
-            else
-            {
-               
             }
         }
     }
@@ -130,11 +105,7 @@ public class ItemDrop : MonoBehaviour
 
     private void CheckDistance()
     {
-        if (playerObject == null)
-        {
-           
-            return;
-        }
+        if (playerObject == null) return;
 
         float distance = Vector2.Distance(this.transform.position, playerObject.transform.position);
         if (distance <= 2f)
@@ -167,27 +138,18 @@ public class ItemDrop : MonoBehaviour
     }
 
     private void MovingtoTarget()
-{
-    if (playerObject == null)
     {
-        return;
-    }
+        if (playerObject == null) return;
 
-    Vector3 direction = playerObject.transform.position - transform.position;
-    direction.Normalize();
+        Vector3 direction = playerObject.transform.position - transform.position;
+        direction.Normalize();
         transform.Translate(direction * speed * Time.deltaTime);
         speed += 20f * Time.deltaTime;
-      
     }
 
     private void AddingItem()
     {
-        
-        if (playerObject == null || playerInventory == null)
-        {
-         
-            return;
-        }
+        if (playerObject == null || playerInventory == null) return;
 
         float distance = Vector2.Distance(this.transform.position, playerObject.transform.position);
 
@@ -195,10 +157,6 @@ public class ItemDrop : MonoBehaviour
         {
             playerInventory.AddItem(item, amount);
             Destroy(gameObject);
-        }
-        else
-        {
-        
         }
     }
 }

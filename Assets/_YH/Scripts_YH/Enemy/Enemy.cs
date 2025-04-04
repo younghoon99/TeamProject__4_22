@@ -4,76 +4,51 @@ using System.Collections;
 public class Enemy : MonoBehaviour
 {
     [Header("공격 설정")]
-    public float attackDamage = 10f;       // 공격력
-    public float attackRange = 1.5f;       // 공격 범위
-    public float attackCooldown = 2f;      // 공격 쿨다운
-    public float attackDelay = 0.3f;       // 애니메이션 재생 후 데미지 적용까지의 지연 시간
-    private float nextAttackTime = 0f;     // 다음 공격 가능 시간
-    private bool isAttacking = false;      // 공격 중인지 여부를 추적하는 변수
+    public float attackDamage = 10f;
+    public float attackRange = 1.5f;
+    public float attackCooldown = 2f;
+    public float attackDelay = 0.3f;
+    private float nextAttackTime = 0f;
+    private bool isAttacking = false;
 
     [Header("탐지 설정")]
-    public float detectionRange = 5f;      // 대상 탐지 범위
-    private Transform currentTarget;       // 현재 타겟 트랜스폼
-    public string[] targetTags = { "Player", "NPC" };  // 추적할 대상의 태그 배열
+    public float detectionRange = 5f;
+    private Transform currentTarget;
+    public string[] targetTags = { "Player", "NPC" };
 
     [Header("이동 설정")]
-    public float moveSpeed = 2f;           // 이동 속도
-    public float stoppingDistance = 1f;    // 정지 거리 (이 거리보다 가까우면 멈춤)
-    public bool canMove = true;            // 이동 가능 여부
-    private Rigidbody2D rb;                // 리지드바디 컴포넌트
+    public float moveSpeed = 2f;
+    public float stoppingDistance = 1f;
+    public bool canMove = true;
+    private Rigidbody2D rb;
 
     [Header("방향 설정")]
-    public bool facingRight = true;        // 적의 초기 방향
+    public bool facingRight = true;
 
-    // 애니메이션 컴포넌트
     private Animator animator;
-    // 스프라이트 렌더러
     private SpriteRenderer spriteRenderer;
 
-    // 현재 체력
     public int currentHealth = 100;
 
     void Start()
     {
-        // 애니메이터 컴포넌트 가져오기 (자식 객체에 있을 경우를 위해 GetComponentInChildren 사용)
         animator = GetComponentInChildren<Animator>();
-
-        // 스프라이트 렌더러 가져오기
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-        // 리지드바디 컴포넌트 가져오기
         rb = GetComponent<Rigidbody2D>();
 
-        // 리지드바디가 없으면 추가
         if (rb == null)
         {
             rb = gameObject.AddComponent<Rigidbody2D>();
-            rb.gravityScale = 0; // 중력 영향 없음
-            rb.freezeRotation = true; // 회전 방지
-            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous; // 연속 충돌 감지
-            rb.interpolation = RigidbodyInterpolation2D.Interpolate; // 부드러운 움직임
+            rb.gravityScale = 0;
+            rb.freezeRotation = true;
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         }
 
-        // 애니메이터가 없으면 경고 메시지
-        if (animator == null)
-        {
-            Debug.LogWarning(gameObject.name + "에 Animator 컴포넌트가 없습니다.");
-        }
-
-        // 시작할 때 타겟 찾기
         FindTarget();
-
-        // 타겟을 찾지 못했을 경우 경고 메시지
-        if (currentTarget == null)
-        {
-            Debug.LogWarning(gameObject.name + "이(가) 타겟을 찾을 수 없습니다.");
-        }
-
-        // 다른 Enemy 및 NPC와의 충돌 무시 설정
         IgnoreCollisionsWithEnemiesAndNpcs();
     }
 
-    // 다른 Enemy 및 NPC와의 충돌 무시 설정
     private void IgnoreCollisionsWithEnemiesAndNpcs()
     {
         Collider2D enemyCollider = GetComponent<Collider2D>();
@@ -185,7 +160,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // 타겟 쪽으로 이동
     private void MoveTowardsTarget()
     {
         if (currentTarget == null || rb == null) return;
@@ -197,7 +171,6 @@ public class Enemy : MonoBehaviour
         rb.velocity = direction * moveSpeed;
     }
 
-    // 이동 정지
     private void StopMoving()
     {
         if (rb != null)
@@ -206,7 +179,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // 타겟 방향 바라보기 (2D 게임용)
     private void LookAtTarget()
     {
         if (currentTarget == null) return;
@@ -227,7 +199,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // 공격 함수
     private void Attack()
     {
         // 공격 시 이동 정지
@@ -257,7 +228,6 @@ public class Enemy : MonoBehaviour
         StartCoroutine(ApplyAttackDamage());
     }
 
-    // 공격 데미지 적용 코루틴
     private IEnumerator ApplyAttackDamage()
     {
         // 공격 중에는 계속 정지 상태 유지
@@ -355,7 +325,6 @@ public class Enemy : MonoBehaviour
             {
                 // 데미지 적용 (Npc 클래스에 TakeDamage 메서드가 있다고 가정)
                 npc.TakeDamage((int)attackDamage);
-                Debug.Log(gameObject.name + "이(가) NPC에게 " + attackDamage + " 데미지를 입혔습니다.");
             }
 
             // EnemyHealth 컴포넌트 확인 (NPC에게 EnemyHealth 컴포넌트가 있을 수 있음)
@@ -368,7 +337,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // 공격 범위 시각화 (디버깅용)
     private void OnDrawGizmos()
     {
         // 공격 범위 표시 (빨간색)
@@ -384,14 +352,10 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, stoppingDistance);
     }
 
-    // 데미지 받기 메서드
     public void TakeDamage(int damage)
     {
         // 현재 체력에서 데미지 차감
         currentHealth -= damage;
-
-        // 데미지 로그 출력
-        Debug.Log($"{gameObject.name}이(가) {damage}의 데미지를 입었습니다. 남은 체력: {currentHealth}");
 
         // 체력이 0 이하면 사망 처리
         if (currentHealth <= 0)
@@ -400,19 +364,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // 사망 처리 메서드
     private void Die()
     {
-        Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
-
         // 사망 효과 또는 애니메이션 재생
-        animator.SetTrigger("4_Death");
+        if (animator != null)
+        {
+            animator.SetTrigger("4_Death");
+        }
 
         // 일정 시간 후 오브젝트 제거 또는 비활성화
         Destroy(gameObject, 1f);
     }
 
-    // 타겟 찾기 함수 - 가장 가까운 대상 우선
     private void FindTarget()
     {
         Transform closestTarget = null;
@@ -439,17 +402,10 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        // 가장 가까운 대상을 현재 타겟으로 설정
         currentTarget = closestTarget;
 
-        // 디버그 로그
-        if (currentTarget != null)
-        {
-            Debug.Log($"{gameObject.name}이(가) 가장 가까운 타겟 {currentTarget.name}(범위: {closestDistance:F2})를 찾았습니다.");
-        }
     }
 
-    // 가장 가까운 타겟 찾기
     private Transform FindClosestTarget(GameObject[] targets)
     {
         Transform closest = null;

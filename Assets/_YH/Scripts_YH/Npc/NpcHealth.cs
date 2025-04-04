@@ -6,16 +6,16 @@ using System.Collections.Generic;
 public class NpcHealth : MonoBehaviour
 {
     [Header("체력 설정")]
-    [SerializeField] private float maxHealth = 100f;      // 최대 체력 (초기값, NpcData에서 재정의됨)
-    [SerializeField] private float currentHealth;         // 현재 체력
+    [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private float currentHealth;
     
     [Header("UI 설정")]
-    [SerializeField] private Image healthBarImage;        // 체력바 이미지 (Fill 방식)
-    [SerializeField] private float smoothSpeed = 5f;      // 체력바 변화 속도
-    [SerializeField] private GameObject floatingDamageTextPrefab; // 데미지 텍스트 프리팹
-    [SerializeField] private Canvas worldCanvas;          // 월드 캔버스 (없으면 자동 생성)
-    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0); // 체력바 위치 오프셋
-    private float targetFill;                            // 목표 체력바 비율
+    [SerializeField] private Image healthBarImage;
+    [SerializeField] private float smoothSpeed = 5f;
+    [SerializeField] private GameObject floatingDamageTextPrefab;
+    [SerializeField] private Canvas worldCanvas;
+    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0);
+    private float targetFill;
     
     [Header("피격 효과")]
     [SerializeField] private float invincibilityTime = 0.5f; // 무적 시간
@@ -36,23 +36,16 @@ public class NpcHealth : MonoBehaviour
 
     void Start()
     {
-        // 컴포넌트 참조 가져오기
         animator = GetComponentInChildren<Animator>();
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         npcScript = GetComponent<Npc>();
         
-        // 잠시 대기하여 Npc 컴포넌트가 초기화될 시간 제공
         Invoke("InitializeHealth", 0.1f);
-        
-        // 각 스프라이트 렌더러의 원래 색상 저장
         SaveOriginalColors();
-        
-        // 월드 캔버스가 없으면 생성
         SetupWorldCanvas();
     }
     
-    // 초기 체력 설정 함수
     private void InitializeHealth()
     {
         // NpcData에서 체력 값 가져오기
@@ -65,17 +58,11 @@ public class NpcHealth : MonoBehaviour
             if (maxHealth <= 0)
             {
                 maxHealth = 10f; // 최소 체력은 10 (health=1 * 10)
-                Debug.LogWarning($"NPC {npcScript.NpcName}의 체력이 0 이하였습니다. 최소값 10으로 설정합니다.");
-            }
-            else
-            {
-                Debug.Log($"NPC {npcScript.NpcName}의 최대 체력을 {maxHealth}로 설정했습니다.");
             }
         }
         else
         {
             // NpcData가 없는 경우 기본값 사용
-            Debug.LogWarning("NPC 데이터를 찾을 수 없습니다. 기본 체력을 사용합니다.");
             maxHealth = 10f; // 최소 체력은 10 (health=1 * 10)
         }
         
@@ -87,7 +74,6 @@ public class NpcHealth : MonoBehaviour
         UpdateHealthBar();
     }
     
-    // 원래 색상 저장 함수
     private void SaveOriginalColors()
     {
         originalColors.Clear();
@@ -105,12 +91,10 @@ public class NpcHealth : MonoBehaviour
     
     void Update()
     {
-        // 체력바 부드럽게 변화
         if (healthBarImage != null)
         {
             healthBarImage.fillAmount = Mathf.Lerp(healthBarImage.fillAmount, targetFill, Time.deltaTime * smoothSpeed);
             
-            // 체력바가 NPC의 머리 위를 따라다니도록 설정
             Transform healthBarTransform = healthBarImage.transform.parent;
             if (healthBarTransform != null)
             {
@@ -154,16 +138,6 @@ public class NpcHealth : MonoBehaviour
             StartCoroutine(InvincibilityCoroutine());
         }
         
-        // NPC 이름 가져오기
-        string npcName = "NPC";
-        if (npcScript != null)
-        {
-            npcName = npcScript.NpcName;
-        }
-        
-        // 디버그 출력
-        Debug.Log($"NPC {npcName}이(가) {damage}의 피해를 입었습니다. 현재 체력: {currentHealth}/{maxHealth}");
-        
         // 체력이 0이 되면 사망 처리
         if (currentHealth <= 0 && !isDead)
         {
@@ -194,7 +168,6 @@ public class NpcHealth : MonoBehaviour
         isInvincible = false;
     }
     
-    // 원래 색상으로 복원하는 함수
     private void RestoreOriginalColors()
     {
         if (spriteRenderers != null && spriteRenderers.Length > 0)
@@ -209,7 +182,6 @@ public class NpcHealth : MonoBehaviour
         }
     }
     
-    // 캐릭터 가시성 설정
     private void SetCharacterVisibility(bool visible)
     {
         if (spriteRenderers != null && spriteRenderers.Length > 0)
@@ -243,7 +215,6 @@ public class NpcHealth : MonoBehaviour
         }
     }
     
-    // 사망 처리 함수
     private void Die()
     {
         // 사망 상태로 변경
@@ -273,25 +244,13 @@ public class NpcHealth : MonoBehaviour
         {
             npcScript.enabled = false;
         }
-        
-        // NPC 이름 가져오기
-        string npcName = "NPC";
-        if (npcScript != null)
-        {
-            npcName = npcScript.NpcName;
-        }
-        
-        // 디버그 출력
-        Debug.Log($"NPC {npcName}이(가) 사망했습니다.");
     }
     
-    // NPC 오브젝트 제거 함수
     private void DestroyNpc()
     {
         Destroy(gameObject);
     }
 
-    // 체력바 업데이트 함수
     private void UpdateHealthBar()
     {
         if (healthBarImage != null)
@@ -363,7 +322,6 @@ public class NpcHealth : MonoBehaviour
         }
     }
     
-    // 데미지 텍스트 애니메이션 코루틴
     private System.Collections.IEnumerator AnimateDamageText(GameObject textObj)
     {
         float duration = 1.0f;
@@ -414,7 +372,6 @@ public class NpcHealth : MonoBehaviour
         Destroy(textObj);
     }
     
-    // 월드 캔버스 설정
     private void SetupWorldCanvas()
     {
         // 월드 캔버스가 없다면 생성
@@ -441,38 +398,24 @@ public class NpcHealth : MonoBehaviour
                 // 캔버스 스케일러 추가
                 CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
                 scaler.dynamicPixelsPerUnit = 100f;
-                
-                Debug.Log("월드 캔버스가 자동 생성되었습니다.");
             }
         }
     }
     
-    // 체력 회복 함수
     public void Heal(float amount)
     {
         if (isDead) return;
         
         currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
         UpdateHealthBar();
-        
-        // NPC 이름 가져오기
-        string npcName = "NPC";
-        if (npcScript != null)
-        {
-            npcName = npcScript.NpcName;
-        }
-        
-        Debug.Log($"NPC {npcName}이(가) {amount}만큼 회복되었습니다. 현재 체력: {currentHealth}/{maxHealth}");
     }
     
-    // 체력 설정 함수
     public void SetHealth(float health)
     {
         currentHealth = Mathf.Clamp(health, 0, maxHealth);
         UpdateHealthBar();
     }
     
-    // 최대 체력 설정 함수
     public void SetMaxHealth(float health)
     {
         maxHealth = Mathf.Max(1, health);
@@ -480,19 +423,16 @@ public class NpcHealth : MonoBehaviour
         UpdateHealthBar();
     }
     
-    // 현재 체력 반환
     public float GetCurrentHealth()
     {
         return currentHealth;
     }
     
-    // 최대 체력 반환
     public float GetMaxHealth()
     {
         return maxHealth;
     }
     
-    // 체력 비율 반환 (0~1)
     public float GetHealthRatio()
     {
         return currentHealth / maxHealth;
@@ -502,5 +442,3 @@ public class NpcHealth : MonoBehaviour
     public float MaxHealth => maxHealth;
     public float CurrentHealth => currentHealth;
 }
-
-// Billboard 클래스는 다른 파일에 이미 정의되어 있으므로 제거합니다.

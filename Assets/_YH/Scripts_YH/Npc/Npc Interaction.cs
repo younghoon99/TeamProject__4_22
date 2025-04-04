@@ -29,11 +29,6 @@ public class NpcInteraction : MonoBehaviour
         // 플레이어 트랜스폼 찾기
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
         
-        if (playerTransform == null)
-        {
-            Debug.LogError("플레이어를 찾을 수 없습니다. 'Player' 태그가 설정되었는지 확인하세요.");
-        }
-        
         // UI 초기 상태 설정
         if (interactionPrompt) interactionPrompt.SetActive(false);
         if (npcInfoPanel) npcInfoPanel.SetActive(false);
@@ -53,35 +48,24 @@ public class NpcInteraction : MonoBehaviour
             if (interactionPrompt && !isInteracting)
             {
                 interactionPrompt.SetActive(true);
-                
-                // 프롬프트 위치를 NPC 머리 위로 설정
                 interactionPrompt.transform.position = Camera.main.WorldToScreenPoint(
                     nearestNpc.transform.position + promptOffset);
             }
             
             // 상호작용 키 입력 감지
-            if (Input.GetKeyDown(interactionKey) && !isInteracting)
+            if (Input.GetKeyDown(interactionKey))
             {
-                StartInteraction(nearestNpc);
-            }
-            else if (Input.GetKeyDown(interactionKey) && isInteracting)
-            {
-                EndInteraction();
+                if (!isInteracting) StartInteraction(nearestNpc);
+                else EndInteraction();
             }
         }
         else
         {
             // 가까운 NPC가 없으면 프롬프트 숨기기
-            if (interactionPrompt)
-            {
-                interactionPrompt.SetActive(false);
-            }
+            if (interactionPrompt) interactionPrompt.SetActive(false);
             
             // 상호작용 중이었다면 종료
-            if (isInteracting)
-            {
-                EndInteraction();
-            }
+            if (isInteracting) EndInteraction();
         }
         
         // UI 위치 업데이트
@@ -101,7 +85,6 @@ public class NpcInteraction : MonoBehaviour
 
             if (npcInfoPanel && npcInfoPanel.activeSelf)
             {
-                // LookAt 제거하고 위치만 업데이트
                 npcInfoPanel.transform.position = Camera.main.WorldToScreenPoint(
                     currentNpc.transform.position + infoOffset);
             }
@@ -138,19 +121,11 @@ public class NpcInteraction : MonoBehaviour
         if (npcInfoPanel)
         {
             npcInfoPanel.SetActive(true);
-            
-            // NPC 정보 텍스트 업데이트
-            if (npcInfoText)
-            {
-                npcInfoText.text = npc.GetNpcInfoText();
-            }
+            if (npcInfoText) npcInfoText.text = npc.GetNpcInfoText();
         }
         
         // 상호작용 프롬프트 숨기기
-        if (interactionPrompt)
-        {
-            interactionPrompt.SetActive(false);
-        }
+        if (interactionPrompt) interactionPrompt.SetActive(false);
         
         // NPC에게 상호작용 시작 알림
         npc.OnInteractionStart();
@@ -162,10 +137,7 @@ public class NpcInteraction : MonoBehaviour
         isInteracting = false;
         
         // NPC 정보 패널 숨기기
-        if (npcInfoPanel)
-        {
-            npcInfoPanel.SetActive(false);
-        }
+        if (npcInfoPanel) npcInfoPanel.SetActive(false);
         
         // NPC에게 상호작용 종료 알림
         if (currentNpc != null)

@@ -60,14 +60,14 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
                 {
                     // 기본값 설정
                     maxAmount = 999;
-                    Debug.LogWarning("PlayerInventory를 찾을 수 없어 최대 스택 수를 기본값(999)으로 설정합니다.");
+    
                 }
             }
             else
             {
                 // 기본값 설정
                 maxAmount = 999;
-                Debug.LogWarning("Player를 찾을 수 없어 최대 스택 수를 기본값(999)으로 설정합니다.");
+
             }
         }
     }
@@ -209,7 +209,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
             if (playerInvenUI != null)
             {
                 transform.SetParent(playerInvenUI);
-                Debug.Log("아이템이 Player Inven UI 아래로 이동했습니다.");
+
             }
 
 
@@ -226,7 +226,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
             // Z오더를 최상위로 설정
             transform.SetAsLastSibling();
 
-            Debug.Log(Item.name + " 드래그 시작");
+
         }
     }
 
@@ -235,7 +235,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     {
         if (IsDragging)
         {
-            Debug.Log(Item.name + " 드래그 취소");
+
 
             // 원래 슬롯으로 돌아감
             if (originalSlot != null)
@@ -270,25 +270,25 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        Debug.Log("아이템 드롭 처리 중: " + Item.name);
+
 
         // 슬롯 위에 드롭한 경우
         if (playerInventory.CurrentlyHoveredInventorySlot != null)
         {
-            Debug.Log("슬롯 위에 드롭: " + playerInventory.CurrentlyHoveredInventorySlot.name);
+
 
             // NPC 인벤토리 슬롯인지 확인
             NPCInventory npcInventory = playerInventory.CurrentlyHoveredInventorySlot.GetComponent<NPCInventory>();
             if (npcInventory != null)
             {
-                Debug.Log("NPC 인벤토리에 아이템 드롭 시도: " + Item.name);
+
 
                 // 현재 NPC 인벤토리에 아이템이 있는지 확인
                 Item existingItem = npcInventory.GetCurrentItem();
 
                 if (existingItem != null)
                 {
-                    Debug.Log("NPC 인벤토리에 이미 아이템이 있음: " + existingItem.name);
+
 
                     // 기존 아이템을 플레이어 인벤토리로 이동
                     playerInventory.AddItem(existingItem, 1);
@@ -303,7 +303,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
                 // 현재 드래그 중인 아이템 제거
                 Destroy(this.gameObject);
                 playerInventory.IsDragging = false;
-                Debug.Log("NPC 인벤토리에 아이템 추가 완료: " + Item.name);
+
                 playerInventory.IsClicking = true;
                 return;
             }
@@ -320,7 +320,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
                     hoveredItem.AddAmount(this.Amount);
                     Destroy(this.gameObject);
                     playerInventory.IsDragging = false;
-                    Debug.Log("아이템 병합 완료");
+
                 }
                 // 2. 같은 종류의 아이템이고 스택 가능하지만 최대 스택 수를 초과하는 경우
                 else if (hoveredItem.Item.name == this.Item.name && Item.isStackable && hoveredItem.Amount + this.Amount > maxAmount)
@@ -329,7 +329,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
                     int excess = maxAmount - hoveredItem.Amount;
                     hoveredItem.AddAmount(excess);
                     this.Amount = this.Amount - excess;
-                    Debug.Log("아이템 일부 병합: " + excess + "개");
+
                 }
                 // 3. 다른 종류의 아이템이거나 스택 불가능한 경우
                 else
@@ -368,7 +368,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
     // 아이템 교환
     private void SwapItems(InventoryItem hoveredItem)
     {
-        Debug.Log(Item.name + " <-> " + hoveredItem.Item.name + " : 아이템 교환 중");
+
 
         // 호버된 아이템의 부모 저장
         Transform hoveredParent = hoveredItem.transform.parent;
@@ -387,7 +387,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
         IsDragging = false;
         playerInventory.IsDragging = false;
 
-        Debug.Log("아이템 교환 완료");
+
     }
 
     // 빈 슬롯에 아이템 배치
