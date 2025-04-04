@@ -12,8 +12,12 @@ TagManager:
   - ItemDrop
   - Slot
   - HQ
+<<<<<<< HEAD
   - Undefined
   - Resource
+=======
+  - ExitPanel
+>>>>>>> origin/YS
   layers:
   - Default
   - TransparentFX
