@@ -17,11 +17,13 @@ public class MobBehavior : MonoBehaviour
     public float attackInterval = 1f; // 공격 간격
     private bool isAttacking = false; // 공격 중인지 여부
     private Animator animator; // 몹의 애니메이터
+    private AudioSource audioSource; // 오디오 소스
+    private MobManager mobManager; // MobManager 참조
 
     [Header("탐지 설정")]
     public float detectionRange = 5f; // 탐지 범위
     private Transform detectedTarget; // 탐지된 대상
-    public string[] targetTags = { "Player", "Wall" }; // 추적할 대상의 태그 배열
+    public string[] targetTags = { "Player", "Wall", "NPC", "HQ" }; // 추적할 대상의 태그 배열
 
     [Header("이동 설정")]
     public float stoppingDistance = 1f; // 정지 거리
@@ -31,6 +33,9 @@ public class MobBehavior : MonoBehaviour
     public float attackDelay = 0.3f; // 애니메이션 재생 후 데미지 적용까지의 지연 시간
     public float attackCooldown = 2f; // 공격 쿨다운
     private float nextAttackTime = 0f; // 다음 공격 가능 시간
+
+    [Header("추가 설정")]
+    public string npcTag = "NPC"; // NPC 태그
 
     public void Initialize(Transform playerTransform, Transform hqTransform, Transform[] wallTransforms, Transform leftWallTransform, Transform rightWallTransform)
     {
@@ -61,6 +66,16 @@ public class MobBehavior : MonoBehaviour
     {
         // 애니메이터 컴포넌트 가져오기
         animator = GetComponentInChildren<Animator>();
+
+        // MobManager 가져오기
+        mobManager = FindObjectOfType<MobManager>();
+        if (mobManager != null && mobManager.attackSound != null)
+        {
+            // 오디오 소스 추가
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = mobManager.attackSound;
+            audioSource.playOnAwake = false;
+        }
     }
 
     private void Update()
@@ -183,6 +198,12 @@ public class MobBehavior : MonoBehaviour
             if (animator != null)
             {
                 animator.SetTrigger("2_Attack");
+
+                // 공격 사운드 재생
+                if (audioSource != null && mobManager != null && mobManager.attackSound != null)
+                {
+                    audioSource.Play();
+                }
             }
 
             // Wall 체력 감소
@@ -191,6 +212,31 @@ public class MobBehavior : MonoBehaviour
         }
 
         isAttacking = false;
+
+        // Wall 파괴 후 NPC를 새로운 타겟으로 설정
+        if (wallHealth != null && wallHealth.GetCurrentHealth() <= 0)
+        {
+            detectedTarget = FindClosestNpc();
+        }
+    }
+
+    private Transform FindClosestNpc()
+    {
+        GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+        Transform closestNpc = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (GameObject npc in npcs)
+        {
+            float distance = Vector3.Distance(transform.position, npc.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestNpc = npc.transform;
+            }
+        }
+
+        return closestNpc;
     }
 
     private IEnumerator AttackPlayer(PlayerHealth playerHealth)
@@ -205,6 +251,12 @@ public class MobBehavior : MonoBehaviour
             if (animator != null)
             {
                 animator.SetTrigger("2_Attack");
+
+                // 공격 사운드 재생
+                if (audioSource != null && mobManager != null && mobManager.attackSound != null)
+                {
+                    audioSource.Play();
+                }
             }
 
             // Player 체력 감소
@@ -221,11 +273,17 @@ public class MobBehavior : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("2_Attack");
+
+            // 공격 사운드 재생
+            if (audioSource != null && mobManager != null && mobManager.attackSound != null)
+            {
+                audioSource.Play();
+            }
         }
 
         yield return new WaitForSeconds(attackDelay);
 
-        // 대상이 Wall 또는 Player인지 확인하고 데미지 적용
+        // 대상이 Wall, Player, 또는 NPC인지 확인하고 데미지 적용
         if (target.CompareTag("Wall"))
         {
             WallHealth wallHealth = target.GetComponent<WallHealth>();
@@ -240,6 +298,22 @@ public class MobBehavior : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(attackDamage);
+            }
+        }
+        else if (target.CompareTag("NPC"))
+        {
+            NpcHealth npcHealth = target.GetComponent<NpcHealth>();
+            if (npcHealth != null)
+            {
+                npcHealth.TakeDamage(attackDamage);
+            }
+        }
+        else if (target.CompareTag("HQ"))
+        {
+            HQHealth hqHealth = target.GetComponent<HQHealth>();
+            if (hqHealth != null)
+            {
+                hqHealth.TakeDamage(attackDamage);
             }
         }
     }

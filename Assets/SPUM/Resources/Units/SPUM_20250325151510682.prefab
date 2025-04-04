@@ -1399,12 +1399,19 @@ GameObject:
   m_Component:
   - component: {fileID: 6327121517875762957}
   - component: {fileID: 4168996272990395409}
+<<<<<<< HEAD
   - component: {fileID: 6426711021709808526}
   - component: {fileID: 4020578073489955436}
   - component: {fileID: 8935683710431324764}
   - component: {fileID: 2418676329816569770}
   - component: {fileID: 6541971557857956727}
   - component: {fileID: 3713453252665525810}
+=======
+  - component: {fileID: 4619906928435966514}
+  - component: {fileID: 7277914936992058174}
+  - component: {fileID: 1583503108656582687}
+  - component: {fileID: 7177850822289284157}
+>>>>>>> origin/YS
   m_Layer: 5
   m_Name: SPUM_20250325151510682
   m_TagString: Player
@@ -4503,6 +4510,7 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 4c70df3312bb83346a1bf065b30d3467, type: 2}
   - {fileID: 7400000, guid: 1ef525d53ae254f7d82ef364ced85490, type: 2}
   - {fileID: 7400000, guid: fabe4f140fdb9cb448bc941c7c93e8b6, type: 2}
+<<<<<<< HEAD
 --- !u!82 &6426711021709808526
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4600,6 +4608,9 @@ AudioSource:
     m_PostInfinity: 2
     m_RotationOrder: 4
 --- !u!61 &4020578073489955436
+=======
+--- !u!61 &4619906928435966514
+>>>>>>> origin/YS
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4644,7 +4655,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.61, y: 0.83}
   m_EdgeRadius: 0
+<<<<<<< HEAD
 --- !u!50 &8935683710431324764
+=======
+--- !u!50 &7277914936992058174
+>>>>>>> origin/YS
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -4671,7 +4686,11 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+<<<<<<< HEAD
 --- !u!114 &2418676329816569770
+=======
+--- !u!114 &1583503108656582687
+>>>>>>> origin/YS
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4701,7 +4720,11 @@ MonoBehaviour:
   resourceTilemap: {fileID: 0}
   resourceTileSpawner: {fileID: 0}
   animator: {fileID: 3012572870030998247}
+<<<<<<< HEAD
 --- !u!114 &6541971557857956727
+=======
+--- !u!114 &7177850822289284157
+>>>>>>> origin/YS
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4722,6 +4745,7 @@ MonoBehaviour:
   blinkDuration: 1
   blinkRate: 0.1
   invincibilityTime: 1
+<<<<<<< HEAD
 --- !u!114 &3713453252665525810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4756,6 +4780,8 @@ MonoBehaviour:
   IsHoveringTrashcan: 0
   IsDragging: 0
   IsClicking: 0
+=======
+>>>>>>> origin/YS
 --- !u!1 &1835109652683354211
 GameObject:
   m_ObjectHideFlags: 0
