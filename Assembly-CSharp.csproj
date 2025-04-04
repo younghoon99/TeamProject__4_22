@@ -78,7 +78,6 @@
     <Compile Include="Assets\Asset\SPUM\Basic_Resources\Package\Script\SPUM_PresetData.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\OnValueChangedAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Common\Script\Utils\SecondOrderDynamics.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\Player\Player.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\PreviewMatchingElement.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\SectionHeaderAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationManager.cs" />
@@ -98,7 +97,6 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationController.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\InventorySlot.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\Npc\NpcMaker.cs" />
-    <Compile Include="Assets\_YH\Scripts_YH\Player\PlayerHealth.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemyTest.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\IndentAttribute.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\Npc\NPC Inventory.cs" />
@@ -106,6 +104,7 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ShowIfAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\MinAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationPreset.cs" />
+    <Compile Include="Assets\__MainScenes\Code\Player\PlayerHealth.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HorizontalLineAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\MobManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\LabelTextAttribute.cs" />
@@ -199,6 +198,7 @@
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\Elevator.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Enum.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteSyncManager.cs" />
+    <Compile Include="Assets\__MainScenes\Code\Player\Player.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\ResourceTileSpawner.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\PropertyGroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\Chest.cs" />
@@ -220,6 +220,7 @@
     <None Include="Assets\Asset\TileMap\BigManJD\Platformer Tileset - Pixelart Grasslands\Background\BackChange.shader" />
     <None Include="Assets\_YS\Package\PixelFX_vol1\readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\__MainScenes\Code\Player\ReadMe.txt" />
     <None Include="Assets\Font\IBM_Plex_Sans_KR\OFL.txt" />
     <None Include="Assets\_YS\Package\Cainos\Pixel Art Icon Pack - RPG\Shader\SH Sprite Icon Outline Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
