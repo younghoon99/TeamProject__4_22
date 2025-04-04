@@ -64,6 +64,29 @@ public class MobBehavior : MonoBehaviour
         {
             target = rightWall;
         }
+        else if (Walls != null && Walls.Length > 0)
+        {
+            // 오른쪽에서 생성된 몹이 가까운 Wall로 이동하도록 설정
+            target = FindClosestWall();
+        }
+    }
+
+    private Transform FindClosestWall()
+    {
+        Transform closestWall = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (Transform wall in Walls)
+        {
+            float distance = Vector3.Distance(transform.position, wall.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestWall = wall;
+            }
+        }
+
+        return closestWall;
     }
 
     private void Start()
