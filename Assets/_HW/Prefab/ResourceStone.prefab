@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 1136039519128958917}
   - component: {fileID: 1938776508813003073}
   - component: {fileID: 6768709704907231098}
+  - component: {fileID: 3744952339225773982}
   m_Layer: 0
   m_Name: ResourceStone
-  m_TagString: Untagged
+  m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,3 +102,16 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: f2e4d99c38e716646bcc4f60e2b451f2, type: 2}
   amount: 1
   playerObject: {fileID: 0}
+--- !u!114 &3744952339225773982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4991525617993481455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5cc3cf11295d6a42b22f8582eeafc1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: Stone

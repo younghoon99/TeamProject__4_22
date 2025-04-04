@@ -19,6 +19,7 @@ public class MobBehavior : MonoBehaviour
     private Animator animator; // 몹의 애니메이터
     private AudioSource audioSource; // 오디오 소스
     private MobManager mobManager; // MobManager 참조
+    private bool facingRight = true; // 몹의 초기 방향 설정
 
     [Header("탐지 설정")]
     public float detectionRange = 10f; // 탐지 범위
@@ -51,6 +52,12 @@ public class MobBehavior : MonoBehaviour
 
         // 초기 타겟 설정
         ChooseInitialTarget();
+
+        // 왼쪽에서 나타나는 몹은 오른쪽을 향하도록 설정
+        if (transform.position.x < 0 && !facingRight)
+        {
+            Flip();
+        }
     }
 
     private void ChooseInitialTarget()
@@ -345,5 +352,14 @@ public class MobBehavior : MonoBehaviour
     private void OnDestroy()
     {
         OnDestroyed?.Invoke();
+    }
+
+    private void Flip()
+    {
+        // 몹의 방향을 반전
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }
