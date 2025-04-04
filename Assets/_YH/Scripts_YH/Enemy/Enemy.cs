@@ -14,8 +14,8 @@ public class Enemy : MonoBehaviour
     [Header("탐지 설정")]
     public float detectionRange = 5f;
     private Transform currentTarget;
-    public string[] targetTags = { "Player", "NPC" };
-
+    public string[] targetTags = { "Player", "NPC", "Home", "Wall" };
+    
     [Header("이동 설정")]
     public float moveSpeed = 2f;
     public float stoppingDistance = 1f;
