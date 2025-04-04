@@ -79,7 +79,7 @@ public class MobManager : MonoBehaviour
             {
                 destroyedMobCount = 0; // 파괴된 몹 수 초기화
                 isCooldownActive = true;
-                yield return new WaitForSeconds(1f); // 60초 대기
+                yield return new WaitForSeconds(60f); // 60초 대기
                 isCooldownActive = false;
             }
 
@@ -176,7 +176,7 @@ public class MobManager : MonoBehaviour
     {
         isCooldownActive = true;
         destroyedMobCount = 0; // 파괴된 몹 수 초기화
-        yield return new WaitForSeconds(1f); // 60초 쿨다운
+        yield return new WaitForSeconds(60f); // 60초 쿨다운
         isCooldownActive = false;
     }
 

@@ -759,11 +759,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c24b97500979794db977e5a68510d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 1000
   healthBarImage: {fileID: 495660650}
   smoothSpeed: 5
   floatingDamageTextPrefab: {fileID: 1333746919}
-  healthBarOffset: {x: 0, y: 2, z: 0}
+  healthBarOffset: {x: 0, y: 2.5, z: 0}
   exitPanel: {fileID: 581077771}
   useFlashEffect: 1
   damageFlashImage: {fileID: 0}
@@ -3136,7 +3136,7 @@ RectTransform:
   m_GameObject: {fileID: 417718397}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.88, y: 4.88, z: 4.88}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 495660649}
@@ -34570,10 +34570,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1276501123}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: playerObject
-      value: 
-      objectReference: {fileID: 946601237}
     - target: {fileID: 4534958414863681559, guid: d55393789d8782a40a22ba260eea4a9d, type: 3}
       propertyPath: m_Name
       value: ResourceStone
@@ -34680,10 +34676,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: playerObject
-      value: 
-      objectReference: {fileID: 946601237}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 4694791311051083695, guid: 9aa7a272da44b47438cc2f51564c0adf, type: 3}
@@ -34705,6 +34697,10 @@ PrefabInstance:
     - target: {fileID: 290920916922177745, guid: 15a403cbfd7f14e468930e812ee052b6, type: 3}
       propertyPath: m_Name
       value: Npc
+      objectReference: {fileID: 0}
+    - target: {fileID: 470832269888015348, guid: 15a403cbfd7f14e468930e812ee052b6, type: 3}
+      propertyPath: facingleft
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 741267002551017506, guid: 15a403cbfd7f14e468930e812ee052b6, type: 3}
       propertyPath: npcInfoText
