@@ -39,12 +39,7 @@ public class Player : MonoBehaviour
     
     // 체력 관련 설정
     [Header("체력 설정")]
-    [SerializeField] private int maxHealth = 100;           // 최대 체력
-    [SerializeField] private int currentHealth;             // 현재 체력
-    [SerializeField] private GameObject healthBarPrefab;     // 체력바 프리팹
-    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0); // 체력바 위치 오프셋
-    private GameObject healthBarObject;                     // 체력바 오브젝트
-    private Slider healthSlider;                           // 체력바 슬라이더
+    private PlayerHealth playerHealth;                     // PlayerHealth 컴포넌트 참조
 
     // 타일맵 관련 변수
     [Header("타일맵 설정")]
@@ -69,11 +64,15 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         
-        // 체력 초기화
-        currentHealth = maxHealth;
+        // PlayerHealth 컴포넌트 참조 가져오기
+        playerHealth = GetComponent<PlayerHealth>();
         
-        // 체력바 생성
-        CreateHealthBar();
+        // PlayerHealth 컴포넌트가 없는 경우 추가
+        if (playerHealth == null)
+        {
+            playerHealth = gameObject.AddComponent<PlayerHealth>();
+            Debug.Log("PlayerHealth 컴포넌트가 자동으로 추가되었습니다.");
+        }
 
         // Rigidbody2D 관성 제거
         if (rb != null)
@@ -503,73 +502,30 @@ public class Player : MonoBehaviour
     // 데미지를 받는 메서드
     public void TakeDamage(int damage)
     {
-        // 체력 감소
-        currentHealth -= damage;
-        
-        // 체력바 업데이트
-        UpdateHealthBar();
-        
-        // 데미지 받는 애니메이션 재생 (있다면)
-        if (animator != null)
+        // PlayerHealth 컴포넌트에 데미지 전달
+        if (playerHealth != null)
         {
-            // animator.SetTrigger("Hit");
+            playerHealth.TakeDamage(damage);
         }
-        
-        // 데미지 로그 출력
-        Debug.Log($"{gameObject.name}이(가) {damage}의 데미지를 받았습니다. 남은 체력: {currentHealth}/{maxHealth}");
-        
-        // 체력이 0 이하면 사망 처리
-        if (currentHealth <= 0)
+        else
         {
-            Die();
+            Debug.LogError("PlayerHealth 컴포넌트를 찾을 수 없습니다!");
         }
     }
     
-    // 사망 처리 메서드
-    private void Die()
+    // 사망 상태 확인 메서드
+    public bool IsDead()
     {
-        Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
-        
-        // 사망 애니메이션 재생 (있다면)
-        if (animator != null)
+        if (playerHealth != null)
         {
-            // animator.SetTrigger("Die");
+            return playerHealth.IsDead();
         }
-        
-        // 필요한 사망 처리 로직 추가
-        // 예: 게임 오버 화면 표시, 리스폰 등
+        return false;
     }
     
-    // 체력바 생성 메서드
-    private void CreateHealthBar()
-    {
-        // 체력바 프리팹이 없으면 생성하지 않음
-        if (healthBarPrefab == null)
-        {
-            Debug.LogWarning("체력바 프리팹이 없습니다.");
-            return;
-        }
-        
-        // 체력바 오브젝트 생성
-        healthBarObject = Instantiate(healthBarPrefab, transform.position + healthBarOffset, Quaternion.identity);
-        healthBarObject.transform.SetParent(transform); // 플레이어의 자식으로 설정
-        
-        // 체력바 슬라이더 컴포넌트 가져오기
-        healthSlider = healthBarObject.GetComponentInChildren<Slider>();
-        if (healthSlider != null)
-        {
-            // 체력바 초기화
-            healthSlider.maxValue = maxHealth;
-            healthSlider.value = currentHealth;
-        }
-    }
+
     
-    // 체력바 업데이트 메서드
-    private void UpdateHealthBar()
-    {
-        if (healthSlider != null)
-        {
-            healthSlider.value = currentHealth;
-        }
-    }
+
+    
+
 }
