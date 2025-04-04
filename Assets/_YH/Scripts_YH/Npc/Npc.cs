@@ -402,6 +402,15 @@ public class Npc : MonoBehaviour
         // 이동 타이머 증가
         moveTimer += Time.deltaTime;
 
+        // y축 이동 제한 (좌우로만 이동)
+        moveDirection.y = 0;
+        
+        // 방향 벡터가 0이 되지 않도록 정규화
+        if (moveDirection.magnitude > 0)
+        {
+            moveDirection = moveDirection.normalized;
+        }
+        
         // 이동 범위 체크
         Vector3 potentialPosition = transform.position + (Vector3)moveDirection * moveSpeed * Time.deltaTime;
         float distanceFromStart = Vector3.Distance(initialPosition, potentialPosition);
@@ -416,6 +425,7 @@ public class Npc : MonoBehaviour
         {
             // 반대 방향으로 전환
             moveDirection = -moveDirection;
+            moveDirection.y = 0; // y축 이동 제한 유지
             Debug.Log($"NPC {NpcName}이(가) 이동 범위 한계에 도달하여 방향을 바꿨습니다");
 
             // 방향을 바꾸고 즉시 이동하도록 설정
@@ -830,8 +840,16 @@ public class Npc : MonoBehaviour
 
             if (distanceToEnemy > attackRange)
             {
-                // 적에게 이동
+                // 적에게 이동 (y축 이동 제한)
                 Vector3 direction = (nearestEnemy.transform.position - transform.position).normalized;
+                direction.y = 0; // y축 이동 제한
+                
+                // 방향 벡터가 0이 되지 않도록 정규화
+                if (direction.magnitude > 0)
+                {
+                    direction = direction.normalized;
+                }
+                
                 rb.velocity = direction * moveSpeed;
 
                 // 애니메이션 업데이트
@@ -1038,14 +1056,21 @@ public class Npc : MonoBehaviour
                 returningToInitialPosition = true;
                 randomMovementActive = false; // 랜덤 이동 비활성화
 
-                // 초기 위치 방향으로 이동하는 로직 추가
+                // 초기 위치 방향으로 이동하는 로직 추가 (y축 이동 제한)
                 Vector3 direction = (initialPosition - transform.position).normalized;
+                direction.y = 0; // y축 이동 제한
+                
+                // 방향 벡터가 0이 되지 않도록 정규화
+                if (direction.magnitude > 0)
+                {
+                    direction = direction.normalized;
+                }
+                
                 rb.velocity = direction * moveSpeed;
 
                 // 애니메이션 업데이트
                 if (animator != null)
                 {
-
                     animator.SetBool("1_Move", true);
                 }
 

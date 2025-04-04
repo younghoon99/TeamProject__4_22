@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     [Header("탐지 설정")]
     public float detectionRange = 5f;
     private Transform currentTarget;
-    public string[] targetTags = { "Player", "NPC", "Home", "Wall" };
+    private string[] targetTags = { "Player", "NPC", "Home", "Wall" };
     
     [Header("이동 설정")]
     public float moveSpeed = 2f;
@@ -166,7 +166,16 @@ public class Enemy : MonoBehaviour
 
         // 타겟 방향으로 향하는 벡터 계산
         Vector2 direction = (currentTarget.position - transform.position).normalized;
-
+        
+        // y축 이동 제한 (좌우로만 이동)
+        direction.y = 0;
+        
+        // 방향 벡터가 0이 되지 않도록 정규화
+        if (direction.magnitude > 0)
+        {
+            direction = direction.normalized;
+        }
+        
         // 이동 속도 적용
         rb.velocity = direction * moveSpeed;
     }
@@ -335,6 +344,42 @@ public class Enemy : MonoBehaviour
                 npcHealth.TakeDamage(attackDamage, (Vector2)transform.position);
             }
         }
+        else if (targetType == "Wall")
+        {
+            // Wall 컴포넌트 확인
+            WallHealth wall = targetCollider.GetComponent<WallHealth>();
+            if (wall != null)
+            {
+                // 데미지 적용 (Wall 클래스에 TakeDamage 메서드가 있다고 가정)
+                wall.TakeDamage(attackDamage);
+            }
+
+            // // EnemyHealth 컴포넌트 확인 (벽에게 EnemyHealth 컴포넌트가 있을 수 있음)
+            // EnemyHealth wallHealth = targetCollider.GetComponent<EnemyHealth>();
+            // if (wallHealth != null)
+            // {
+            //     // 데미지 적용
+            //     wallHealth.TakeDamage(attackDamage, (Vector2)transform.position);
+            // }
+        }
+        else if (targetType == "Home")
+        {
+            // Home 컴포넌트 확인
+            HQHealth home = targetCollider.GetComponent<HQHealth>();
+            if (home != null)
+            {
+                // 데미지 적용 (Home 클래스에 TakeDamage 메서드가 있다고 가정)
+                home.TakeDamage(attackDamage);
+            }
+
+            // // EnemyHealth 컴포넌트 확인 (벽에게 EnemyHealth 컴포넌트가 있을 수 있음)
+            // EnemyHealth wallHealth = targetCollider.GetComponent<EnemyHealth>();
+            // if (wallHealth != null)
+            // {
+            //     // 데미지 적용
+            //     wallHealth.TakeDamage(attackDamage, (Vector2)transform.position);
+            // }
+        }
     }
 
     private void OnDrawGizmos()
@@ -378,22 +423,36 @@ public class Enemy : MonoBehaviour
 
     private void FindTarget()
     {
+        Transform homeTarget = null;
+        float homeDistance = float.MaxValue;
         Transform closestTarget = null;
         float closestDistance = float.MaxValue;
 
-        // 모든 타겟 태그를 검색하여 가장 가까운 대상 찾기
+        // 먼저 Home 태그를 가진 대상 찾기
+        GameObject[] homeTargets = GameObject.FindGameObjectsWithTag("Home");
+        foreach (GameObject target in homeTargets)
+        {
+            if (target == gameObject) continue;
+
+            float distance = Vector2.Distance(transform.position, target.transform.position);
+            if (distance <= detectionRange && distance < homeDistance)
+            {
+                homeTarget = target.transform;
+                homeDistance = distance;
+            }
+        }
+
+        // 다른 모든 태그를 검색하여 가장 가까운 대상 찾기
         foreach (string tag in targetTags)
         {
-            GameObject[] targets = GameObject.FindGameObjectsWithTag(tag);
+            if (tag == "Home") continue; // Home은 이미 처리했으므로 건너뛰기
 
+            GameObject[] targets = GameObject.FindGameObjectsWithTag(tag);
             foreach (GameObject target in targets)
             {
-                // 자기 자신은 제외
                 if (target == gameObject) continue;
 
                 float distance = Vector2.Distance(transform.position, target.transform.position);
-
-                // 탐지 범위 내에 있고 현재까지 발견한 것보다 가까우면 갱신
                 if (distance <= detectionRange && distance < closestDistance)
                 {
                     closestTarget = target.transform;
@@ -402,8 +461,23 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        currentTarget = closestTarget;
-
+        // Home 태그가 있으면 우선적으로 선택하되, 다른 태그가 더 가까우면 그쪽을 공격
+        if (homeTarget != null)
+        {
+            // 다른 타겟이 있고 그 타겟이 Home보다 가까우면 그 타겟을 선택
+            if (closestTarget != null && closestDistance < homeDistance * 0.7f) // 70% 거리 내에 있으면 가까운 타겟 우선
+            {
+                currentTarget = closestTarget;
+            }
+            else
+            {
+                currentTarget = homeTarget;
+            }
+        }
+        else
+        {
+            currentTarget = closestTarget;
+        }
     }
 
     private Transform FindClosestTarget(GameObject[] targets)

@@ -207,7 +207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8530572332689620798, guid: 89d7e902994550d41ac725ea4b5f2cd1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.14
+      value: 0.41
       objectReference: {fileID: 0}
     - target: {fileID: 8530572332689620798, guid: 89d7e902994550d41ac725ea4b5f2cd1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -227,7 +227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8530572332689620798, guid: 89d7e902994550d41ac725ea4b5f2cd1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 5.31
+      value: -26.16
       objectReference: {fileID: 0}
     - target: {fileID: 8530572332689620798, guid: 89d7e902994550d41ac725ea4b5f2cd1, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3741,7 +3741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2562865834194753334, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.19
+      value: -0.41
       objectReference: {fileID: 0}
     - target: {fileID: 2562865834194753334, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3761,7 +3761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2562865834194753334, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 8.63
+      value: 21.19
       objectReference: {fileID: 0}
     - target: {fileID: 2562865834194753334, guid: 05f1d170b7075074181c4afe0c93481f, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3935,9 +3935,6 @@ MonoBehaviour:
   attackCooldown: 3
   attackDelay: 0.3
   detectionRange: 12.58
-  targetTags:
-  - Player
-  - NPC
   moveSpeed: 2
   stoppingDistance: 1
   canMove: 1
@@ -10064,6 +10061,10 @@ PrefabInstance:
       propertyPath: detectionRange
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 58222756693009364, guid: 2e4a1551d8b9f9041b1675136021d232, type: 3}
+      propertyPath: targetTags.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 902532036009410291, guid: 2e4a1551d8b9f9041b1675136021d232, type: 3}
       propertyPath: m_Name
       value: Enemy3 Variant
@@ -10110,7 +10111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107736429401259031, guid: 2e4a1551d8b9f9041b1675136021d232, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.09
+      value: -0.34
       objectReference: {fileID: 0}
     - target: {fileID: 8107736429401259031, guid: 2e4a1551d8b9f9041b1675136021d232, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10130,7 +10131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107736429401259031, guid: 2e4a1551d8b9f9041b1675136021d232, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.65
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 8107736429401259031, guid: 2e4a1551d8b9f9041b1675136021d232, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -33365,9 +33366,6 @@ MonoBehaviour:
   attackCooldown: 2
   attackDelay: 0.3
   detectionRange: 12
-  targetTags:
-  - Player
-  - NPC
   moveSpeed: 2
   stoppingDistance: 1
   canMove: 1
