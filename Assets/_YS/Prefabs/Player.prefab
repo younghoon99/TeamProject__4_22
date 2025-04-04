@@ -2317,6 +2317,7 @@ GameObject:
   - component: {fileID: 5253870123484194496}
   - component: {fileID: 2232106068607698530}
   - component: {fileID: 3119074024259877059}
+  - component: {fileID: 1694554551234025481}
   m_Layer: 5
   m_Name: Player
   m_TagString: Player
@@ -5510,7 +5511,7 @@ MonoBehaviour:
   interactionDistance: 1.15
   attackDamage: 20
   attackRange: 1.5
-  attackPoint: {fileID: 0}
+  attackPoint: {fileID: 8070702031020581919}
   enemyTag: Enemy
   attackDelay: 0.2
   attackCooldown: 1
@@ -5542,6 +5543,40 @@ MonoBehaviour:
   blinkDuration: 1
   blinkRate: 0.1
   invincibilityTime: 1
+--- !u!114 &1694554551234025481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373150653303847482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed7af91da47542c458089699868ab419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 0}
+  inventorySlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  inventoryItem: {fileID: 2899700805568611129, guid: 361058cee52059c4b9671dff39a9cdb9, type: 3}
+  itemDrop: {fileID: 8030692452532231761, guid: 010ed6940c062e740b75c65f0e7aea74, type: 3}
+  MaxAmount: 999
+  CurrentlyHoveredInventorySlot: {fileID: 0}
+  CurrentlySelectedInventoryItem: {fileID: 0}
+  CurrentlySelectedInventorySlot: 0
+  IsHoveringDropBox: 0
+  IsHoveringTrashcan: 0
+  IsDragging: 0
+  IsClicking: 0
 --- !u!1 &5554940888814165188
 GameObject:
   m_ObjectHideFlags: 0

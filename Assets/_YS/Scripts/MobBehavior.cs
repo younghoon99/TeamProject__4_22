@@ -21,7 +21,7 @@ public class MobBehavior : MonoBehaviour
     private MobManager mobManager; // MobManager 참조
 
     [Header("탐지 설정")]
-    public float detectionRange = 5f; // 탐지 범위
+    public float detectionRange = 10f; // 탐지 범위
     private Transform detectedTarget; // 탐지된 대상
     public string[] targetTags = { "Player", "Wall", "NPC", "HQ" }; // 추적할 대상의 태그 배열
 
@@ -55,38 +55,31 @@ public class MobBehavior : MonoBehaviour
 
     private void ChooseInitialTarget()
     {
-        // 몹의 초기 위치에 따라 좌측 Wall 또는 우측 Wall을 타겟으로 설정
-        if (transform.position.x < 0 && leftWall != null)
-        {
-            target = leftWall;
-        }
-        else if (transform.position.x >= 0 && rightWall != null)
-        {
-            target = rightWall;
-        }
-        else if (Walls != null && Walls.Length > 0)
-        {
-            // 오른쪽에서 생성된 몹이 가까운 Wall로 이동하도록 설정
-            target = FindClosestWall();
-        }
+        // 가장 가까운 타겟을 찾음
+        target = FindClosestTarget();
     }
 
-    private Transform FindClosestWall()
+    private Transform FindClosestTarget()
     {
-        Transform closestWall = null;
+        Transform closestTarget = null;
         float closestDistance = float.MaxValue;
 
-        foreach (Transform wall in Walls)
+        // 모든 가능한 타겟을 확인
+        foreach (string tag in targetTags)
         {
-            float distance = Vector3.Distance(transform.position, wall.position);
-            if (distance < closestDistance)
+            GameObject[] targets = GameObject.FindGameObjectsWithTag(tag);
+            foreach (GameObject target in targets)
             {
-                closestDistance = distance;
-                closestWall = wall;
+                float distance = Vector3.Distance(transform.position, target.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTarget = target.transform;
+                }
             }
         }
 
-        return closestWall;
+        return closestTarget;
     }
 
     private void Start()
@@ -110,23 +103,20 @@ public class MobBehavior : MonoBehaviour
 
     private void Update()
     {
-        // 탐지된 대상이 없으면 탐지 시도
-        if (detectedTarget == null)
+        // 가장 가까운 타겟을 계속 추적
+        if (target == null || Vector3.Distance(transform.position, target.position) > detectionRange)
         {
-            detectedTarget = FindClosestTarget();
-            if (detectedTarget == null) return; // 여전히 없으면 함수 종료
+            target = FindClosestTarget();
         }
 
-        // 대상과의 거리 계산
-        float distanceToTarget = Vector3.Distance(transform.position, detectedTarget.position);
-
-        // 탐지 범위 내에 있는지 확인
-        if (distanceToTarget <= detectionRange)
+        if (target != null)
         {
-            // 대상 방향으로 이동
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+            // 타겟 방향으로 이동
             if (distanceToTarget > stoppingDistance && canMove)
             {
-                MoveTowardsTarget(detectedTarget);
+                MoveTowardsTarget(target);
             }
             else
             {
@@ -135,38 +125,15 @@ public class MobBehavior : MonoBehaviour
                 // 공격 범위 내에 있으면 공격
                 if (distanceToTarget <= stoppingDistance && Time.time >= nextAttackTime)
                 {
-                    StartCoroutine(AttackTarget(detectedTarget));
+                    StartCoroutine(AttackTarget(target));
                     nextAttackTime = Time.time + attackCooldown; // 다음 공격 시간 설정
                 }
             }
         }
         else
         {
-            StopMoving(); // 탐지 범위 밖이면 정지
-            detectedTarget = null; // 대상 초기화
+            StopMoving(); // 타겟이 없으면 정지
         }
-    }
-
-    private Transform FindClosestTarget()
-    {
-        Transform closestTarget = null;
-        float closestDistance = float.MaxValue;
-
-        foreach (string tag in targetTags)
-        {
-            GameObject[] targets = GameObject.FindGameObjectsWithTag(tag);
-            foreach (GameObject target in targets)
-            {
-                float distance = Vector3.Distance(transform.position, target.transform.position);
-                if (distance < closestDistance && distance <= detectionRange)
-                {
-                    closestDistance = distance;
-                    closestTarget = target.transform;
-                }
-            }
-        }
-
-        return closestTarget;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -209,7 +176,7 @@ public class MobBehavior : MonoBehaviour
     private IEnumerator WaitAtWall()
     {
         // 10초 대기
-        yield return new WaitForSeconds(60f);
+        yield return new WaitForSeconds(10f);
 
         // 플레이어를 새로운 타겟으로 설정
         target = player;
@@ -313,7 +280,7 @@ public class MobBehavior : MonoBehaviour
 
         yield return new WaitForSeconds(attackDelay);
 
-        // 대상이 Wall, Player, 또는 NPC인지 확인하고 데미지 적용
+        // 대상이 Player, Wall, NPC, 또는 HQ인지 확인하고 데미지 적용
         if (target.CompareTag("Wall"))
         {
             WallHealth wallHealth = target.GetComponent<WallHealth>();
