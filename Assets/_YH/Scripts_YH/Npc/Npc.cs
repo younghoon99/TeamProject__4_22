@@ -284,10 +284,6 @@ public class Npc : MonoBehaviour
     
 
     
-
-
-
-    
     // NPC 데이터로부터 초기화
     public void InitializeFromData()
     {
@@ -297,6 +293,27 @@ public class Npc : MonoBehaviour
             return;
         }
 
+        InitializeStats();
+    }
+    
+    // NPC 데이터 항목을 받아서 초기화하는 오버로드
+    public void InitializeFromData(NpcData.NpcEntry newNpcEntry)
+    {
+        // 받은 데이터 항목 설정
+        npcEntry = newNpcEntry;
+        
+        if (npcEntry == null)
+        {
+            Debug.LogError("NPC 데이터 항목이 null입니다.");
+            return;
+        }
+        
+        InitializeStats();
+    }
+    
+    // 스탯 초기화 공통 메서드
+    private void InitializeStats()
+    {
         // 기본 스탯 설정 (체력 관련 설정은 NpcHealth에서 처리하도록 수정)
         attackPower = npcEntry.attack;
         miningPower = npcEntry.miningPower;
@@ -311,18 +328,21 @@ public class Npc : MonoBehaviour
         // 만약 NpcHealth 컴포넌트가 없는 경우 경고 출력
         if (npcHealth == null)
         {
-            Debug.LogError($"{npcEntry.npcName} NPC에 NpcHealth 컴포넌트가 없습니다!");
+            Debug.LogWarning($"{npcEntry.npcName} NPC에 NpcHealth 컴포넌트가 없습니다!");
         }
-
-        // 이동 설정 적용
+        
+        // 이동 속도 설정
         moveSpeed = 0.5f + (moveSpeedStat * 0.1f); // 이동 속도는 기본 0.5 + 스탯의 10%
         idleTimeMin = npcEntry.idleTimeMin;
         idleTimeMax = npcEntry.idleTimeMax;
         moveTimeMin = npcEntry.moveTimeMin;
         moveTimeMax = npcEntry.moveTimeMax;
-
-        Debug.Log($"{npcEntry.npcName} NPC가 초기화되었습니다: 등급-{npcEntry.rarity}, 체력-{npcEntry.health * 10}, 공격력-{attackPower}, 채굴력-{miningPower}, 이동속도-{moveSpeedStat}");
+        
+        // 디버그 로그
+        Debug.Log($"{npcEntry.npcName} NPC 초기화 완료: 등급-{npcEntry.rarity}, 공격력-{attackPower}, 채굴력-{miningPower}, 이동속도-{moveSpeedStat}");
     }
+
+    // Enemy 오브젝트들과의 충돌 무시 설정
 
     // Enemy 오브젝트들과의 충돌 무시 설정
     private void IgnoreCollisionsWithEnemies()

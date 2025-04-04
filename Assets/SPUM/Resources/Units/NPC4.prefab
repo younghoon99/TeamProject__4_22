@@ -4529,7 +4529,7 @@ GameObject:
   - component: {fileID: 5203800810999338551}
   - component: {fileID: 240532649922555372}
   m_Layer: 5
-  m_Name: SPUM_20250327110621168
+  m_Name: NPC4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
