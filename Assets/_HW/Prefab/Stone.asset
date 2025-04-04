@@ -16,7 +16,7 @@ MonoBehaviour:
   name: Stone
   description: Stone
   price: 0
-  image: {fileID: 21300000, guid: 573ee24f60765d7438523bb2dfe58365, type: 2}
+  image: {fileID: 2144106767, guid: 2cbeb0be15f649e4293790a02c93744a, type: 3}
   isStackable: 0
   isConsumable: 0
   isBuildable: 0

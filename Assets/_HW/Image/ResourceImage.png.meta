@@ -585,11 +585,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 48
+        y: 112
         width: 21
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -606,11 +606,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 24
-        y: 34
+        y: 98
         width: 28
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -618,6 +618,27 @@ TextureImporter:
       bones: []
       spriteID: f359e6549c79b39488a9a6325f522811
       internalID: 676049287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Core
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 95
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7589bb7c1868f88498cd3f7bd6f89cc4
+      internalID: 1405387522
       vertices: []
       indices: 
       edges: []
@@ -633,6 +654,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Core: 1405387522
       ResourceStone: 2144106767
       ResourceWood: 676049287
       TX Village Props - Anvil: 21300084

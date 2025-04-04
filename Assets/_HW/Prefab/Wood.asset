@@ -16,7 +16,7 @@ MonoBehaviour:
   name: Wood
   description: Wood
   price: 0
-  image: {fileID: 21300000, guid: 2852461a0e922ed47b2613537d72fe66, type: 2}
+  image: {fileID: 676049287, guid: 2cbeb0be15f649e4293790a02c93744a, type: 3}
   isStackable: 0
   isConsumable: 0
   isBuildable: 0
