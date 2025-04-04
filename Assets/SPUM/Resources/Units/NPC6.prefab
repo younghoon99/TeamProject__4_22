@@ -1794,7 +1794,7 @@ GameObject:
   - component: {fileID: 6787641487677466397}
   - component: {fileID: 3639055250951132121}
   m_Layer: 10
-  m_Name: SPUM_20250325151457577
+  m_Name: NPC6
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -418,7 +418,7 @@ public class Enemy : MonoBehaviour
         }
 
         // 일정 시간 후 오브젝트 제거 또는 비활성화
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 0.3f);
     }
 
     private void FindTarget()

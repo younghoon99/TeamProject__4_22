@@ -26,9 +26,492 @@ MonoBehaviour:
     - "\uD604\uC6B0"
     - "\uD76C\uCC2C"
     - "\uC601\uC131"
-  npcPrefabs: []
+  npcPrefabs:
+  - {fileID: 6496318918450622327, guid: ffa44376c0ae5eb4da0c6a7a94e0d9e0, type: 3}
+  - {fileID: 609516920367926250, guid: 6479429a85a1bb54bb2df0e72b5d9b1a, type: 3}
+  - {fileID: 6282859689787860058, guid: f0d4fde320cfbc04891f432e23994929, type: 3}
+  - {fileID: 49823026255920187, guid: 1043d6ec7fb32b14d89fe79c020649c4, type: 3}
+  - {fileID: 8554029939635244073, guid: 5800fdcc4c0effc47b557440f5f57fb4, type: 3}
+  - {fileID: 7461254810454428120, guid: 66f9da9d8a575f744bcd86fd6ef86303, type: 3}
+  - {fileID: 3041094180666393459, guid: 62eee2069eacfc2489d08f013a3c5f28, type: 3}
   normalStatTotal: 10
   rareStatTotal: 20
   epicStatTotal: 30
   legendaryStatTotal: 40
-  npcEntries: []
+  npcEntries:
+  - npcId: NPC_2825
+    npcName: "\uC11C \uC601\uD6C8"
+    description: "\uC0C1\uB2F9\uD55C \uB2A5\uB825\uC744 \uBCF4\uC720\uD55C \uC601\uC6C5\uC801\uC778
+      NPC\uC785\uB2C8\uB2E4."
+    rarity: 2
+    prefab: {fileID: 0}
+    attack: 5
+    health: 11
+    miningPower: 10
+    moveSpeed: 4
+    idleTimeMin: 2.0284934
+    idleTimeMax: 4.638383
+    moveTimeMin: 1.8290559
+    moveTimeMax: 2.8641999
+  - npcId: NPC_4634
+    npcName: "\uC11C \uD76C\uCC2C"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 5
+    health: 1
+    miningPower: 2
+    moveSpeed: 2
+    idleTimeMin: 1.7927691
+    idleTimeMax: 4.635344
+    moveTimeMin: 1.198483
+    moveTimeMax: 2.9607973
+  - npcId: NPC_5713
+    npcName: "\uBC15 \uC601\uD6C8"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 3
+    health: 1
+    miningPower: 5
+    moveSpeed: 1
+    idleTimeMin: 1.6205667
+    idleTimeMax: 3.604424
+    moveTimeMin: 1.299581
+    moveTimeMax: 2.8739698
+  - npcId: NPC_2609
+    npcName: "\uC2E0 \uC601\uD6C8"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 5
+    health: 2
+    miningPower: 2
+    moveSpeed: 1
+    idleTimeMin: 2.7692404
+    idleTimeMax: 3.8693285
+    moveTimeMin: 1.2355493
+    moveTimeMax: 2.631526
+  - npcId: NPC_8098
+    npcName: "\uAE40 \uC601\uD6C8"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 3
+    health: 4
+    miningPower: 2
+    moveSpeed: 1
+    idleTimeMin: 2.9526765
+    idleTimeMax: 4.5630407
+    moveTimeMin: 1.7759111
+    moveTimeMax: 3.0753334
+  - npcId: NPC_3619
+    npcName: "\uC2E0 \uCCA0\uC218"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 2
+    health: 3
+    miningPower: 1
+    moveSpeed: 4
+    idleTimeMin: 2.3885293
+    idleTimeMax: 3.6555114
+    moveTimeMin: 1.8580651
+    moveTimeMax: 2.9056537
+  - npcId: NPC_9993
+    npcName: "\uC784 \uC601\uD6C8"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 3
+    health: 4
+    miningPower: 1
+    moveSpeed: 2
+    idleTimeMin: 1.7055393
+    idleTimeMax: 3.53367
+    moveTimeMin: 1.0617439
+    moveTimeMax: 2.3962111
+  - npcId: NPC_4619
+    npcName: "\uC11C \uCCA0\uC218"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 4
+    health: 1
+    miningPower: 3
+    moveSpeed: 2
+    idleTimeMin: 2.841233
+    idleTimeMax: 4.98579
+    moveTimeMin: 1.872319
+    moveTimeMax: 3.0368857
+  - npcId: NPC_6860
+    npcName: "\uAE40 \uC601\uC131"
+    description: "\uC57D\uAC04 \uD2B9\uBCC4\uD55C \uB2A5\uB825\uC744 \uAC00\uC9C4
+      NPC\uC785\uB2C8\uB2E4."
+    rarity: 1
+    prefab: {fileID: 0}
+    attack: 4
+    health: 6
+    miningPower: 4
+    moveSpeed: 6
+    idleTimeMin: 2.2821484
+    idleTimeMax: 3.6785982
+    moveTimeMin: 1.0674237
+    moveTimeMax: 2.6629047
+  - npcId: NPC_2203
+    npcName: "\uBC15 \uC601\uD6C8"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 2
+    health: 4
+    miningPower: 2
+    moveSpeed: 2
+    idleTimeMin: 2.6618383
+    idleTimeMax: 4.5652184
+    moveTimeMin: 1.6074988
+    moveTimeMax: 3.2095547
+  - npcId: NPC_3815
+    npcName: "\uAE40 \uC6B0\uC8FC"
+    description: "\uC0C1\uB2F9\uD55C \uB2A5\uB825\uC744 \uBCF4\uC720\uD55C \uC601\uC6C5\uC801\uC778
+      NPC\uC785\uB2C8\uB2E4."
+    rarity: 2
+    prefab: {fileID: 0}
+    attack: 10
+    health: 2
+    miningPower: 8
+    moveSpeed: 10
+    idleTimeMin: 2.275884
+    idleTimeMax: 4.168051
+    moveTimeMin: 1.4658098
+    moveTimeMax: 3.3540435
+  - npcId: NPC_3285
+    npcName: "\uBC15 \uD76C\uCC2C"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 0}
+    attack: 3
+    health: 2
+    miningPower: 2
+    moveSpeed: 3
+    idleTimeMin: 1.8351867
+    idleTimeMax: 3.3756032
+    moveTimeMin: 1.4402462
+    moveTimeMax: 3.1105452
+  - npcId: NPC_6076
+    npcName: "\uC2E0 \uD76C\uCC2C"
+    description: "\uC57D\uAC04 \uD2B9\uBCC4\uD55C \uB2A5\uB825\uC744 \uAC00\uC9C4
+      NPC\uC785\uB2C8\uB2E4."
+    rarity: 1
+    prefab: {fileID: 6282859689787860058, guid: 1c55b3bea22768b478a31a745a47e447, type: 3}
+    attack: 6
+    health: 9
+    miningPower: 2
+    moveSpeed: 3
+    idleTimeMin: 2.0513153
+    idleTimeMax: 4.0340242
+    moveTimeMin: 1.8103884
+    moveTimeMax: 2.8429656
+  - npcId: NPC_8131
+    npcName: "\uAE40 \uC6B0\uC8FC"
+    description: "\uC57D\uAC04 \uD2B9\uBCC4\uD55C \uB2A5\uB825\uC744 \uAC00\uC9C4
+      NPC\uC785\uB2C8\uB2E4."
+    rarity: 1
+    prefab: {fileID: 6496318918450622327, guid: ffa44376c0ae5eb4da0c6a7a94e0d9e0, type: 3}
+    attack: 10
+    health: 2
+    miningPower: 3
+    moveSpeed: 5
+    idleTimeMin: 2.7781212
+    idleTimeMax: 4.5206785
+    moveTimeMin: 1.9450567
+    moveTimeMax: 3.4330504
+  - npcId: NPC_2584
+    npcName: "\uC2E0 \uC601\uC131"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 6282859689787860058, guid: 1c55b3bea22768b478a31a745a47e447, type: 3}
+    attack: 2
+    health: 3
+    miningPower: 2
+    moveSpeed: 3
+    idleTimeMin: 2.1336517
+    idleTimeMax: 4.3076324
+    moveTimeMin: 0.8675641
+    moveTimeMax: 2.4945788
+  - npcId: NPC_8906
+    npcName: "\uC2E0 \uC601\uC131"
+    description: "\uC57D\uAC04 \uD2B9\uBCC4\uD55C \uB2A5\uB825\uC744 \uAC00\uC9C4
+      NPC\uC785\uB2C8\uB2E4."
+    rarity: 1
+    prefab: {fileID: 7461254810454428120, guid: 189e07716eb1b834e8a8418b02823277, type: 3}
+    attack: 2
+    health: 3
+    miningPower: 7
+    moveSpeed: 8
+    idleTimeMin: 2.9614856
+    idleTimeMax: 4.7406154
+    moveTimeMin: 1.2589773
+    moveTimeMax: 2.8804288
+  - npcId: NPC_1152
+    npcName: "\uC2E0 \uCCA0\uC218"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 6282859689787860058, guid: 1c55b3bea22768b478a31a745a47e447, type: 3}
+    attack: 1
+    health: 2
+    miningPower: 1
+    moveSpeed: 6
+    idleTimeMin: 2.8689914
+    idleTimeMax: 5.2269626
+    moveTimeMin: 1.4137875
+    moveTimeMax: 2.854838
+  - npcId: NPC_6690
+    npcName: "\uC11C \uD76C\uCC2C"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 7461254810454428120, guid: 189e07716eb1b834e8a8418b02823277, type: 3}
+    attack: 4
+    health: 3
+    miningPower: 2
+    moveSpeed: 1
+    idleTimeMin: 1.8913229
+    idleTimeMax: 3.329458
+    moveTimeMin: 1.085254
+    moveTimeMax: 2.8104823
+  - npcId: NPC_5680
+    npcName: "\uC2E0 \uD604\uC6B0"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 6496318918450622327, guid: ffa44376c0ae5eb4da0c6a7a94e0d9e0, type: 3}
+    attack: 3
+    health: 3
+    miningPower: 2
+    moveSpeed: 2
+    idleTimeMin: 2.137092
+    idleTimeMax: 3.4618578
+    moveTimeMin: 1.5737253
+    moveTimeMax: 2.8463302
+  - npcId: NPC_6141
+    npcName: "\uBC15 \uCCA0\uC218"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 49823026255920187, guid: ea926d4da27c0a447aaed3e911a82c29, type: 3}
+    attack: 5
+    health: 1
+    miningPower: 1
+    moveSpeed: 3
+    idleTimeMin: 2.8098516
+    idleTimeMax: 4.414773
+    moveTimeMin: 1.9262048
+    moveTimeMax: 3.2333012
+  - npcId: NPC_6896
+    npcName: "\uAE40 \uC6B0\uC8FC"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 49823026255920187, guid: ea926d4da27c0a447aaed3e911a82c29, type: 3}
+    attack: 3
+    health: 3
+    miningPower: 2
+    moveSpeed: 2
+    idleTimeMin: 2.1872234
+    idleTimeMax: 3.7549558
+    moveTimeMin: 1.0538288
+    moveTimeMax: 2.9193988
+  - npcId: NPC_3517
+    npcName: "\uC11C \uD604\uC6B0"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 3041094180666393459, guid: 670842ab41af58a4b8a552363d900ce5, type: 3}
+    attack: 2
+    health: 2
+    miningPower: 2
+    moveSpeed: 4
+    idleTimeMin: 2.8339667
+    idleTimeMax: 4.809141
+    moveTimeMin: 1.0129066
+    moveTimeMax: 2.3378396
+  - npcId: NPC_1604
+    npcName: "\uC784 \uD604\uC6B0"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 609516920367926250, guid: bd54caad7a4ab054499fdda3cc4326b9, type: 3}
+    attack: 2
+    health: 2
+    miningPower: 3
+    moveSpeed: 3
+    idleTimeMin: 2.4026842
+    idleTimeMax: 3.974958
+    moveTimeMin: 1.3751547
+    moveTimeMax: 3.3112617
+  - npcId: NPC_4706
+    npcName: "\uC784 \uC601\uD6C8"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 8554029939635244073, guid: 9d4fe887871d14c4fb75f99063d3e1e8, type: 3}
+    attack: 4
+    health: 1
+    miningPower: 1
+    moveSpeed: 4
+    idleTimeMin: 2.1414857
+    idleTimeMax: 3.8324869
+    moveTimeMin: 1.608466
+    moveTimeMax: 3.440751
+  - npcId: NPC_7795
+    npcName: "\uC11C \uC6B0\uC8FC"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 49823026255920187, guid: ea926d4da27c0a447aaed3e911a82c29, type: 3}
+    attack: 4
+    health: 1
+    miningPower: 2
+    moveSpeed: 3
+    idleTimeMin: 2.3125646
+    idleTimeMax: 4.424257
+    moveTimeMin: 0.9137606
+    moveTimeMax: 2.4849503
+  - npcId: NPC_7853
+    npcName: "\uC2E0 \uC6B0\uC8FC"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 3041094180666393459, guid: 670842ab41af58a4b8a552363d900ce5, type: 3}
+    attack: 2
+    health: 3
+    miningPower: 1
+    moveSpeed: 4
+    idleTimeMin: 2.6817224
+    idleTimeMax: 5.084161
+    moveTimeMin: 1.1813104
+    moveTimeMax: 2.5427759
+  - npcId: NPC_1377
+    npcName: "\uC2E0 \uD604\uC6B0"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 8554029939635244073, guid: 9d4fe887871d14c4fb75f99063d3e1e8, type: 3}
+    attack: 1
+    health: 3
+    miningPower: 2
+    moveSpeed: 4
+    idleTimeMin: 2.1903958
+    idleTimeMax: 3.610197
+    moveTimeMin: 1.8015939
+    moveTimeMax: 3.4889824
+  - npcId: NPC_3123
+    npcName: "\uBC15 \uC601\uD6C8"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 7461254810454428120, guid: 189e07716eb1b834e8a8418b02823277, type: 3}
+    attack: 5
+    health: 2
+    miningPower: 2
+    moveSpeed: 1
+    idleTimeMin: 2.4155648
+    idleTimeMax: 3.9169598
+    moveTimeMin: 1.6400715
+    moveTimeMax: 2.668089
+  - npcId: NPC_7962
+    npcName: "\uBC15 \uCCA0\uC218"
+    description: "\uC57D\uAC04 \uD2B9\uBCC4\uD55C \uB2A5\uB825\uC744 \uAC00\uC9C4
+      NPC\uC785\uB2C8\uB2E4."
+    rarity: 1
+    prefab: {fileID: 609516920367926250, guid: bd54caad7a4ab054499fdda3cc4326b9, type: 3}
+    attack: 1
+    health: 8
+    miningPower: 3
+    moveSpeed: 8
+    idleTimeMin: 2.19011
+    idleTimeMax: 3.9330063
+    moveTimeMin: 1.7889768
+    moveTimeMax: 3.6998143
+  - npcId: NPC_2956
+    npcName: "\uBC15 \uD604\uC6B0"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 8554029939635244073, guid: 9d4fe887871d14c4fb75f99063d3e1e8, type: 3}
+    attack: 1
+    health: 2
+    miningPower: 2
+    moveSpeed: 5
+    idleTimeMin: 2.1744478
+    idleTimeMax: 4.5325713
+    moveTimeMin: 1.0796092
+    moveTimeMax: 3.0216045
+  - npcId: NPC_8358
+    npcName: "\uC784 \uC6B0\uC8FC"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 49823026255920187, guid: ea926d4da27c0a447aaed3e911a82c29, type: 3}
+    attack: 3
+    health: 1
+    miningPower: 4
+    moveSpeed: 2
+    idleTimeMin: 2.6739147
+    idleTimeMax: 3.8784087
+    moveTimeMin: 1.6800748
+    moveTimeMax: 3.034134
+  - npcId: NPC_7872
+    npcName: "\uC11C \uC601\uC131"
+    description: "\uC57D\uAC04 \uD2B9\uBCC4\uD55C \uB2A5\uB825\uC744 \uAC00\uC9C4
+      NPC\uC785\uB2C8\uB2E4."
+    rarity: 1
+    prefab: {fileID: 8554029939635244073, guid: 9d4fe887871d14c4fb75f99063d3e1e8, type: 3}
+    attack: 5
+    health: 4
+    miningPower: 8
+    moveSpeed: 3
+    idleTimeMin: 1.5266563
+    idleTimeMax: 2.919056
+    moveTimeMin: 1.7186033
+    moveTimeMax: 3.160379
+  - npcId: NPC_7939
+    npcName: "\uC784 \uC601\uD6C8"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 8554029939635244073, guid: 9d4fe887871d14c4fb75f99063d3e1e8, type: 3}
+    attack: 3
+    health: 3
+    miningPower: 3
+    moveSpeed: 1
+    idleTimeMin: 2.1818714
+    idleTimeMax: 4.818113
+    moveTimeMin: 1.8294988
+    moveTimeMax: 3.192187
+  - npcId: NPC_2915
+    npcName: "\uC2E0 \uD604\uC6B0"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 7461254810454428120, guid: 189e07716eb1b834e8a8418b02823277, type: 3}
+    attack: 2
+    health: 1
+    miningPower: 2
+    moveSpeed: 5
+    idleTimeMin: 2.1424887
+    idleTimeMax: 4.333254
+    moveTimeMin: 1.2967415
+    moveTimeMax: 3.122469
+  - npcId: NPC_3438
+    npcName: "\uC11C \uCCA0\uC218"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 3041094180666393459, guid: 670842ab41af58a4b8a552363d900ce5, type: 3}
+    attack: 1
+    health: 6
+    miningPower: 2
+    moveSpeed: 1
+    idleTimeMin: 1.9182701
+    idleTimeMax: 3.081888
+    moveTimeMin: 0.95320106
+    moveTimeMax: 2.3127995
+  - npcId: NPC_5636
+    npcName: "\uBC15 \uC6B0\uC8FC"
+    description: "\uD3C9\uBC94\uD55C NPC\uC785\uB2C8\uB2E4."
+    rarity: 0
+    prefab: {fileID: 8554029939635244073, guid: 9d4fe887871d14c4fb75f99063d3e1e8, type: 3}
+    attack: 3
+    health: 2
+    miningPower: 4
+    moveSpeed: 1
+    idleTimeMin: 2.843275
+    idleTimeMax: 4.957838
+    moveTimeMin: 1.8532999
+    moveTimeMax: 3.5313692

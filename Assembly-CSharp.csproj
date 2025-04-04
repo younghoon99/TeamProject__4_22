@@ -96,6 +96,7 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\DisableInEditModeAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationController.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\InventorySlot.cs" />
+    <Compile Include="Assets\_YH\Scripts_YH\Npc\NpcMaker.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\Player\PlayerHealth.cs" />
     <Compile Include="Assets\_YS\Package\Enemy Galore 1 - Pixel Art\Script\EnemyTest.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\IndentAttribute.cs" />
