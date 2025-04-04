@@ -146,6 +146,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
     <Compile Include="Assets\_YS\Scripts\WallHealth.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Player\PlayerInventory.cs" />
+    <Compile Include="Assets\_YS\Scripts\ItemPickup.cs" />
     <Compile Include="Assets\_YS\Scripts\HQHealth.cs" />
     <Compile Include="Assets\_YS\Scripts\UIManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HelpBoxIfAttribute.cs" />

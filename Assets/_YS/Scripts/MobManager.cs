@@ -139,9 +139,11 @@ public class MobManager : MonoBehaviour
         // 스폰된 아이템 리스트에 추가
         spawnedItems.Add(item);
 
+        // 아이템에 충돌 처리 추가
+        item.AddComponent<ItemPickup>();
+
         // 아이템의 수명 관리
         StartCoroutine(HandleItemLifetime(item));
-
     }
 
     private IEnumerator HandleItemLifetime(GameObject item)
