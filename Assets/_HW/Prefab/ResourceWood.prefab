@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 7558845474228039408}
   - component: {fileID: 8012254562903061070}
   - component: {fileID: 2604318071472883430}
+  - component: {fileID: 6869653652872240103}
   m_Layer: 0
   m_Name: ResourceWood
-  m_TagString: Untagged
+  m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,3 +102,16 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: a9b98d7c118ae944098cc1578de5f09a, type: 2}
   amount: 1
   playerObject: {fileID: 0}
+--- !u!114 &6869653652872240103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7124918242175078301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5cc3cf11295d6a42b22f8582eeafc1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: Wood

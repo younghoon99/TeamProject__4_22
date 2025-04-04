@@ -97,10 +97,11 @@ MonoBehaviour:
   maxHealth: 100
   healthBarImage: {fileID: 0}
   smoothSpeed: 5
+  floatingDamageTextPrefab: {fileID: 0}
+  healthBarOffset: {x: 0, y: 3, z: 0}
   useFlashEffect: 1
   damageFlashImage: {fileID: 0}
   flashSpeed: 5
-  invincibilityTime: 1
 --- !u!1 &4800872033897697015
 GameObject:
   m_ObjectHideFlags: 0

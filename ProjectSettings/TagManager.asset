@@ -5,14 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - HQ
-  - ExitPanel
-  - BackGroundImage
-  - Money
+  - Undefined
   - Wall
   - NPC
-  - Resource
-  - Home
+  - HQ
   layers:
   - Default
   - TransparentFX

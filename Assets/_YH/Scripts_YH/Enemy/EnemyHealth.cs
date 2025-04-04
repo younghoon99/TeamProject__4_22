@@ -121,6 +121,9 @@ public class EnemyHealth : MonoBehaviour
             StartCoroutine(InvincibilityCoroutine());
         }
         
+        // 디버그 출력
+        Debug.Log(gameObject.name + "이(가) " + damage + " 데미지를 받았습니다. 남은 체력: " + currentHealth);
+        
         // 체력이 0이 되면 사망 처리
         if (currentHealth <= 0 && !isDead)
         {
@@ -231,6 +234,9 @@ public class EnemyHealth : MonoBehaviour
         {
             enemyScript.enabled = false;
         }
+        
+        // 디버그 출력
+        Debug.Log(gameObject.name + "이(가) 사망했습니다.");
     }
     
     // 적 오브젝트 제거 함수
@@ -384,6 +390,8 @@ public class EnemyHealth : MonoBehaviour
                 
                 // 캔버스가 항상 카메라를 향하도록 빌보드 효과 추가
                 canvasObj.AddComponent<Billboard>();
+                
+                Debug.Log("월드 캔버스가 자동 생성되었습니다.");
             }
         }
     }
@@ -395,6 +403,8 @@ public class EnemyHealth : MonoBehaviour
         
         currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
         UpdateHealthBar();
+        
+        Debug.Log(gameObject.name + "이(가) " + amount + " 만큼 체력을 회복했습니다. 현재 체력: " + currentHealth);
     }
     
     // 현재 체력 비율 반환 함수 (0-1 사이 값)

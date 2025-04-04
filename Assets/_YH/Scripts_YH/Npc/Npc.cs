@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
+using UnityEngine.UI; // UI 관련 기능 사용
 using TMPro;
 
 public class Npc : MonoBehaviour
@@ -87,9 +87,11 @@ public class Npc : MonoBehaviour
 
 
 
+    // 시작 시 호출됨
     private void Start()
     {
-        npcEntry = null;
+        npcEntry = null; //테스트용 npcEntry 
+
 
         // 컴포넌트 초기화
         rb = GetComponent<Rigidbody2D>();
@@ -97,7 +99,7 @@ public class Npc : MonoBehaviour
         // NpcHealth 컴포넌트 참조 가져오기
         npcHealth = GetComponent<NpcHealth>();
 
-        // NpcHealth 컴포넌트가 없으면 추가
+        // NpcHealth 컴포넌트가 없으면 경고
         if (npcHealth == null)
         {
             Debug.LogWarning($"NPC {gameObject.name}에 NpcHealth 컴포넌트가 없습니다. 추가해주세요.");
@@ -422,15 +424,6 @@ public class Npc : MonoBehaviour
         // 이동 타이머 증가
         moveTimer += Time.deltaTime;
 
-        // y축 이동 제한 (좌우로만 이동)
-        moveDirection.y = 0;
-        
-        // 방향 벡터가 0이 되지 않도록 정규화
-        if (moveDirection.magnitude > 0)
-        {
-            moveDirection = moveDirection.normalized;
-        }
-        
         // 이동 범위 체크
         Vector3 potentialPosition = transform.position + (Vector3)moveDirection * moveSpeed * Time.deltaTime;
         float distanceFromStart = Vector3.Distance(initialPosition, potentialPosition);
@@ -445,7 +438,6 @@ public class Npc : MonoBehaviour
         {
             // 반대 방향으로 전환
             moveDirection = -moveDirection;
-            moveDirection.y = 0; // y축 이동 제한 유지
             Debug.Log($"NPC {NpcName}이(가) 이동 범위 한계에 도달하여 방향을 바꿨습니다");
 
             // 방향을 바꾸고 즉시 이동하도록 설정
@@ -860,16 +852,8 @@ public class Npc : MonoBehaviour
 
             if (distanceToEnemy > attackRange)
             {
-                // 적에게 이동 (y축 이동 제한)
+                // 적에게 이동
                 Vector3 direction = (nearestEnemy.transform.position - transform.position).normalized;
-                direction.y = 0; // y축 이동 제한
-                
-                // 방향 벡터가 0이 되지 않도록 정규화
-                if (direction.magnitude > 0)
-                {
-                    direction = direction.normalized;
-                }
-                
                 rb.velocity = direction * moveSpeed;
 
                 // 애니메이션 업데이트
@@ -1063,10 +1047,12 @@ public class Npc : MonoBehaviour
             // 새로운 작업이 설정되면 초기 위치로 돌아가는 상태 초기화
             returningToInitialPosition = false;
             randomMovementActive = false;
+            Debug.Log($"{NpcName}이(가) {task} 작업을 시작합니다.");
         }
         else
         {
             // 작업이 초기화되면 NPC를 초기 위치 근처로 이동시키고 랜덤 이동 상태로 설정
+            Debug.Log($"{NpcName}이(가) 작업을 중지하고 랜덤 이동 모드로 전환합니다.");
 
             // 현재 위치가 초기 위치에서 멀어졌다면 초기 위치 근처로 이동
             float distanceFromStart = Vector3.Distance(transform.position, initialPosition);
@@ -1076,26 +1062,20 @@ public class Npc : MonoBehaviour
                 returningToInitialPosition = true;
                 randomMovementActive = false; // 랜덤 이동 비활성화
 
-                // 초기 위치 방향으로 이동하는 로직 추가 (y축 이동 제한)
+                // 초기 위치 방향으로 이동하는 로직 추가
                 Vector3 direction = (initialPosition - transform.position).normalized;
-                direction.y = 0; // y축 이동 제한
-                
-                // 방향 벡터가 0이 되지 않도록 정규화
-                if (direction.magnitude > 0)
-                {
-                    direction = direction.normalized;
-                }
-                
                 rb.velocity = direction * moveSpeed;
 
                 // 애니메이션 업데이트
                 if (animator != null)
                 {
+
                     animator.SetBool("1_Move", true);
                 }
 
                 // 방향 설정
                 UpdateDirection(direction);
+                Debug.Log($"{NpcName}이(가) 초기 위치로 돌아가는 중입니다.");
 
                 // 상태 변경
                 currentState = NpcState.Moving;

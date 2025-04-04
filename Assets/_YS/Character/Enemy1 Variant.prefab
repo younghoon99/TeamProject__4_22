@@ -5153,6 +5153,7 @@ MonoBehaviour:
   targetTags:
   - Player
   - NPC
+  prioritizeNPC: 1
   moveSpeed: 2
   stoppingDistance: 1
   canMove: 1

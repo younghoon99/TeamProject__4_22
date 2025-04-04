@@ -67,6 +67,7 @@
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\BoundingPlatform.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\RequiredAttribute.cs" />
     <Compile Include="Assets\_YS\Scripts\MobManager.cs" />
+    <Compile Include="Assets\_YS\Scripts\ResManager.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumTextureData.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationPackagePanel.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideIfAttribute.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\ToolbarSlot.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\GUIColorAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\FoldoutGroupAttribute.cs" />
+    <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Player\PlayerBuild.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Objects\LoggingNode.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\EnableIfAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Script\AnimationHelper.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideMonoScript.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\Item\ItemPickup.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackagePanel.cs" />
+    <Compile Include="Assets\_YS\Scripts\ItemIven.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\LzwEncoder.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HorizontalGroupAttribute.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteSync.cs" />
@@ -131,8 +134,10 @@
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\NpcMove.cs" />
     <Compile Include="Assets\_HW\ResourceTileSpawner.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Objects\Furnace.cs" />
+    <Compile Include="Assets\_YS\Scripts\NpcHealth.cs" />
     <Compile Include="Assets\_YS\Scripts\EnemyMove.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\ReflectionUtils.cs" />
+    <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Player\PlayerTools.cs" />
     <Compile Include="Assets\_YS\Scripts\NpcMove.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\TabGroupAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\AssetsOnlyAttribute.cs" />
@@ -143,7 +148,6 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_PackageElement.cs" />
     <Compile Include="Assets\_YS\Scripts\WallHealth.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Player\PlayerInventory.cs" />
-    <Compile Include="Assets\_YS\Scripts\ItemPickup.cs" />
     <Compile Include="Assets\_YS\Scripts\HQHealth.cs" />
     <Compile Include="Assets\_YS\Scripts\UIManager.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HelpBoxIfAttribute.cs" />
@@ -155,6 +159,7 @@
     <Compile Include="Assets\_YS\Scripts\PlayerController.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Interfaces\IInteractable.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\Enemy\EnemyHealth.cs" />
+    <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Player\PlayerInteract.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_LoadPrefabPanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_AnimationStatePanel.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_EyeSet.cs" />
@@ -165,6 +170,7 @@
     <Compile Include="Assets\Asset\SPUM\Script\SPUM_Button.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ValidateInputAttribute.cs" />
     <Compile Include="Assets\_HW\DynamicTilemapLoader.cs" />
+    <Compile Include="Assets\_YS\Scripts\TitleBlink.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SpumPackage.cs" />
     <Compile Include="Assets\_YS\Package\Inguz Media Studio\Free 2D Impact FX\Demo Scene\DemoManager.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\Npc\Npc.cs" />
@@ -187,6 +193,7 @@
     <Compile Include="Assets\_YH\Scripts_YH\Npc\NpcHealth.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Plugin\Moments Recorder\Scripts\Gif\NeuQuant.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\Item\Item.cs" />
+    <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Player\PlayerEvents.cs" />
     <Compile Include="Assets\Asset\SPUM\Script\Data\SPUM_MatchingList.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\BoxGroupAttribute.cs" />
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Player\PlayerMovement.cs" />
@@ -197,6 +204,7 @@
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\ButtonAttribute.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Pixel Art Platformer - Village Props\Script\Elevator.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Enum.cs" />
+    <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\SpawnItem.cs" />
     <Compile Include="Assets\Asset\SPUM\Sprite_Editor(Beta)\Script\SpriteSyncManager.cs" />
     <Compile Include="Assets\__MainScenes\Code\Player\Player.cs" />
     <Compile Include="Assets\_YH\Scripts_YH\ResourceTileSpawner.cs" />
@@ -211,6 +219,7 @@
     <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Inventory\InventoryItem.cs" />
     <Compile Include="Assets\_YS\Scripts\PauseMenu.cs" />
     <Compile Include="Assets\_YS\Package\Cainos\Third Party\Lucid Editor\Runtime\Attributes\HideLabelAttribute.cs" />
+    <Compile Include="Assets\_YH\Inventory System - Kinnly\Script\Player\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_YS\Package\Cainos\Pixel Art Icon Pack - RPG\Shader\SH UI Icon Outline Color.shader" />

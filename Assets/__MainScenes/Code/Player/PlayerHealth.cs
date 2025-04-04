@@ -11,7 +11,6 @@ public class PlayerHealth : MonoBehaviour
     public Image healthBarImage;           // 체력바 이미지 (Fill 방식 이미지여야 함)
     public float smoothSpeed = 5f;         // 체력바 변화 속도 (부드러운 전환)
     private float targetFill;              // 목표 체력바 비율
-    private UnityEngine.UI.Slider uiHealthSlider; // Screen Overlay에 있는 UI 체력바 슬라이더
 
     [Header("피격 효과")]
     public bool useFlashEffect = true;     // 피격 시 플래시 효과 사용 여부
@@ -52,9 +51,6 @@ public class PlayerHealth : MonoBehaviour
             flashColor.a = 0f;
             damageFlashImage.color = flashColor;
         }
-        
-        // UI 체력바 찾기
-        FindUIHealthSlider();
 
         // 체력바 초기화
         UpdateHealthBar();
@@ -100,6 +96,8 @@ public class PlayerHealth : MonoBehaviour
             animator.SetTrigger("3_Damaged");
         }
 
+        Debug.Log("플레이어가 " + damage + "의 데미지를 입었습니다. 남은 체력: " + currentHealth);
+
         // 사망 확인
         if (currentHealth <= 0)
         {
@@ -122,26 +120,16 @@ public class PlayerHealth : MonoBehaviour
 
         // 체력바 업데이트
         UpdateHealthBar();
+
+        Debug.Log("플레이어가 " + amount + "의 체력을 회복했습니다. 현재 체력: " + currentHealth);
     }
 
     // 체력바 업데이트
     private void UpdateHealthBar()
     {
-        // 이미지 기반 체력바 업데이트
         if (healthBarImage != null)
         {
             targetFill = currentHealth / maxHealth;
-        }
-        
-        // UI 슬라이더 기반 체력바 업데이트
-        if (uiHealthSlider != null)
-        {
-            uiHealthSlider.value = currentHealth;
-        }
-        else
-        {
-            // UI 체력바를 찾을 수 없는 경우, 재시도
-            FindUIHealthSlider();
         }
     }
 
@@ -161,6 +149,7 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
+        Debug.Log("플레이어 사망");
 
         // 사망 애니메이션 재생
         if (animator != null)
@@ -228,28 +217,5 @@ public class PlayerHealth : MonoBehaviour
     public bool IsDead()
     {
         return isDead;
-    }
-    
-    // UI 체력바 찾기 메서드
-    private void FindUIHealthSlider()
-    {
-        // 씬에서 "PlayerHealthBar"라는 이름의 UI 슬라이더 찾기 시도
-        Slider[] allSliders = FindObjectsOfType<Slider>();
-        foreach (Slider slider in allSliders)
-        {
-            // 이름에 "HealthBar"가 포함된 슬라이더 찾기
-            if (slider.gameObject.name.Contains("HealthBar") || slider.gameObject.name.Contains("Health"))
-            {
-                uiHealthSlider = slider;
-                
-                // 찾은 슬라이더 초기화
-                if (uiHealthSlider != null)
-                {
-                    uiHealthSlider.maxValue = maxHealth;
-                    uiHealthSlider.value = currentHealth;
-                    return;
-                }
-            }
-        }
     }
 }

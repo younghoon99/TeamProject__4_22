@@ -49,7 +49,10 @@ namespace Kinnly
             InitializeInventorySlotNumbers();
 
             // 인벤토리 UI 항상 활성화
-            if (inventoryUI != null) inventoryUI.SetActive(true);
+            if (inventoryUI != null)
+            {
+                inventoryUI.SetActive(true);
+            }
         }
 
         /// <summary>
@@ -75,7 +78,10 @@ namespace Kinnly
         {
             // 숫자키로 인벤토리 슬롯 선택
             int keyNumber = GetKeyNumber();
-            if (keyNumber != -1) CurrentlySelectedInventorySlot = keyNumber;
+            if (keyNumber != -1)
+            {
+                CurrentlySelectedInventorySlot = keyNumber;
+            }
 
             // 마우스 스크롤로 슬롯 선택
             if (Input.mouseScrollDelta.y < 0)
@@ -237,7 +243,10 @@ namespace Kinnly
         public void MoveItemBetweenSlots(GameObject from, GameObject to)
         {
             // 출발 슬롯에 아이템이 없거나 도착 슬롯에 이미 아이템이 있으면 이동 불가
-            if (from.transform.childCount <= 0 || to.transform.childCount >= 1) return;
+            if (from.transform.childCount <= 0 || to.transform.childCount >= 1)
+            {
+                return;
+            }
 
             // 아이템의 부모를 변경하여 이동
             from.transform.GetChild(0).transform.SetParent(to.transform);
@@ -353,7 +362,10 @@ namespace Kinnly
         /// <returns>인벤토리 슬롯 게임오브젝트</returns>
         public GameObject GetInventorySlot(int index)
         {
-            if (index >= 0 && index < inventorySlot.Count) return inventorySlot[index];
+            if (index >= 0 && index < inventorySlot.Count)
+            {
+                return inventorySlot[index];
+            }
             return null;
         }
 
@@ -382,8 +394,12 @@ namespace Kinnly
             if (inventoryItem != null)
             {
                 int remainingAmount = inventoryItem.Amount - amount;
-                if (remainingAmount <= 0) Destroy(inventoryItem.gameObject);
-                else {
+                if (remainingAmount <= 0)
+                {
+                    Destroy(inventoryItem.gameObject);
+                }
+                else
+                {
                     inventoryItem.Amount = remainingAmount;
                     inventoryItem.UpdateUI();
                 }
