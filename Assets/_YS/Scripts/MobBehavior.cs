@@ -37,6 +37,10 @@ public class MobBehavior : MonoBehaviour
     [Header("추가 설정")]
     public string npcTag = "NPC"; // NPC 태그
 
+    public float maxHealth = 100f; // 몹의 최대 체력
+    private float currentHealth; // 몹의 현재 체력
+    private bool isDead = false; // 몹의 사망 여부
+
     public void Initialize(Transform playerTransform, Transform hqTransform, Transform[] wallTransforms, Transform leftWallTransform, Transform rightWallTransform)
     {
         player = playerTransform;
@@ -76,6 +80,9 @@ public class MobBehavior : MonoBehaviour
             audioSource.clip = mobManager.attackSound;
             audioSource.playOnAwake = false;
         }
+
+        // 초기 체력 설정
+        currentHealth = maxHealth;
     }
 
     private void Update()
@@ -316,6 +323,33 @@ public class MobBehavior : MonoBehaviour
                 hqHealth.TakeDamage(attackDamage);
             }
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (isDead) return; // 이미 사망한 경우 무시
+
+        // 체력 감소
+        currentHealth = Mathf.Max(0, currentHealth - damage);
+        Debug.Log(gameObject.name + "이(가) " + damage + "의 데미지를 입었습니다. 남은 체력: " + currentHealth);
+
+        // 사망 확인
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        Debug.Log(gameObject.name + "이(가) 사망했습니다.");
+
+        // 몹 제거
+        OnDestroyed?.Invoke();
+        Destroy(gameObject);
     }
 
     private void OnDestroy()
