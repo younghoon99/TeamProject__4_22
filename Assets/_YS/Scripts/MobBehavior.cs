@@ -209,7 +209,7 @@ public class MobBehavior : MonoBehaviour
     private IEnumerator WaitAtWall()
     {
         // 10초 대기
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(60f);
 
         // 플레이어를 새로운 타겟으로 설정
         target = player;
