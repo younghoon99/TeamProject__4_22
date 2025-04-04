@@ -12,6 +12,8 @@ public class Npc : MonoBehaviour
     [SerializeField] private string npcId;     // NPC ID
     private NpcData.NpcEntry npcEntry = null;         // 현재 NPC의 데이터 항목
 
+
+    private NPCInventory npcInventory;
     // ResourceTileSpawner 참조 추가
     private ResourceTileSpawner resourceTileSpawner;
 
@@ -74,6 +76,11 @@ public class Npc : MonoBehaviour
         Mining,      // 광물 채집
         Combat       // 전투
     }
+    public NPCInventory NpcInventory
+    {
+        get { return npcInventory; }
+        set { npcInventory = value; }
+    }
 
     // 현재 작업
     private NpcTask currentTask = NpcTask.None;
@@ -90,6 +97,7 @@ public class Npc : MonoBehaviour
     private void Start()
     {
         npcEntry = null;
+        npcInventory = GetComponentInChildren<NPCInventory>();
 
         // 컴포넌트 초기화
         rb = GetComponent<Rigidbody2D>();

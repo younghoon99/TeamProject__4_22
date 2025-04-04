@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Kinnly;
+
 public class NPCInventory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] Kinnly.PlayerInventory playerInventory;
@@ -29,10 +30,16 @@ public class NPCInventory : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             playerInventory = FindObjectOfType<PlayerInventory>();
         }
 
+        // npc 참조는 반드시 부모에서 가져오도록 강제
+        npc = GetComponentInParent<Npc>();
         if (npc == null)
         {
-            npc = GetComponentInParent<Npc>();
+            Debug.LogError("NPCInventory must be a child of an Npc object!");
+            return;
         }
+        
+        // NPC에게 이 인벤토리 등록
+        npc.NpcInventory = this;
     }
 
     public void AddItem(Item item)
