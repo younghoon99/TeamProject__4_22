@@ -5150,7 +5150,10 @@ MonoBehaviour:
   attackCooldown: 3
   attackDelay: 0.3
   detectionRange: 1.57
-  targetTag: Player
+  targetTags:
+  - Player
+  - NPC
+  prioritizeNPC: 1
   moveSpeed: 2
   stoppingDistance: 1
   canMove: 1
